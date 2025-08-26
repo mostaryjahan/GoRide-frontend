@@ -6,6 +6,7 @@ import StatsSection from "@/components/modules/homepage/StatsSection";
 import TestimonialsSection from "@/components/modules/homepage/TestimonialsSection";
 
 const Home = () => {
+
   return (
     <div>
       <HeroSection />
