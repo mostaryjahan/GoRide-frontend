@@ -1,14 +1,42 @@
 import App from "@/App";
-import About from "@/pages/AboutPage";
-import Contact from "@/pages/Contact";
-import FAQ from "@/pages/FAQPage";
-import Features from "@/pages/FeaturesPage";
-import Home from "@/pages/HomePage";
-import Login from "@/pages/Login";
-import Register from "@/pages/Register";
-import Verify from "@/pages/Verify";
+import { lazy, Suspense } from "react";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import DashboardLayout from "@/components/layout/DashboardLayout";
 
-import { createBrowserRouter } from "react-router";
+// Lazy load pages for better performance
+const About = lazy(() => import("@/pages/AboutPage"));
+const Contact = lazy(() => import("@/pages/Contact"));
+const FAQ = lazy(() => import("@/pages/FAQPage"));
+const Features = lazy(() => import("@/pages/FeaturesPage"));
+const Home = lazy(() => import("@/pages/HomePage"));
+const Login = lazy(() => import("@/pages/Login"));
+const Register = lazy(() => import("@/pages/Register"));
+const Verify = lazy(() => import("@/pages/Verify"));
+const Unauthorized = lazy(() => import("@/pages/Unauthorized"));
+const AccountStatus = lazy(() => import("@/pages/AccountStatus"));
+
+
+
+// Payment Pages
+const Success = lazy(() => import("@/pages/payment/Success"));
+const Fail = lazy(() => import("@/pages/payment/Fail"));
+
+// Wrapper component for lazy loading
+const LazyWrapper = ({ children }: { children: React.ReactNode }) => (
+  <Suspense fallback={<LoadingSpinner />}>
+    {children}
+  </Suspense>
+);
+
+import { createBrowserRouter, Navigate } from "react-router";
+import { withAuth } from "@/utils/withAuth";
+import type { TRole } from "@/types";
+import { generateRoutes } from "@/utils/generateRoute";
+import { adminSidebarItems } from "./adminSideBarItems";
+import { role } from "@/constants/role";
+import { riderSidebarItems } from "./riderSidebarItems";
+import { driverSidebarItems } from "./driverSidebarItems";
+
 
 export const router = createBrowserRouter([
   {
@@ -16,58 +44,82 @@ export const router = createBrowserRouter([
     path: "/",
     children: [
       {
-        Component: Home,
+        element: <LazyWrapper><Home /></LazyWrapper>,
         index: true,
       },
       {
-        Component: About,
+        element: <LazyWrapper><About /></LazyWrapper>,
         path: "about",
       },
       {
-        Component: Contact,
+        element: <LazyWrapper><Contact /></LazyWrapper>,
         path: "contact",
       },
       {
-        Component: FAQ,
+        element: <LazyWrapper><FAQ /></LazyWrapper>,
         path: "faq",
       },
-       {
-        Component: Features,
+      {
+        element: <LazyWrapper><Features /></LazyWrapper>,
         path: "features",
       },
     ],
   },
   {
-    Component: Login,
+    element: <LazyWrapper><Login /></LazyWrapper>,
     path: "/login",
   },
   {
-    Component: Register,
+    element: <LazyWrapper><Register /></LazyWrapper>,
     path: "/register",
   },
   {
-    Component: Verify,
+    element: <LazyWrapper><Verify /></LazyWrapper>,
     path: "/verify",
   },
-  //   {
-  //     Component: Unauthorized,
-  //     path: "/unauthorized",
-  //   },
-
-  //   {
-  //     Component: withAuth(DashboardLayout, role.superAdmin as TRole),
-  //     path: "/admin",
-  //     children: [
-  //       { index: true, element: <Navigate to="/admin/analytics" /> },
-  //       ...generateRoutes(adminSidebarItems),
-  //     ],
-  //   },
-  //   {
-  //     Component: DashboardLayout,
-  //     path: "/user",
-  //     children: [
-  //       { index: true, element: <Navigate to="/user/bookings" /> },
-  //       ...generateRoutes(userSidebarItems),
-  //     ],
-  //   },
+  {
+    element: <LazyWrapper><Unauthorized /></LazyWrapper>,
+    path: "/unauthorized",
+  },
+  {
+    element: <LazyWrapper><Success /></LazyWrapper>,
+    path: "/payment/success",
+  },
+  {
+    element: <LazyWrapper><Fail /></LazyWrapper>,
+    path: "/payment/fail",
+  },
+  {
+    element: <LazyWrapper><AccountStatus /></LazyWrapper>,
+    path: "/account-status",
+  },
+  // Rider Routes
+{
+  Component: withAuth(DashboardLayout, role.rider as TRole),
+  path: "/rider",
+  children: [
+    
+    { index: true, element: <Navigate to="/rider/dashboard" /> },
+      ...generateRoutes(riderSidebarItems),
+    
+  ]
+},
+  // Driver Routes
+  {
+    Component: withAuth(DashboardLayout, role.driver as TRole),
+    path: "/driver",
+    children: [
+      { index: true, element: <Navigate to="/driver/dashboard" /> },
+      ...generateRoutes(driverSidebarItems),
+    ],
+  },
+  // Admin Routes
+  {
+    Component: withAuth(DashboardLayout, role.admin as TRole),
+    path: "/admin",
+    children: [
+      { index: true, element: <Navigate to="/admin/dashboard" /> },
+      ...generateRoutes(adminSidebarItems),
+    ],
+  },
 ]);
