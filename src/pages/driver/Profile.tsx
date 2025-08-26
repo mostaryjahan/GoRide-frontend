@@ -37,19 +37,21 @@ export default function DriverProfile() {
 
   const user = userInfo?.data;
 
-  const onProfileSubmit = async (data: ProfileForm) => {
+  const onProfileSubmit = async () => {
     try {
       toast.success("Profile updated successfully");
     } catch (error) {
       toast.error("Failed to update profile");
+      console.log(error);
     }
   };
 
-  const onVehicleSubmit = async (data: VehicleForm) => {
+  const onVehicleSubmit = async () => {
     try {
       toast.success("Vehicle information updated successfully");
     } catch (error) {
       toast.error("Failed to update vehicle information");
+       console.log(error);
     }
   };
 
@@ -63,6 +65,7 @@ export default function DriverProfile() {
       toast.success("Password changed successfully");
     } catch (error) {
       toast.error("Failed to change password");
+       console.log(error);
     }
   };
 

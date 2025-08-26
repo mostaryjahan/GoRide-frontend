@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -41,9 +42,7 @@ const registerSchema = z
     confirmPassword: z
       .string()
       .min(1, "Please confirm your password"),
-    role: z.enum(["RIDER", "DRIVER"], {
-      required_error: "Please select a role",
-    }),
+    role: z.enum(["RIDER", "DRIVER"]),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",

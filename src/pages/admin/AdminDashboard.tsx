@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Car, DollarSign, TrendingUp, UserCheck, UserX } from "lucide-react";
 import { useGetAdminReportQuery, useGetAllUsersQuery, useApproveDriverMutation, useBlockUserMutation } from "@/redux/features/admin/admin.api";
@@ -25,6 +26,7 @@ export default function AdminDashboard() {
       toast.success("Driver approved successfully");
     } catch (error) {
       toast.error("Failed to approve driver");
+      console.error("Error approving driver:", error);
     }
   };
 
@@ -34,6 +36,7 @@ export default function AdminDashboard() {
       toast.success("Driver blocked successfully");
     } catch (error) {
       toast.error("Failed to block driver");
+      console.error(error);
     }
   };
 
@@ -93,8 +96,9 @@ export default function AdminDashboard() {
             <CardTitle>Recent User Activity</CardTitle>
           </CardHeader>
           <CardContent>
+            
             <div className="space-y-4">
-              {recentUsers.map((user: any, index: number) => (
+              {recentUsers.map((user: any) => (
                 <div key={user._id} className="flex items-center space-x-3 p-3 border rounded-lg">
                   <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
                     {user.role === "RIDER" && <Users className="h-5 w-5 text-primary" />}

@@ -30,9 +30,7 @@ const contactFormSchema = z.object({
   phone: z.string().min(10, "Phone number must be at least 10 digits"),
   subject: z.string().min(5, "Subject must be at least 5 characters"),
   message: z.string().min(20, "Message must be at least 20 characters"),
-  inquiryType: z.enum(["general", "driver", "rider", "business", "support"], {
-    required_error: "Please select an inquiry type",
-  }),
+  inquiryType: z.enum(["general", "driver", "rider", "business", "support"]),
 });
 
 type ContactFormData = z.infer<typeof contactFormSchema>;

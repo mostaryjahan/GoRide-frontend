@@ -3,7 +3,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { useGetAdminReportQuery, useGetAllUsersQuery, useGetAllRidesQuery } from '@/redux/features/admin/admin.api';
 
 export default function AdminChart() {
-  const { data: reportData } = useGetAdminReportQuery({});
+  useGetAdminReportQuery({});
   const { data: usersData } = useGetAllUsersQuery({});
   const { data: ridesData } = useGetAllRidesQuery({});
   

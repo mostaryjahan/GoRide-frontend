@@ -180,17 +180,17 @@ export default function RideReqForm() {
     try {
       const rideData = {
         pickupLocation: {
-          address: pickupLocation.name,
+          address: pickupLocation?.name,
           coordinates: {
-            lat: pickupLocation.coords.lat,
-            lng: pickupLocation.coords.lng,
+            lat: pickupLocation?.coords.lat,
+            lng: pickupLocation?.coords.lng,
           },
         },
         destinationLocation: {
-          address: destinationLocation.name,
+          address: destinationLocation?.name,
           coordinates: {
-            lat: destinationLocation.coords.lat,
-            lng: destinationLocation.coords.lng,
+            lat: destinationLocation?.coords.lat,
+            lng: destinationLocation?.coords.lng,
           },
         },
         fare: estimatedFare,

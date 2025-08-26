@@ -5,7 +5,7 @@ import { Car, Clock, MapPin, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useGetMyRidesQuery, useCancelRideMutation } from "@/redux/features/rides/rides.api";
 import toast from "react-hot-toast";
-import { DashboardCardSkeleton, RideCardSkeleton } from "@/components/ui/skeletons";
+import { DashboardCardSkeleton } from "@/components/ui/skeletons";
 
 export default function RiderDashboard() {
   const { data: ridesData, isLoading } = useGetMyRidesQuery({});

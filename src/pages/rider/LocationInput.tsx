@@ -33,7 +33,6 @@ export default function LocationInput({
   onLocationSelect,
   locations = [],
   icon,
-  inputRef,
 }: LocationInputProps) {
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [filteredSuggestions, setFilteredSuggestions] = useState<Location[]>(locations);
@@ -53,8 +52,9 @@ export default function LocationInput({
     // Fetch locations on debounced input
     useEffect(() => {
         let isMounted = true;
+        // eslint-disable-next-line prefer-const
         let timeoutId: NodeJS.Timeout;
-        
+        //  let timeoutId: NodeJS.Timeout | null = null;
         const fetchLocations = async () => {
             if (!debouncedValue) {
                 if (isMounted) setFilteredSuggestions(locations.length > 0 ? locations : defaultLocations);
