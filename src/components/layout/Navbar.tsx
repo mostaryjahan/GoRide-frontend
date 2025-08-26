@@ -11,8 +11,17 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { ModeToggle } from "./ModeToggler";
 import { Link } from "react-router";
+import { useUserInfoQuery, useLogoutMutation } from "@/redux/features/auth/auth.api";
+import { User, LogOut } from "lucide-react";
+import toast from "react-hot-toast";
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
@@ -24,6 +33,25 @@ const navigationLinks = [
 ];
 
 export default function Navbar() {
+  // Always try to get user info (for both token and cookie auth)
+  const { data: userInfo, error, isLoading } = useUserInfoQuery({});
+  const [logout] = useLogoutMutation();
+  
+  const user = userInfo?.data;
+  const isAuthenticated = !!user && !error && !isLoading;
+
+  const handleLogout = async () => {
+    try {
+      await logout({}).unwrap();
+      localStorage.removeItem('token');
+      toast.success("Logged out successfully");
+      window.location.href = "/";
+    } catch (error) {
+      toast.error("Logout failed");
+      console.log(error)
+    }
+  };
+
   return (
     <header className="border-b sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between gap-4">
@@ -103,9 +131,31 @@ export default function Navbar() {
         {/* Right side */}
         <div className="flex items-center gap-2">
           <ModeToggle />
-          <Button asChild className="text-sm">
-            <Link to="/login">Login</Link>
-          </Button>
+          {isAuthenticated ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="flex items-center space-x-2">
+                  <User className="h-4 w-4" />
+                  <span>{user?.name}</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem asChild>
+                  <Link to={`/${user?.role.toLowerCase()}/dashboard`} className="flex items-center">
+                    Dashboard
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button asChild className="text-sm">
+              <Link to="/login">Login</Link>
+            </Button>
+          )}
         </div>
       </div>
     </header>

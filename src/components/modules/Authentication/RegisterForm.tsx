@@ -14,26 +14,39 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
 import { useRegisterMutation } from "@/redux/features/auth/auth.api";
 import Password from "@/components/ui/Password";
+import toast from "react-hot-toast";
 
 const registerSchema = z
   .object({
     name: z
       .string()
-      .min(3, {
-        error: "Name must be at least 3 characters",
-      })
-      .max(50),
-    email: z.email(),
-    password: z.string().min(8, { error: "Password must be minimum 8 characters" }),
+      .min(1, "Name is required")
+      .min(2, "Name must be at least 2 characters")
+      .max(50, "Name must be less than 50 characters")
+      .regex(/^[a-zA-Z\s]+$/, "Name can only contain letters and spaces"),
+    email: z
+      .string()
+      .min(1, "Email is required")
+      .email("Please enter a valid email address"),
+    password: z
+      .string()
+      .min(1, "Password is required")
+      .min(8, "Password must be at least 8 characters")
+      .regex(/(?=.*[a-z])/, "Password must contain at least one lowercase letter")
+      .regex(/(?=.*[A-Z])/, "Password must contain at least one uppercase letter")
+      .regex(/(?=.*\d)/, "Password must contain at least one number")
+      .regex(/(?=.*[@$!%*?&])/, "Password must contain at least one special character"),
     confirmPassword: z
       .string()
-      .min(8, { error: "Password must be minimum 8 characters" }),
+      .min(1, "Please confirm your password"),
+    role: z.enum(["RIDER", "DRIVER"], {
+      required_error: "Please select a role",
+    }),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Password do not match",
+    message: "Passwords do not match",
     path: ["confirmPassword"],
   });
 
@@ -51,7 +64,9 @@ const RegisterForm =({
       email: "",
       password: "",
       confirmPassword: "",
+      role: "RIDER" as const,
     },
+    mode: "onChange", // Enable real-time validation
   });
 
   const onSubmit = async (data: z.infer<typeof registerSchema>) => {
@@ -59,15 +74,47 @@ const RegisterForm =({
       name: data.name,
       email: data.email,
       password: data.password,
+      role: data.role,
     };
 
     try {
       const result = await register(userInfo).unwrap();
-      console.log(result);
+      
+      // Store token if provided
+      if (result.data?.accessToken) {
+        localStorage.setItem('token', result.data.accessToken);
+      }
+      
       toast.success("User created successfully");
-      navigate("/");
-    } catch (error) {
+      
+      // Navigate based on user role
+      const userRole = data.role;
+      if (userRole === 'DRIVER') {
+        navigate('/driver/dashboard');
+      } else if (userRole === 'RIDER') {
+        navigate('/rider/dashboard');
+      } else {
+        navigate('/');
+      }
+    } catch (error: any) {
       console.error(error);
+      
+      // Enhanced error handling
+      if (error?.data?.message) {
+        if (error.data.message.includes('email')) {
+          toast.error('Email already exists. Please use a different email.');
+        } else if (error.data.message.includes('validation')) {
+          toast.error('Please check your input and try again.');
+        } else {
+          toast.error(error.data.message);
+        }
+      } else if (error?.status === 409) {
+        toast.error('Account already exists with this email.');
+      } else if (error?.status === 400) {
+        toast.error('Invalid input. Please check your details.');
+      } else {
+        toast.error('Registration failed. Please try again.');
+      }
     }
   };
 
@@ -147,6 +194,25 @@ const RegisterForm =({
                   <FormDescription className="sr-only">
                     This is your public display name.
                   </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="role"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Register as</FormLabel>
+                  <FormControl>
+                    <select
+                      {...field}
+                      className="w-full px-3 py-2 border border-input rounded-md bg-background"
+                    >
+                      <option value="RIDER">Rider</option>
+                      <option value="DRIVER">Driver</option>
+                    </select>
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}

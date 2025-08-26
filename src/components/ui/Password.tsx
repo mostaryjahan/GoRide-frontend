@@ -2,11 +2,9 @@ import { useId, useState, forwardRef } from "react"
 import { EyeIcon, EyeOffIcon } from "lucide-react"
 
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 
-interface PasswordProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 
-const Password = forwardRef<HTMLInputElement, PasswordProps>(({ ...props }, ref) => {
+const Password = forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(({ ...props }, ref) => {
   const id = useId()
   const [isVisible, setIsVisible] = useState<boolean>(false)
 

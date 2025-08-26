@@ -12,23 +12,38 @@ import config from "@/config";
 import { cn } from "@/lib/utils";
 import { useLoginMutation } from "@/redux/features/auth/auth.api";
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router";
-// import { toast } from "sonner";
+
+const loginSchema = z.object({
+  email: z
+    .string()
+    .min(1, "Email is required")
+    .email("Please enter a valid email address"),
+  password: z
+    .string()
+    .min(1, "Password is required")
+    .min(6, "Password must be at least 6 characters")
+});
+
+type LoginFormData = z.infer<typeof loginSchema>;
 
 export function LoginForm({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
   const navigate = useNavigate();
-  const form = useForm({
-    //! For development only
+  const form = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "admin@gmail.com",
-      password: "12345678",
+      email: "",
+      password: "",
     },
+    mode: "onChange", // Enable real-time validation
   });
-  const [login] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
@@ -36,9 +51,25 @@ export function LoginForm({
 
       if (res.success) {
         // Store token if provided
-        
+        if (res.data?.token) {
+          localStorage.setItem("token", res.data.token);
+        }
+
         toast.success("Logged in successfully");
-        navigate("/");
+
+        // Redirect based on user role
+        const userRole = res.data.user.role;
+        if (userRole === "ADMIN") {
+          navigate("/admin/dashboard");
+        } else if (userRole === "DRIVER") {
+          navigate("/driver/dashboard");
+        } else if (userRole === "RIDER") {
+          navigate("/rider/dashboard");
+        } else {
+          navigate("/");
+        }
+      } else {
+        toast.error("Login failed - no token received");
       }
     } catch (err: unknown) {
       console.error(err);
@@ -47,9 +78,6 @@ export function LoginForm({
 
       if (error?.data?.message === "Password does not match") {
         toast.error("Invalid credentials");
-      } else if (error?.data?.message === "User is not verified") {
-        toast.error("Your account is not verified");
-        navigate("/verify", { state: data.email });
       } else if (error?.data?.message === "Missing credentials") {
         toast.error("Please fill in all required fields");
       } else if (error?.status === 401) {
@@ -108,8 +136,8 @@ export function LoginForm({
               )}
             />
 
-            <Button type="submit" className="w-full">
-              Login
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? "Logging in..." : "Login"}
             </Button>
           </form>
         </Form>

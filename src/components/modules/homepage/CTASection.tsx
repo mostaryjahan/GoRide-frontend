@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Users, Car, ArrowRight, Download } from "lucide-react"
+import { Link } from "react-router-dom"
 
 export default function CTASection() {
   return (
@@ -40,11 +41,11 @@ export default function CTASection() {
                 Turn your car into an earning opportunity. Flexible schedule, competitive rates, and full support from
                 our team.
               </p>
-              <Button size="lg" className="bg-white text-green-600 hover:bg-green-50 w-full">
+              <Link to="/login" className="btn bg-white text-green-600 rounded-md py-2 flex justify-center items-center hover:bg-green-50 w-full">
                 <Users className="w-5 h-5 mr-2" />
                 Start Driving
                 <ArrowRight className="w-5 h-5 ml-2" />
-              </Button>
+              </Link>
             </CardContent>
           </Card>
         </div>
