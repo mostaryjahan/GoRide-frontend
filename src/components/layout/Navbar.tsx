@@ -18,7 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ModeToggle } from "./ModeToggler";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useUserInfoQuery, useLogoutMutation } from "@/redux/features/auth/auth.api";
 import { User, LogOut } from "lucide-react";
 import toast from "react-hot-toast";
@@ -36,7 +36,7 @@ export default function Navbar() {
   // Always try to get user info (for both token and cookie auth)
   const { data: userInfo, error, isLoading } = useUserInfoQuery({});
   const [logout] = useLogoutMutation();
-  
+  const navigate = useNavigate()
   const user = userInfo?.data;
   const isAuthenticated = !!user && !error && !isLoading;
 
@@ -45,7 +45,7 @@ export default function Navbar() {
       await logout({}).unwrap();
       localStorage.removeItem('token');
       toast.success("Logged out successfully");
-      window.location.href = "/";
+      navigate('/login')
     } catch (error) {
       toast.error("Logout failed");
       console.log(error)

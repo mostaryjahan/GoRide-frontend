@@ -1,9 +1,7 @@
 import App from "@/App";
-import { lazy, Suspense } from "react";
-import LoadingSpinner from "@/components/LoadingSpinner";
-import DashboardLayout from "@/components/layout/DashboardLayout";
 
-// Lazy load pages for better performance
+
+// Lazy load ALL components including layout
 const About = lazy(() => import("@/pages/AboutPage"));
 const Contact = lazy(() => import("@/pages/Contact"));
 const FAQ = lazy(() => import("@/pages/FAQPage"));
@@ -14,19 +12,10 @@ const Register = lazy(() => import("@/pages/Register"));
 const Verify = lazy(() => import("@/pages/Verify"));
 const Unauthorized = lazy(() => import("@/pages/Unauthorized"));
 const AccountStatus = lazy(() => import("@/pages/AccountStatus"));
-
-
-
-// Payment Pages
 const Success = lazy(() => import("@/pages/payment/Success"));
 const Fail = lazy(() => import("@/pages/payment/Fail"));
+const DashboardLayout = lazy(() => import("@/components/layout/DashboardLayout"));
 
-// Wrapper component for lazy loading
-const LazyWrapper = ({ children }: { children: React.ReactNode }) => (
-  <Suspense fallback={<LoadingSpinner />}>
-    {children}
-  </Suspense>
-);
 
 import { createBrowserRouter, Navigate } from "react-router";
 import { withAuth } from "@/utils/withAuth";
@@ -36,7 +25,8 @@ import { adminSidebarItems } from "./adminSideBarItems";
 import { role } from "@/constants/role";
 import { riderSidebarItems } from "./riderSidebarItems";
 import { driverSidebarItems } from "./driverSidebarItems";
-
+import LazyWrapper from "@/components/LazyLoader";
+import { lazy } from "react";
 
 export const router = createBrowserRouter([
   {
@@ -94,19 +84,31 @@ export const router = createBrowserRouter([
     path: "/account-status",
   },
   // Rider Routes
-{
-  Component: withAuth(DashboardLayout, role.rider as TRole),
-  path: "/rider",
-  children: [
-    
-    { index: true, element: <Navigate to="/rider/dashboard" /> },
+  {
+    Component: withAuth(
+      () => (
+        <LazyWrapper>
+          <DashboardLayout />
+        </LazyWrapper>
+      ), 
+      role.rider as TRole
+    ),
+    path: "/rider",
+    children: [
+      { index: true, element: <Navigate to="/rider/dashboard" /> },
       ...generateRoutes(riderSidebarItems),
-    
-  ]
-},
+    ]
+  },
   // Driver Routes
   {
-    Component: withAuth(DashboardLayout, role.driver as TRole),
+    Component: withAuth(
+      () => (
+        <LazyWrapper>
+          <DashboardLayout />
+        </LazyWrapper>
+      ), 
+      role.driver as TRole
+    ),
     path: "/driver",
     children: [
       { index: true, element: <Navigate to="/driver/dashboard" /> },
@@ -115,7 +117,14 @@ export const router = createBrowserRouter([
   },
   // Admin Routes
   {
-    Component: withAuth(DashboardLayout, role.admin as TRole),
+    Component: withAuth(
+      () => (
+        <LazyWrapper>
+          <DashboardLayout />
+        </LazyWrapper>
+      ), 
+      role.admin as TRole
+    ),
     path: "/admin",
     children: [
       { index: true, element: <Navigate to="/admin/dashboard" /> },
