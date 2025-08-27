@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Outlet, Link, useNavigate, useLocation } from "react-router-dom"
+import { Outlet, Link, useNavigate, useLocation, Navigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { useUserInfoQuery, useLogoutMutation } from "@/redux/features/auth/auth.api"
 import {
@@ -19,20 +19,31 @@ import { getSidebarItems } from "@/utils/getSidebarItems"
 import LoadingSpinner from "../LoadingSpinner"
 
 export default function DashboardLayout({ children }: { children?: React.ReactNode }) {
-  const { data: userInfo, isLoading } = useUserInfoQuery({})
+  const { data: userInfo, isLoading, error } = useUserInfoQuery()
   const [logout] = useLogoutMutation()
   const navigate = useNavigate()
   const location = useLocation()
   const [sidebarOpen, setSidebarOpen] = useState(false)
-
   if (isLoading) return <LoadingSpinner />
+
+  if (error instanceof Object && "status" in error && error.status === 401) {
+
+ 
+    return <Navigate to="/account-status" state={{ from: location, isBlockedOrSuspended: true }} replace />;
+  }
+
+  if (error || !userInfo?.data) {
+    toast.error(error ? "Failed to fetch user information" : "User not found");
+    navigate("/login");
+    return null;
+  }
 
   const user = userInfo?.data
   const sidebarItems = getSidebarItems(user?.role)
 
   const handleLogout = async () => {
     try {
-      await logout({}).unwrap()
+      await logout().unwrap()
       localStorage.removeItem("token")
       toast.success("Logged out successfully")
       navigate("/")

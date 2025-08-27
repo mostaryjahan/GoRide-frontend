@@ -25,7 +25,7 @@ interface PasswordForm {
 }
 
 export default function Profile() {
-  const { data: userInfo, isLoading } = useUserInfoQuery({});
+  const { data: userInfo, isLoading } = useUserInfoQuery();
   const [updateProfile] = useUpdateProfileMutation();
   const [activeTab, setActiveTab] = useState("profile");
   

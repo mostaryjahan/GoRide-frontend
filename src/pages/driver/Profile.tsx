@@ -7,6 +7,10 @@ import { useForm } from "react-hook-form";
 import { User, Phone, Mail, Car, Shield } from "lucide-react";
 import toast from "react-hot-toast";
 import { useUserInfoQuery } from "@/redux/features/auth/auth.api";
+import {
+  useGetDriverProfileQuery,
+  useUpdateDriverProfileMutation,
+} from "@/redux/features/driver/driver.api";
 
 interface ProfileForm {
   name: string;
@@ -16,9 +20,7 @@ interface ProfileForm {
 
 interface VehicleForm {
   vehicleType: string;
-  licensePlate: string;
-  model: string;
-  year: string;
+  vehicleNumber: string;
 }
 
 interface PasswordForm {
@@ -28,17 +30,33 @@ interface PasswordForm {
 }
 
 export default function DriverProfile() {
-  const { data: userInfo } = useUserInfoQuery({});
+  const { data: userInfo } = useUserInfoQuery();
+  const { data: driverInfo } = useGetDriverProfileQuery({});
+  const [updateDriverProfile] = useUpdateDriverProfileMutation();
   const [activeTab, setActiveTab] = useState("profile");
-  
-  const { register: registerProfile, handleSubmit: handleProfileSubmit, formState: { errors: profileErrors } } = useForm<ProfileForm>();
-  const { register: registerVehicle, handleSubmit: handleVehicleSubmit, formState: { errors: vehicleErrors } } = useForm<VehicleForm>();
-  const { register: registerPassword, handleSubmit: handlePasswordSubmit, formState: { errors: passwordErrors }, watch } = useForm<PasswordForm>();
+
+  const {
+    register: registerProfile,
+    handleSubmit: handleProfileSubmit,
+    formState: { errors: profileErrors },
+  } = useForm<ProfileForm>();
+  const {
+    register: registerVehicle,
+    handleSubmit: handleVehicleSubmit,
+    formState: { errors: vehicleErrors },
+  } = useForm<VehicleForm>();
+  const {
+    register: registerPassword,
+    handleSubmit: handlePasswordSubmit,
+    formState: { errors: passwordErrors },
+    watch,
+  } = useForm<PasswordForm>();
 
   const user = userInfo?.data;
 
-  const onProfileSubmit = async () => {
+  const onProfileSubmit = async (data: ProfileForm) => {
     try {
+      await updateDriverProfile(data).unwrap();
       toast.success("Profile updated successfully");
     } catch (error) {
       toast.error("Failed to update profile");
@@ -46,12 +64,13 @@ export default function DriverProfile() {
     }
   };
 
-  const onVehicleSubmit = async () => {
+  const onVehicleSubmit = async (data: VehicleForm) => {
     try {
+      await updateDriverProfile(data).unwrap();
       toast.success("Vehicle information updated successfully");
     } catch (error) {
       toast.error("Failed to update vehicle information");
-       console.log(error);
+      console.log(error);
     }
   };
 
@@ -60,12 +79,12 @@ export default function DriverProfile() {
       toast.error("Passwords do not match");
       return;
     }
-    
+
     try {
       toast.success("Password changed successfully");
     } catch (error) {
       toast.error("Failed to change password");
-       console.log(error);
+      console.log(error);
     }
   };
 
@@ -106,7 +125,10 @@ export default function DriverProfile() {
             <CardTitle>Personal Information</CardTitle>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleProfileSubmit(onProfileSubmit)} className="space-y-4">
+            <form
+              onSubmit={handleProfileSubmit(onProfileSubmit)}
+              className="space-y-4"
+            >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="name">Full Name</Label>
@@ -116,11 +138,15 @@ export default function DriverProfile() {
                       id="name"
                       defaultValue={user?.name}
                       className="pl-10"
-                      {...registerProfile("name", { required: "Name is required" })}
+                      {...registerProfile("name", {
+                        required: "Name is required",
+                      })}
                     />
                   </div>
                   {profileErrors.name && (
-                    <p className="text-sm text-red-600">{profileErrors.name.message}</p>
+                    <p className="text-sm text-red-600">
+                      {profileErrors.name.message}
+                    </p>
                   )}
                 </div>
 
@@ -136,7 +162,9 @@ export default function DriverProfile() {
                       disabled
                     />
                   </div>
-                  <p className="text-xs text-muted-foreground">Email cannot be changed</p>
+                  <p className="text-xs text-muted-foreground">
+                    Email cannot be changed
+                  </p>
                 </div>
 
                 <div className="space-y-2">
@@ -147,11 +175,15 @@ export default function DriverProfile() {
                       id="phone"
                       defaultValue={user?.phone}
                       className="pl-10"
-                      {...registerProfile("phone", { required: "Phone number is required" })}
+                      {...registerProfile("phone", {
+                        required: "Phone number is required",
+                      })}
                     />
                   </div>
                   {profileErrors.phone && (
-                    <p className="text-sm text-red-600">{profileErrors.phone.message}</p>
+                    <p className="text-sm text-red-600">
+                      {profileErrors.phone.message}
+                    </p>
                   )}
                 </div>
 
@@ -179,14 +211,20 @@ export default function DriverProfile() {
             <CardTitle>Vehicle Information</CardTitle>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleVehicleSubmit(onVehicleSubmit)} className="space-y-4">
+            <form
+              onSubmit={handleVehicleSubmit(onVehicleSubmit)}
+              className="space-y-4"
+            >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="vehicleType">Vehicle Type</Label>
                   <select
                     id="vehicleType"
                     className="w-full px-3 py-2 border rounded-md"
-                    {...registerVehicle("vehicleType", { required: "Vehicle type is required" })}
+                    defaultValue={driverInfo?.data?.vehicleType || ""}
+                    {...registerVehicle("vehicleType", {
+                      required: "Vehicle type is required",
+                    })}
                   >
                     <option value="">Select vehicle type</option>
                     <option value="sedan">Sedan</option>
@@ -195,46 +233,26 @@ export default function DriverProfile() {
                     <option value="motorcycle">Motorcycle</option>
                   </select>
                   {vehicleErrors.vehicleType && (
-                    <p className="text-sm text-red-600">{vehicleErrors.vehicleType.message}</p>
+                    <p className="text-sm text-red-600">
+                      {vehicleErrors.vehicleType.message}
+                    </p>
                   )}
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="licensePlate">License Plate</Label>
+                  <Label htmlFor="vehicleNumber">Vehicle Number</Label>
                   <Input
-                    id="licensePlate"
+                    id="vehicleNumber"
                     placeholder="ABC-123"
-                    {...registerVehicle("licensePlate", { required: "License plate is required" })}
+                    defaultValue={driverInfo?.data?.vehicleNumber || ""}
+                    {...registerVehicle("vehicleNumber", {
+                      required: "Vehicle number is required",
+                    })}
                   />
-                  {vehicleErrors.licensePlate && (
-                    <p className="text-sm text-red-600">{vehicleErrors.licensePlate.message}</p>
-                  )}
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="model">Vehicle Model</Label>
-                  <Input
-                    id="model"
-                    placeholder="Toyota Camry"
-                    {...registerVehicle("model", { required: "Vehicle model is required" })}
-                  />
-                  {vehicleErrors.model && (
-                    <p className="text-sm text-red-600">{vehicleErrors.model.message}</p>
-                  )}
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="year">Year</Label>
-                  <Input
-                    id="year"
-                    type="number"
-                    placeholder="2020"
-                    min="2000"
-                    max="2025"
-                    {...registerVehicle("year", { required: "Year is required" })}
-                  />
-                  {vehicleErrors.year && (
-                    <p className="text-sm text-red-600">{vehicleErrors.year.message}</p>
+                  {vehicleErrors.vehicleNumber && (
+                    <p className="text-sm text-red-600">
+                      {vehicleErrors.vehicleNumber.message}
+                    </p>
                   )}
                 </div>
               </div>
@@ -253,16 +271,23 @@ export default function DriverProfile() {
             <CardTitle>Change Password</CardTitle>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handlePasswordSubmit(onPasswordSubmit)} className="space-y-4">
+            <form
+              onSubmit={handlePasswordSubmit(onPasswordSubmit)}
+              className="space-y-4"
+            >
               <div className="space-y-2">
                 <Label htmlFor="currentPassword">Current Password</Label>
                 <Input
                   id="currentPassword"
                   type="password"
-                  {...registerPassword("currentPassword", { required: "Current password is required" })}
+                  {...registerPassword("currentPassword", {
+                    required: "Current password is required",
+                  })}
                 />
                 {passwordErrors.currentPassword && (
-                  <p className="text-sm text-red-600">{passwordErrors.currentPassword.message}</p>
+                  <p className="text-sm text-red-600">
+                    {passwordErrors.currentPassword.message}
+                  </p>
                 )}
               </div>
 
@@ -271,13 +296,18 @@ export default function DriverProfile() {
                 <Input
                   id="newPassword"
                   type="password"
-                  {...registerPassword("newPassword", { 
+                  {...registerPassword("newPassword", {
                     required: "New password is required",
-                    minLength: { value: 6, message: "Password must be at least 6 characters" }
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 6 characters",
+                    },
                   })}
                 />
                 {passwordErrors.newPassword && (
-                  <p className="text-sm text-red-600">{passwordErrors.newPassword.message}</p>
+                  <p className="text-sm text-red-600">
+                    {passwordErrors.newPassword.message}
+                  </p>
                 )}
               </div>
 
@@ -286,13 +316,17 @@ export default function DriverProfile() {
                 <Input
                   id="confirmPassword"
                   type="password"
-                  {...registerPassword("confirmPassword", { 
+                  {...registerPassword("confirmPassword", {
                     required: "Please confirm your password",
-                    validate: (value) => value === watch("newPassword") || "Passwords do not match"
+                    validate: (value) =>
+                      value === watch("newPassword") ||
+                      "Passwords do not match",
                   })}
                 />
                 {passwordErrors.confirmPassword && (
-                  <p className="text-sm text-red-600">{passwordErrors.confirmPassword.message}</p>
+                  <p className="text-sm text-red-600">
+                    {passwordErrors.confirmPassword.message}
+                  </p>
                 )}
               </div>
 

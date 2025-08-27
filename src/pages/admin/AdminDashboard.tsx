@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, Car, DollarSign, TrendingUp, UserCheck, UserX } from "lucide-react";
-import { useGetAdminReportQuery, useGetAllUsersQuery, useApproveDriverMutation, useBlockUserMutation } from "@/redux/features/admin/admin.api";
-import toast from "react-hot-toast";
+import { Users, Car, DollarSign, TrendingUp, UserCheck } from "lucide-react";
+import { useGetAdminReportQuery, useGetAllUsersQuery } from "@/redux/features/admin/admin.api";
+
 import AdminChart from "./AdminChart";
 
 export default function AdminDashboard() {
   const { data: reportData } = useGetAdminReportQuery({});
   const { data: usersData } = useGetAllUsersQuery({});
-  const [approveDriver] = useApproveDriverMutation();
-  const [blockUser] = useBlockUserMutation();
+  // const [approveDriver] = useApproveDriverMutation();
+  // const [blockUser] = useBlockUserMutation();
   
   const report = reportData?.data;
   const users = usersData?.data || [];
@@ -20,25 +20,25 @@ export default function AdminDashboard() {
   
   const recentUsers = users.slice(-4).reverse();
 
-  const handleApproveDriver = async (driverId: string) => {
-    try {
-      await approveDriver(driverId).unwrap();
-      toast.success("Driver approved successfully");
-    } catch (error) {
-      toast.error("Failed to approve driver");
-      console.error("Error approving driver:", error);
-    }
-  };
+  // const handleApproveDriver = async (driverId: string) => {
+  //   try {
+  //     await approveDriver(driverId).unwrap();
+  //     toast.success("Driver approved successfully");
+  //   } catch (error) {
+  //     toast.error("Failed to approve driver");
+  //     console.error("Error approving driver:", error);
+  //   }
+  // };
 
-  const handleBlockDriver = async (driverId: string) => {
-    try {
-      await blockUser(driverId).unwrap();
-      toast.success("Driver blocked successfully");
-    } catch (error) {
-      toast.error("Failed to block driver");
-      console.error(error);
-    }
-  };
+  // const handleBlockDriver = async (driverId: string) => {
+  //   try {
+  //     await blockUser(driverId).unwrap();
+  //     toast.success("Driver blocked successfully");
+  //   } catch (error) {
+  //     toast.error("Failed to block driver");
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <div className="space-y-6">
@@ -135,7 +135,7 @@ export default function AdminDashboard() {
                       <p className="text-sm text-muted-foreground">{driver.email}</p>
                     </div>
                   </div>
-                  <div className="flex gap-2">
+                  {/* <div className="flex gap-2">
                     <button 
                       className="text-green-600 hover:text-green-800 p-1 rounded hover:bg-green-50"
                       onClick={() => handleApproveDriver(driver._id)}
@@ -150,7 +150,7 @@ export default function AdminDashboard() {
                     >
                       <UserX className="h-4 w-4" />
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               ))}
               {pendingDrivers.length === 0 && (

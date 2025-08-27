@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import config from "@/config";
 import { cn } from "@/lib/utils";
 import { useLoginMutation } from "@/redux/features/auth/auth.api";
-import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form";
+import { useForm , type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import toast from "react-hot-toast";
@@ -45,14 +45,14 @@ export function LoginForm({
   });
   const [login, { isLoading }] = useLoginMutation();
 
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+  const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
     try {
       const res = await login(data).unwrap();
 
       if (res.success) {
         // Store token if provided
-        if (res.data?.token) {
-          localStorage.setItem("token", res.data.token);
+        if (res.data?.accessToken) {
+          localStorage.setItem("token", res.data?.accessToken);
         }
 
         toast.success("Logged in successfully");

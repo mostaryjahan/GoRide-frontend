@@ -2,7 +2,7 @@ import { baseApi } from "@/redux/baseApi";
 
 export const driverApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-      applyToBeDriver: builder.mutation({
+    applyToBeDriver: builder.mutation({
       query: (payload) => ({
         url: "/driver/apply",
         method: "POST",
@@ -67,17 +67,25 @@ export const driverApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["RIDE", "DRIVER"],
     }),
-     getDriverProfile: builder.query({
+    getDriverProfile: builder.query({
       query: () => ({
         url: "/driver/profile",
         method: "GET",
       }),
       providesTags: ["DRIVER"],
     }),
+    updateDriverProfile: builder.mutation({
+      query: (payload) => ({
+        url: "/driver/profile",
+        method: "PATCH",
+        data: payload,
+      }),
+      invalidatesTags: ["DRIVER"],
+    }),
   }),
 });
 
-export const { 
+export const {
   useApplyToBeDriverMutation,
   useGetDriverStatsQuery,
   useGetAvailableRidesQuery,
@@ -87,5 +95,6 @@ export const {
   useGetDriverRideHistoryQuery,
   useGetActiveRidesQuery,
   useUpdateRideStatusMutation,
-  useGetDriverProfileQuery
+  useGetDriverProfileQuery,
+  useUpdateDriverProfileMutation,
 } = driverApi;

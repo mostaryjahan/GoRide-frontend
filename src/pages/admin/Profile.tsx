@@ -21,7 +21,7 @@ interface PasswordForm {
 }
 
 export default function AdminProfile() {
-  const { data: userInfo } = useUserInfoQuery({});
+  const { data: userInfo } = useUserInfoQuery();
   const [updateProfile] = useUpdateProfileMutation();
   const [activeTab, setActiveTab] = useState("profile");
   
@@ -39,6 +39,7 @@ export default function AdminProfile() {
       toast.success("Profile updated successfully");
     } catch (error) {
       toast.error("Failed to update profile");
+      console.log(error);
     }
   };
 
@@ -51,7 +52,8 @@ export default function AdminProfile() {
     try {
       toast.success("Password changed successfully");
     } catch (error) {
-      toast.error("Failed to change password");
+      toast.error("Failed to change password")
+      console.log(error);
     }
   };
 

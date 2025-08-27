@@ -21,7 +21,7 @@ export default function DriverDashboard() {
   const [updateRideStatus] = useUpdateRideStatusMutation();
 
   // In your dashboard component, make sure you're using the user ID
-const { data: userInfo } = useUserInfoQuery({});
+const { data: userInfo } = useUserInfoQuery();
 const userId = userInfo?.data?._id;
 
 // Then use this userId in your queries
@@ -51,9 +51,8 @@ const { data: earningsData } = useGetDriverEarningsQuery(userId, { skip: !userId
       if (newStatus) {
         refetchRides(); 
       }
-      toast.success(newStatus ? "You're now online" : "You're now offline");
     } catch (error) {
-      toast.error("Failed to update status");
+
       console.error(error);
     }
   };
@@ -193,7 +192,7 @@ const { data: earningsData } = useGetDriverEarningsQuery(userId, { skip: !userId
         </Card>
       </div>
 
-      {/* Active Rides Section - Debug */}
+      {/* Active Rides Section g */}
       <Card>
         <CardHeader>
           <CardTitle>Active Rides: {activeRidesData?.data?.length || 0}</CardTitle>
@@ -284,9 +283,7 @@ const { data: earningsData } = useGetDriverEarningsQuery(userId, { skip: !userId
                             <p className="text-sm text-muted-foreground">
                               Requested: {new Date(ride.createdAt).toLocaleTimeString()}
                             </p>
-                            <p className="text-xs text-gray-500">
-                              Rider: {ride.rider?.name || 'Unknown'}
-                            </p>
+                            
                           </div>
                           <div className="text-right">
                             <p className="font-bold text-lg">৳{ride.fare}</p>

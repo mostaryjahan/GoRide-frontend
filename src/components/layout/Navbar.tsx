@@ -34,8 +34,7 @@ const navigationLinks = [
 ];
 
 export default function Navbar() {
-  // Always try to get user info (for both token and cookie auth)
-  const { data: userInfo, error, isLoading } = useUserInfoQuery({});
+  const { data: userInfo, error, isLoading } = useUserInfoQuery();
   // const [logout] = useLogoutMutation();
   // const navigate = useNavigate()
   const user = userInfo?.data;
