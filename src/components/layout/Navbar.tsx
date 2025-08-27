@@ -18,10 +18,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ModeToggle } from "./ModeToggler";
-import { Link, useNavigate } from "react-router";
-import { useUserInfoQuery, useLogoutMutation } from "@/redux/features/auth/auth.api";
+import { Link } from "react-router";
+import { useUserInfoQuery, useLogoutMutation, authApi } from "@/redux/features/auth/auth.api";
 import { User, LogOut } from "lucide-react";
 import toast from "react-hot-toast";
+import { useAppDispatch } from "@/redux/hook";
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
@@ -35,21 +36,31 @@ const navigationLinks = [
 export default function Navbar() {
   // Always try to get user info (for both token and cookie auth)
   const { data: userInfo, error, isLoading } = useUserInfoQuery({});
-  const [logout] = useLogoutMutation();
-  const navigate = useNavigate()
+  // const [logout] = useLogoutMutation();
+  // const navigate = useNavigate()
   const user = userInfo?.data;
   const isAuthenticated = !!user && !error && !isLoading;
 
+  // const handleLogout = async () => {
+  //   try {
+  //     await logout({}).unwrap();
+  //     localStorage.removeItem('token');
+  //     toast.success("Logged out successfully");
+  //     navigate('/')
+  //   } catch (error) {
+  //     toast.error("Logout failed");
+  //     console.log(error)
+  //   }
+  // };
+
+    const [logout] = useLogoutMutation();
+  const dispatch = useAppDispatch();
+
   const handleLogout = async () => {
-    try {
-      await logout({}).unwrap();
-      localStorage.removeItem('token');
-      toast.success("Logged out successfully");
-      navigate('/')
-    } catch (error) {
-      toast.error("Logout failed");
-      console.log(error)
-    }
+    await logout(undefined);
+    localStorage.removeItem("token");
+    toast.success("Logged out successfully");
+    dispatch(authApi.util.resetApiState());
   };
 
   return (
