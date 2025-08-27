@@ -44,7 +44,7 @@ export default function UserManagement() {
     const matchesRole = roleFilter === "all" || user.role === roleFilter;
     const isBlocked = user.isBlock === "BLOCK";
     const isPending = user.role === "DRIVER" && !user.isApproved;
-    const status = isBlocked ? "BLOCKED" : isPending ? "PENDING" : "ACTIVE";
+    const status = isBlocked ? "BLOCKED" : isPending ? "PENDING" : "";
     const matchesStatus = statusFilter === "all" || status === statusFilter;
     return matchesSearch && matchesRole && matchesStatus;
   });
@@ -61,8 +61,6 @@ export default function UserManagement() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "ACTIVE":
-        return "bg-green-100 text-green-800";
       case "BLOCKED":
         return "bg-red-100 text-red-800";
       case "PENDING":
@@ -91,7 +89,7 @@ export default function UserManagement() {
       toast.success("User blocked successfully");
     } catch (error) {
       toast.error("Failed to block user");
-       console.log(error);
+      console.log(error);
     }
   };
 
@@ -101,7 +99,7 @@ export default function UserManagement() {
       toast.success("User unblocked successfully");
     } catch (error) {
       toast.error("Failed to unblock user");
-       console.log(error);
+      console.log(error);
     }
   };
 
@@ -157,7 +155,7 @@ export default function UserManagement() {
               <select
                 value={roleFilter}
                 onChange={(e) => setRoleFilter(e.target.value)}
-                className="px-3 py-2 border rounded-md"
+                className="dark:bg-gray-900 dark:text-white px-3 py-2 border rounded-md"
               >
                 <option value="all">All Roles</option>
                 <option value="RIDER">Riders</option>
@@ -167,10 +165,9 @@ export default function UserManagement() {
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="px-3 py-2 border rounded-md"
+                className="px-3 py-2 border rounded-md dark:bg-gray-900 dark:text-white"
               >
                 <option value="all">All Status</option>
-                <option value="ACTIVE">Active</option>
                 <option value="BLOCKED">Blocked</option>
                 <option value="PENDING">Pending</option>
               </select>
@@ -183,22 +180,17 @@ export default function UserManagement() {
         {paginatedUsers.map((user: any) => {
           const isBlocked = user.isBlock === "BLOCK";
           const isPending = user.role === "DRIVER" && !user.isApproved;
-          const status = isBlocked
-            ? "BLOCKED"
-            : isPending
-            ? "PENDING"
-            : "ACTIVE";
+          const status = isBlocked ? "BLOCKED" : isPending ? "PENDING" : "";
 
           return (
             <Card key={user._id} className="hover:shadow-md transition-shadow">
               <CardContent className="p-6">
                 <div className="flex flex-col lg:flex-row justify-between gap-2">
                   <div className="flex-1 space-y-2">
-                     <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                        <Users className="h-6 w-6 text-primary" />
-                      </div>
+                    <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                      <Users className="h-6 w-6 text-primary dark:text-blue-200" />
+                    </div>
                     <div className="flex items-center gap-3">
-                     
                       <div>
                         <h3 className="font-semibold text-lg">{user.name}</h3>
                         <p className="text-muted-foreground">{user.email}</p>
@@ -209,15 +201,15 @@ export default function UserManagement() {
                       <Badge className={getRoleColor(user.role)}>
                         {user.role}
                       </Badge>
-                      <Badge className={getStatusColor(status)}>{status}</Badge>
+                      {status && (
+                        <Badge className={getStatusColor(status)}>{status}</Badge>
+                      )}
                       {user.role === "DRIVER" && user.isApproved && (
                         <Badge className="bg-green-100 text-green-800">
                           Approved
                         </Badge>
                       )}
                     </div>
-
-                    
                   </div>
 
                   <div className="flex flex-col gap-2">
@@ -267,16 +259,14 @@ export default function UserManagement() {
                         </Button>
                       )
                     )}
-
-                   
                   </div>
                 </div>
                 <div className="flex justify-between gap-4 mt-3 text-sm text-muted-foreground">
-                      <span>
-                        Joined: {new Date(user.createdAt).toLocaleDateString()}
-                      </span>
-                      <span className="">Rides: {user.rides?.length || 0}</span>
-                    </div>
+                  <span>
+                    Joined: {new Date(user.createdAt).toLocaleDateString()}
+                  </span>
+                 
+                </div>
               </CardContent>
             </Card>
           );
@@ -295,7 +285,6 @@ export default function UserManagement() {
         </Card>
       )}
 
-      {/* Pagination */}
       {totalPages > 1 && (
         <Card>
           <CardContent className="p-4">
@@ -315,7 +304,6 @@ export default function UserManagement() {
                   <ChevronLeft className="h-4 w-4" />
                   Previous
                 </Button>
-
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map(
                   (page) => (
                     <Button
@@ -328,7 +316,6 @@ export default function UserManagement() {
                     </Button>
                   )
                 )}
-
                 <Button
                   variant="outline"
                   size="sm"

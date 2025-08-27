@@ -11,12 +11,12 @@ export default function Unauthorized() {
           <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
             <Shield className="h-6 w-6 text-red-600" />
           </div>
-          <CardTitle className="mt-4 text-xl font-semibold text-gray-900">
+          <CardTitle className="mt-4 text-xl font-semibold text-gray-200">
             Access Denied
           </CardTitle>
         </CardHeader>
         <CardContent className="text-center space-y-4">
-          <p className="text-gray-600">
+          <p className="text-gray-400">
             You don't have permission to access this page. Please contact your administrator if you believe this is an error.
           </p>
           

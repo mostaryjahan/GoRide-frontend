@@ -1,69 +1,92 @@
-# React + TypeScript + Vite
+# 🚖 GoRide – Ride Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A **full-stack ride booking platform** similar to Uber or Pathao, built with **React, Redux Toolkit, RTK Query, Node.js, and MongoDB**. GoRide provides role-based dashboards for **Riders, Drivers, and Admins**, along with a responsive, production-grade frontend experience.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🌐 Live Demo
 
-## Expanding the ESLint configuration
+- **Frontend:** [l2-a5-frontend.vercel.app](https://l2-a5-frontend.vercel.app) 
+- **Backend:** [Insert Backend Deployment URL](https://a-5-gamma.vercel.app/api) 
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🛠 Technology Stack
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- **Frontend:** React.js, Redux Toolkit, RTK Query, React Router, Tailwind CSS, TypeScript  
+- **Backend:** Node.js, Express.js, MongoDB, JWT Authentication, bcrypt  
+- **Optional Enhancements:** Recharts, react-hot-toast  
+- **Map & Location:** Leaflet, Geolocation API  
+- **Notifications:** EmailJS, Twilio, WhatsApp Web API  
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## 📌 Features
+
+### **1. Public Landing Pages**
+- Home with Hero Banner, How-it-works, Services, Testimonials, and Call-to-Actions  
+- About Us – Company mission, background, and team profiles  
+- Features – Detailed breakdown for Rider, Driver, and Admin  
+- Contact – Validated inquiry form  
+- FAQ – Searchable questions  
+
+### **2. Authentication & Authorization**
+- Role-based registration and login (Rider, Driver, Admin)  
+- JWT-based persistent authentication  
+- Blocked/Suspended user handling  
+- Offline driver mode with limited feature access  
+
+### **3. Rider Features**
+- Request rides with pickup/destination & fare estimation  
+- Ride history with pagination, filters (date, fare, status)  
+- Ride details with map route, timestamps, driver info  
+- Profile management (Name, Phone, Password)  
+- Emergency/SOS button for live location alerts  
+
+### **4. Driver Features**
+- Online/Offline availability toggle  
+- Accept/Reject incoming ride requests  
+- Active ride management & status updates  
+- Earnings dashboard with charts  
+- Ride history with filters  
+- Profile management (Vehicle info, Contact, Password)  
+
+### **5. Admin Features**
+- Manage users: approve, block/unblock, search, and filter  
+- Ride oversight with advanced filtering  
+- Analytics dashboard: ride volume, revenue, driver activity  
+- Profile management and password updates  
+
+### **6. General UI/UX**
+- Fully responsive design across all devices  
+- Skeleton loaders, lazy-loading, interactive elements  
+- Accessible and semantic HTML components  
+- Role-based navigation with dropdown menus  
+- Error handling with clear messages and toast notifications  
+
+---
+
+## 🚀 Setup Instructions
+
+### **Frontend**
+```bash
+git clone https://github.com/mostaryjahan/L2-A5-frontend.git
+cd L2-A5-frontend
+bun add
+npm dev
+```
+### **Backend**
+```bash
+git clone https://github.com/mostaryjahan/Ride-booking-system-backend.git
+cd Ride-booking-system-backend
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+ #### Links
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- GitHub Frontend: [Frontend Repo URL](https://github.com/mostaryjahan/L2-A5-frontend.git)
+
+- GitHub Backend: [Backend Repo URL](https://github.com/mostaryjahan/Ride-booking-system-backend.git)
+

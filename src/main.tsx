@@ -12,6 +12,9 @@ import { ThemeProvider } from "./providers/theme.provider.tsx";
 // import { Toaster } from "sonner";
 import { store } from "./redux/store.ts";
 import { Toaster } from "react-hot-toast";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

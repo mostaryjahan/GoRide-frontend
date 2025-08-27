@@ -8,7 +8,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Link } from "react-router-dom"
-
+import { motion } from "framer-motion";
 interface FAQ {
   id: string
   question: string
@@ -203,6 +203,11 @@ export default function FAQPage() {
       {/* Hero Section */}
       <section className="relative py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
+            <motion.div
+      initial={{ y: 100, opacity: 0 }}
+      whileInView={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      viewport={{ once: true }}>
           <h1 className="text-3xl md:text-5xl text-foreground font-bold mb-6">
             Frequently Asked Questions
           </h1>
@@ -222,11 +227,15 @@ export default function FAQPage() {
               className="pl-10 pr-4 py-3 text-lg border-2 border-foreground focus:border-primary rounded-xl"
             />
           </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Category Filter */}
-      <section className="px-4 sm:px-6 lg:px-8 mb-12">
+      <motion.section  initial={{ y: 100, opacity: 0 }}
+      whileInView={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      viewport={{ once: true }} className="px-4 sm:px-6 lg:px-8 mb-12">
         <div className="max-w-4xl mx-auto">
           <div className="flex flex-wrap gap-3 justify-center">
             {categories.map((category) => {
@@ -249,10 +258,13 @@ export default function FAQPage() {
             })}
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* FAQ Content */}
-      <section className="px-4 sm:px-6 lg:px-8 pb-20">
+       <motion.section  initial={{ y: 100, opacity: 0 }}
+      whileInView={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      viewport={{ once: true }} className="px-4 sm:px-6 lg:px-8 pb-20">
         <div className="max-w-4xl mx-auto">
           {filteredFAQs.length === 0 ? (
             <Card className="text-center py-12">
@@ -315,7 +327,7 @@ export default function FAQPage() {
             </div>
           )}
         </div>
-      </section>
+      </motion.section>
 
       {/* Contact Support Section */}
       <section className="bg-gray-100 dark:bg-gray-900/40 border-t border-muted py-16 px-4 sm:px-6 lg:px-8">

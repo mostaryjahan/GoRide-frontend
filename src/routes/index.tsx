@@ -1,3 +1,4 @@
+import {lazy} from "react"
 import App from "@/App";
 
 
@@ -26,7 +27,7 @@ import { role } from "@/constants/role";
 import { riderSidebarItems } from "./riderSidebarItems";
 import { driverSidebarItems } from "./driverSidebarItems";
 import LazyWrapper from "@/components/LazyLoader";
-import { lazy } from "react";
+
 
 export const router = createBrowserRouter([
   {

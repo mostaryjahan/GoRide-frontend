@@ -209,31 +209,7 @@ export default function AdminProfile() {
         </Card>
       )}
 
-      <Card>
-        <CardHeader>
-          <CardTitle>System Information</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label>Last Login</Label>
-              <p className="text-sm text-muted-foreground">December 20, 2024 at 2:30 PM</p>
-            </div>
-            <div className="space-y-2">
-              <Label>Account Created</Label>
-              <p className="text-sm text-muted-foreground">January 1, 2024</p>
-            </div>
-            <div className="space-y-2">
-              <Label>Total Users Managed</Label>
-              <p className="text-sm text-muted-foreground">2,847 users</p>
-            </div>
-            <div className="space-y-2">
-              <Label>Total Rides Overseen</Label>
-              <p className="text-sm text-muted-foreground">15,432 rides</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+
     </div>
   );
 }

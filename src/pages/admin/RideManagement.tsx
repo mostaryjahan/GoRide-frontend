@@ -118,7 +118,7 @@ export default function RideManagement() {
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="px-3 py-2 border rounded-md"
+                className="px-3 py-2 border rounded-md dark:bg-gray-900 dark:text-gray-200"
               >
                 <option value="all">All Status</option>
                 <option value="completed">Completed</option>

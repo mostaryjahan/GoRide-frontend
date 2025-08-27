@@ -41,7 +41,7 @@ export function LoginForm({
       email: "",
       password: "",
     },
-    mode: "onChange", // Enable real-time validation
+    mode: "onChange", 
   });
   const [login, { isLoading }] = useLoginMutation();
 
@@ -91,12 +91,12 @@ export function LoginForm({
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <div className="flex flex-col items-center gap-2 text-center">
-        <h1 className="text-2xl font-bold">Login to your account</h1>
-        <p className="text-balance text-sm text-muted-foreground">
+        <h1 className="text-2xl font-bold text-black">Login to your account</h1>
+        <p className="text-balance text-sm text-gray-600">
           Enter your email below to login to your account
         </p>
       </div>
-      <div className="grid gap-6">
+      <div className="grid gap-6 text-gray-800 dark:text-gray-800">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
@@ -107,9 +107,10 @@ export function LoginForm({
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="john@example.com"
+                      placeholder="your@email.com"
                       {...field}
                       value={field.value || ""}
+                      
                     />
                   </FormControl>
                   <FormMessage />
@@ -143,7 +144,7 @@ export function LoginForm({
         </Form>
 
         <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-          <span className="relative z-10 bg-background px-2 text-muted-foreground">
+          <span className="relative z-10 px-2 text-gray-600">
             Or continue with
           </span>
         </div>
@@ -152,8 +153,8 @@ export function LoginForm({
         <Button
           onClick={() => window.open(`${config.baseUrl}/auth/google`)}
           type="button"
-          variant="outline"
-          className="w-full cursor-pointer"
+          // variant="outline"
+          className="w-full cursor-pointer border-2 border-gray-800 bg-white text-gray-900 hover:bg-gray-100 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
         >
           Login with Google
         </Button>

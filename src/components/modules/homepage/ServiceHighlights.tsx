@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Shield, Clock, CreditCard, Star, Zap, Users } from "lucide-react"
+import { motion } from "framer-motion"
 
 export default function ServiceHighlights() {
   const services = [
@@ -51,36 +52,56 @@ export default function ServiceHighlights() {
   return (
     <section className="py-20 px-4 bg-gray-100 dark:bg-[#000000]">
       <div className="max-w-6xl mx-auto">
+        {/* Heading */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-black text-foreground mb-4 font-[family-name:var(--font-montserrat)]">
+          <motion.h2
+            initial={{ y: 40, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            viewport={{ once: true }}
+            className="text-3xl md:text-4xl font-black text-foreground mb-4 font-[family-name:var(--font-montserrat)]"
+          >
             Why Choose RideShare?
-          </h2>
-          <p className="text-lg text-muted-foreground font-[family-name:var(--font-open-sans)] max-w-2xl mx-auto">
+          </motion.h2>
+
+          <motion.p
+            initial={{ y: 40, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+            viewport={{ once: true }}
+            className="text-lg text-muted-foreground font-[family-name:var(--font-open-sans)] max-w-2xl mx-auto"
+          >
             Experience the difference with our premium features designed for your comfort and convenience.
-          </p>
+          </motion.p>
         </div>
 
+        {/* Cards */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
-            <Card
+            <motion.div
               key={index}
-              className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg hover:-translate-y-1"
+              initial={{ y: 50, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.6, delay: index * 0.2 }}
+              viewport={{ once: true }}
             >
-              <CardContent className="p-8">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="p-3 bg-[#11286644] rounded-lg text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
-                    <service.icon className="w-6 h-6" />
+              <Card className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg hover:-translate-y-1">
+                <CardContent className="p-8">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="p-3 bg-[#11286644] rounded-lg text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
+                      <service.icon className="w-6 h-6" />
+                    </div>
+                    <Badge className={service.color}>{service.badge}</Badge>
                   </div>
-                  <Badge className={service.color}>{service.badge}</Badge>
-                </div>
-                <h3 className="text-xl font-bold text-foreground mb-3 font-[family-name:var(--font-montserrat)] group-hover:text-blue-600 transition-colors">
-                  {service.title}
-                </h3>
-                <p className="text-muted-foreground font-[family-name:var(--font-open-sans)] leading-relaxed">
-                  {service.description}
-                </p>
-              </CardContent>
-            </Card>
+                  <h3 className="text-xl font-bold text-foreground mb-3 font-[family-name:var(--font-montserrat)] group-hover:text-blue-600 transition-colors">
+                    {service.title}
+                  </h3>
+                  <p className="text-muted-foreground font-[family-name:var(--font-open-sans)] leading-relaxed">
+                    {service.description}
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
           ))}
         </div>
       </div>

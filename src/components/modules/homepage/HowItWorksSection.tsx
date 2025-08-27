@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 import { Smartphone, MapPin, Car, CheckCircle } from "lucide-react"
+import { motion } from "framer-motion"
 
 export default function HowItWorksSection() {
   const steps = [
@@ -36,18 +37,39 @@ export default function HowItWorksSection() {
         "bg-gradient-to-b from-slate-50 to-blue-100",
         "dark:from-gray-900/10 dark:to-gray-950"
       )}>
+        
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-black text-foreground mb-4 ">
+            <motion.h2
+            initial={{ y: 40, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            viewport={{ once: true }}
+            className="text-3xl md:text-4xl font-black text-foreground mb-4"
+          >
             How It Works
-          </h2>
-          <p className="text-lg text-muted-foreground  max-w-2xl mx-auto">
+            </motion.h2>
+             <motion.p
+            initial={{ y: 40, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+            viewport={{ once: true }}
+            className="text-lg text-muted-foreground max-w-2xl mx-auto"
+          >
             Getting a ride has never been easier. Follow these simple steps to book your next journey.
-          </p>
+          </motion.p>
         </div>
+      
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {steps.map((step, index) => (
+             <motion.div
+              key={index}
+              initial={{ y: 50, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.6, delay: index * 0.2 }}
+              viewport={{ once: true }}
+            >
             <Card
               key={index}
               className="relative text-center border-0 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 bg-gray-100 dark:bg-[#020c31]"
@@ -65,6 +87,7 @@ export default function HowItWorksSection() {
                 </p>
               </CardContent>
             </Card>
+            </motion.div>
           ))}
         </div>
       </div>

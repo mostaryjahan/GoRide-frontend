@@ -11,14 +11,22 @@ import toast from "react-hot-toast";
 import SOSButton from "@/components/SOSButton";
 
 export default function DriverDashboard() {
-  const { data: userInfo, refetch } = useUserInfoQuery({});
-  const { data: statsData } = useGetDriverStatsQuery({});
-  const { data: earningsData } = useGetDriverEarningsQuery({});
+  // const { data: userInfo, refetch } = useUserInfoQuery({});
+  // const { data: statsData } = useGetDriverStatsQuery({});
+  // const { data: earningsData } = useGetDriverEarningsQuery({});
   const [updateDriverStatus] = useUpdateDriverStatusMutation();
   const [acceptRide] = useAcceptRideMutation();
   const [rejectRide] = useRejectRideMutation();
   const { data: activeRidesData, refetch: refetchActiveRides } = useGetActiveRidesQuery({});
   const [updateRideStatus] = useUpdateRideStatusMutation();
+
+  // In your dashboard component, make sure you're using the user ID
+const { data: userInfo } = useUserInfoQuery({});
+const userId = userInfo?.data?._id;
+
+// Then use this userId in your queries
+const { data: statsData } = useGetDriverStatsQuery(userId, { skip: !userId });
+const { data: earningsData } = useGetDriverEarningsQuery(userId, { skip: !userId });
   
   const user = userInfo?.data;
   const stats = statsData?.data || {};
@@ -39,7 +47,7 @@ export default function DriverDashboard() {
       const newStatus = !isOnline;
       await updateDriverStatus({ isOnline: newStatus }).unwrap();
       setIsOnline(newStatus);
-      refetch(); 
+      // refetch(); 
       if (newStatus) {
         refetchRides(); 
       }

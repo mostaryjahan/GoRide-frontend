@@ -45,7 +45,7 @@ export default function Navbar() {
       await logout({}).unwrap();
       localStorage.removeItem('token');
       toast.success("Logged out successfully");
-      navigate('/login')
+      navigate('/')
     } catch (error) {
       toast.error("Logout failed");
       console.log(error)
@@ -53,7 +53,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className="border-b sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="border-b sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-2">
       <div className="container mx-auto flex h-16 items-center justify-between gap-4">
         {/* Left side */}
         <div className="flex items-center gap-2">
