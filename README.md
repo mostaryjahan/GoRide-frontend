@@ -1,6 +1,6 @@
 # 🚖 GoRide – Ride Management System
 
-A **full-stack ride booking platform** similar to Uber or Pathao, built with **React, Redux Toolkit, RTK Query, Node.js, and MongoDB**. GoRide provides role-based dashboards for **Riders, Drivers, and Admins**, along with a responsive, production-grade frontend experience.
+A **full-stack ride booking platform** similar to Uber or Pathao, built with **TypeScript, React, Redux Toolkit, RTK Query, Node.js, and MongoDB**. GoRide provides role-based dashboards for **Riders, Drivers, and Admins**, along with a responsive, production-grade frontend experience.
 
 ---
 
@@ -13,8 +13,9 @@ A **full-stack ride booking platform** similar to Uber or Pathao, built with **R
 
 ## 🛠 Technology Stack
 
-- **Frontend:** React.js, Redux Toolkit, RTK Query, React Router, Tailwind CSS, TypeScript  
-- **Backend:** Node.js, Express.js, MongoDB, JWT Authentication, bcrypt  
+- **Frontend:** TypeScript, React.js, Redux Toolkit, RTK Query, React Router, Tailwind CSS, Shadcn UI, Origin UI  
+- **Backend:** TypeScript, Node.js, Express.js, MongoDB, Mongoose, JWT Authentication, bcrypt, Cloudinary, Zod, Redis
+ 
 - **Optional Enhancements:** Recharts, react-hot-toast  
 - **Map & Location:** Leaflet, Geolocation API  
 - **Notifications:** EmailJS, Twilio, WhatsApp Web API  
@@ -70,7 +71,7 @@ A **full-stack ride booking platform** similar to Uber or Pathao, built with **R
 
 ### **Frontend**
 ```bash
-git clone https://github.com/mostaryjahan/L2-A5-frontend.git
+git clone https://github.com/mostaryjahan/GoRide-frontend
 cd L2-A5-frontend
 bun add
 npm dev
@@ -86,7 +87,7 @@ npm run dev
 
  #### Links
 
-- GitHub Frontend: [Frontend Repo URL](https://github.com/mostaryjahan/L2-A5-frontend.git)
+- GitHub Frontend: [Frontend Repo URL](https://github.com/mostaryjahan/GoRide-frontend)
 
 - GitHub Backend: [Backend Repo URL](https://github.com/mostaryjahan/Ride-booking-system-backend.git)
 
