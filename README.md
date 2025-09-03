@@ -7,7 +7,7 @@ A **full-stack ride booking platform** similar to Uber or Pathao, built with **T
 ## 🌐 Live Demo
 
 - **Frontend:** [l2-a5-frontend.vercel.app](https://l2-a5-frontend.vercel.app) 
-- **Backend:** [Insert Backend Deployment URL](https://a-5-gamma.vercel.app/api) 
+- **Backend:** [https://a-5-gamma.vercel.app/api](https://a-5-gamma.vercel.app/api) 
 
 ---
 
@@ -71,7 +71,7 @@ A **full-stack ride booking platform** similar to Uber or Pathao, built with **T
 
 ### **Frontend**
 ```bash
-git clone https://github.com/mostaryjahan/GoRide-frontend
+git clone https://github.com/mostaryjahan/GoRide-frontend.git
 cd L2-A5-frontend
 bun add
 npm dev
@@ -87,7 +87,7 @@ npm run dev
 
  #### Links
 
-- GitHub Frontend: [Frontend Repo URL](https://github.com/mostaryjahan/GoRide-frontend)
+- GitHub Frontend: [Frontend Repo URL](https://github.com/mostaryjahan/GoRide-frontend.git)
 
 - GitHub Backend: [Backend Repo URL](https://github.com/mostaryjahan/Ride-booking-system-backend.git)
 
