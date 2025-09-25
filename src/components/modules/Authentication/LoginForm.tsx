@@ -9,9 +9,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import config from "@/config";
-import { cn } from "@/lib/utils";
 import { useLoginMutation } from "@/redux/features/auth/auth.api";
-import { useForm , type SubmitHandler } from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import toast from "react-hot-toast";
@@ -30,10 +29,22 @@ const loginSchema = z.object({
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
-export function LoginForm({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+const QUICK_LOGIN_CREDENTIALS = {
+  ADMIN: {
+    email: "admin@gmail.com",
+    password: "12345678"
+  },
+  DRIVER: {
+    email: "driver@gmail.com",
+    password: "123456A@"
+  },
+  RIDER: {
+    email: "rider@gmail.com",
+    password: "123456A@"
+  }
+};
+
+export function LoginForm() {
   const navigate = useNavigate();
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -41,7 +52,7 @@ export function LoginForm({
       email: "",
       password: "",
     },
-    mode: "onChange", 
+    mode: "onChange",
   });
   const [login, { isLoading }] = useLoginMutation();
 
@@ -50,14 +61,12 @@ export function LoginForm({
       const res = await login(data).unwrap();
 
       if (res.success) {
-        // Store token if provided
         if (res.data?.accessToken) {
           localStorage.setItem("token", res.data?.accessToken);
         }
 
         toast.success("Logged in successfully");
 
-        // Redirect based on user role
         const userRole = res.data.user.role;
         if (userRole === "ADMIN") {
           navigate("/admin/dashboard");
@@ -69,11 +78,10 @@ export function LoginForm({
           navigate("/");
         }
       } else {
-        toast.error("Login failed - no token received");
+        toast.error("Login failed. Please try again.");
       }
     } catch (err: unknown) {
       console.error(err);
-
       const error = err as { data?: { message?: string }; status?: number };
 
       if (error?.data?.message === "Password does not match") {
@@ -88,82 +96,164 @@ export function LoginForm({
     }
   };
 
+  const handleQuickLogin = (role: keyof typeof QUICK_LOGIN_CREDENTIALS) => {
+    const credentials = QUICK_LOGIN_CREDENTIALS[role];
+    form.setValue("email", credentials.email);
+    form.setValue("password", credentials.password);
+    
+    setTimeout(() => {
+      form.handleSubmit(onSubmit)();
+    }, 100);
+  };
+
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <div className="flex flex-col items-center gap-2 text-center">
-        <h1 className="text-2xl font-bold text-black">Login to your account</h1>
-        <p className="text-balance text-sm text-gray-600">
-          Enter your email below to login to your account
-        </p>
-      </div>
-      <div className="grid gap-6 text-gray-800 dark:text-gray-800">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="your@email.com"
-                      {...field}
-                      value={field.value || ""}
-                      
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+    <div className="container mx-auto max-w-7xl p-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white rounded-2xl overflow-hidden">
+        {/* Left Section - Main Login Form */}
+        <div className="p-8">
+          <div className="flex flex-col gap-6">
+            <div className="text-center mb-6">
+              <h1 className="text-2xl font-bold text-gray-900">Welcome Back!</h1>
+              <p className="text-sm text-gray-600 mt-2">
+                Please sign in to continue
+              </p>
+            </div>
 
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="password"
-                      placeholder="********"
-                      {...field}
-                      value={field.value || ""}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-gray-700">Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="your@email.com"
+                          className="border-gray-300 focus:border-blue-500 text-black"
+                          {...field}
+                          value={field.value || ""}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-red-500" />
+                    </FormItem>
+                  )}
+                />
 
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Logging in..." : "Login"}
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-gray-700">Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="password"
+                          placeholder="********"
+                          className="border-gray-300 focus:border-blue-500 text-black"
+                          {...field}
+                          value={field.value || ""}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-red-500" />
+                    </FormItem>
+                  )}
+                />
+
+                <Button 
+                  type="submit" 
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white" 
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Signing in..." : "Sign In"}
+                </Button>
+              </form>
+            </Form>
+
+            <div className="relative text-center">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-gray-500">
+                  Or continue with
+                </span>
+              </div>
+            </div>
+
+            <Button
+              onClick={() => window.open(`${config.baseUrl}/auth/google`)}
+              type="button"
+              variant="outline"
+              className="w-full text-primary border-1 border-gray-800 hover:bg-gray-50"
+            >
+             
+              Continue with Google
             </Button>
-          </form>
-        </Form>
 
-        <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-          <span className="relative z-10 px-2 text-gray-600">
-            Or continue with
-          </span>
+            <p className="text-center text-sm text-gray-600">
+              Don't have an account?{" "}
+              <Link
+                to="/register"
+                replace
+                className="text-blue-600 hover:text-blue-700 font-medium"
+              >
+                Sign up
+              </Link>
+            </p>
+          </div>
         </div>
 
-        {/*//* http://localhost:5000/api/v1/auth/google */}
-        <Button
-          onClick={() => window.open(`${config.baseUrl}/auth/google`)}
-          type="button"
-          // variant="outline"
-          className="w-full cursor-pointer border-2 border-gray-800 bg-white text-gray-900 hover:bg-gray-100 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          Login with Google
-        </Button>
-      </div>
-      <div className="text-center text-sm">
-        Don&apos;t have an account?{" "}
-        <Link to="/register" replace className="underline underline-offset-4">
-          Register
-        </Link>
+        {/* Right Section - Quick Login */}
+        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-8">
+           <h2 className="text-2xl font-semibold text-gray-800 text-center mb-3">
+              Quick Access
+            </h2>
+            <p className="text-sm text-gray-600 text-center mb-10">
+              Test the application with different user roles
+            </p>
+
+          <div className="flex flex-col  justify-center mt-4">
+           
+            <div className="space-y-4 mt-4">
+              <Button
+                type="button"
+                onClick={() => handleQuickLogin("ADMIN")}
+                disabled={isLoading}
+                className="w-full h-16 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200"
+              >
+                <div className="flex flex-col items-center">
+                  <span className="font-medium">Login as Admin</span>
+                 
+                </div>
+              </Button>
+
+              <Button
+                type="button"
+                onClick={() => handleQuickLogin("DRIVER")}
+                disabled={isLoading}
+                className="w-full h-16 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200"
+              >
+                <div className="flex flex-col items-center">
+                  <span className="font-medium">Login as Driver</span>
+                  
+                </div>
+              </Button>
+
+              <Button
+                type="button"
+                onClick={() => handleQuickLogin("RIDER")}
+                disabled={isLoading}
+                className="w-full h-16 bg-green-50 hover:bg-green-100 text-green-700 border border-green-200"
+              >
+                <div className="flex flex-col items-center">
+                  <span className="font-medium">Login as Rider</span>
+                 
+                </div>
+              </Button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

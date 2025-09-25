@@ -11,7 +11,7 @@ export default function Login() {
       {/* Content */}
       <div className="flex flex-col gap-4 ">
         <div className="flex flex-1 items-center justify-center">
-          <div className="w-full max-w-xl rounded-lg shadow-lg p-6 bg-white">
+          <div className="w-full max-w-5xl rounded-lg shadow-lg p-6 bg-white">
             <LoginForm />
           </div>
         </div>
