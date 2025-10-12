@@ -1,10 +1,11 @@
 import React from 'react';
 import { Play, Star, Shield, Zap, ArrowRight, CarIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
-// Temporary image - replace with your actual image
-const heroImage = "/images/home/hero.avif";
 import { motion } from "framer-motion";
+
+
+const heroImage = "/images/home/hero.avif";
+
 
 const HeroSection: React.FC = () => {
   const features = [
