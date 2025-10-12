@@ -26,7 +26,6 @@ import { useAppDispatch } from "@/redux/hook";
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
-  { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
   { href: "/faq", label: "Faq" },
@@ -35,22 +34,9 @@ const navigationLinks = [
 
 export default function Navbar() {
   const { data: userInfo, error, isLoading } = useUserInfoQuery();
-  // const [logout] = useLogoutMutation();
-  // const navigate = useNavigate()
+
   const user = userInfo?.data;
   const isAuthenticated = !!user && !error && !isLoading;
-
-  // const handleLogout = async () => {
-  //   try {
-  //     await logout({}).unwrap();
-  //     localStorage.removeItem('token');
-  //     toast.success("Logged out successfully");
-  //     navigate('/')
-  //   } catch (error) {
-  //     toast.error("Logout failed");
-  //     console.log(error)
-  //   }
-  // };
 
     const [logout] = useLogoutMutation();
   const dispatch = useAppDispatch();
@@ -118,7 +104,7 @@ export default function Navbar() {
           </Popover>
           {/* Main nav */}
           <div className="flex items-center gap-6">
-            <a href="#" className="text-primary hover:text-primary/90">
+            <a href="/" className="text-primary hover:text-primary/90">
               <Logo />
             </a>
             {/* Navigation menu */}
