@@ -106,7 +106,7 @@ export default function TestimonialsSection() {
             <div key={index} className="px-2">
               <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-gray-100 dark:bg-gray-800 h-full">
                 <CardContent className="p-8 relative flex flex-col justify-between h-full">
-                  <Quote className="w-8 h-8 text-blue-600 mb-4 absolute left-10 -top-6" />
+                  <Quote className="w-8 h-8 text-blue-600 mb-4 absolute right-10 -mt-10" />
                   <p className="text-foreground mb-6 font-[family-name:var(--font-open-sans)] leading-relaxed italic">
                     "{testimonial.content}"
                   </p>

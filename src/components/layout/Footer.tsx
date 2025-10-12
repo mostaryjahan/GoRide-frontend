@@ -6,10 +6,14 @@ const Footer = () => {
       <div className="mx-auto container space-y-8 px-4 py-16">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <div>
-            <Logo />
+            <div className="flex gap-2 items-center">
+              <Logo />
+              <h2 className="text-xl font-semibold text-white">GoRide</h2>
+            </div>
 
             <p className="mt-4 max-w-xs text-gray-300">
-             A convenient and eco-friendly travel solution where passengers share rides to save costs and reach their destinations safely."
+              A convenient and eco-friendly travel solution where passengers
+              share rides to save costs and reach their destinations safely."
             </p>
 
             <ul className="mt-8 flex gap-6">
@@ -170,7 +174,7 @@ const Footer = () => {
                     href="#"
                     className="text-gray-300 transition hover:opacity-75 dark:text-gray-200"
                   >
-                   Customer Support
+                    Customer Support
                   </a>
                 </li>
 
@@ -222,7 +226,7 @@ const Footer = () => {
                     href="#"
                     className="text-gray-300 transition hover:opacity-75 dark:text-gray-200"
                   >
-                   Blog
+                    Blog
                   </a>
                 </li>
               </ul>

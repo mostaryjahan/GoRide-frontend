@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { Car, Users, ArrowRight } from "lucide-react";
+import { Car, Users, ArrowRight} from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
@@ -18,7 +18,7 @@ export default function HeroSection() {
                 variant="secondary"
                 className="mb-4 text-xs sm:text-sm font-medium bg-blue-100 text-blue-700 border-blue-200"
               >
-                🚗 Your Ride, Your Way
+                <Car/> Your Ride, Your Way
               </Badge>
               <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-foreground mb-4 sm:mb-6 leading-tight">
                 Safe, Fast & <span className="text-blue-600">Reliable</span> Rides
