@@ -21,10 +21,10 @@ export default function Unauthorized() {
           </p>
           
           <div className="flex flex-col space-y-2">
-            <Button asChild>
+            <Button asChild className="cursor-pointer">
               <Link to="/">Return to Home</Link>
             </Button>
-            <Button variant="outline" asChild>
+            <Button variant="outline" asChild className="cursor-pointer">
               <Link to="/login">Login with Different Account</Link>
             </Button>
           </div>

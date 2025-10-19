@@ -135,22 +135,6 @@ export default function AdminDashboard() {
                       <p className="text-sm text-muted-foreground">{driver.email}</p>
                     </div>
                   </div>
-                  {/* <div className="flex gap-2">
-                    <button 
-                      className="text-green-600 hover:text-green-800 p-1 rounded hover:bg-green-50"
-                      onClick={() => handleApproveDriver(driver._id)}
-                      title="Approve Driver"
-                    >
-                      <UserCheck className="h-4 w-4" />
-                    </button>
-                    <button 
-                      className="text-red-600 hover:text-red-800 p-1 rounded hover:bg-red-50"
-                      onClick={() => handleBlockDriver(driver._id)}
-                      title="Block Driver"
-                    >
-                      <UserX className="h-4 w-4" />
-                    </button>
-                  </div> */}
                 </div>
               ))}
               {pendingDrivers.length === 0 && (

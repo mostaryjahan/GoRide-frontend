@@ -121,7 +121,7 @@ export default function SafetySettings() {
         <CardHeader>
           <div className="flex justify-between items-center">
             <CardTitle>Emergency Contacts</CardTitle>
-            <Button onClick={() => setIsAdding(true)} disabled={isAdding}>
+            <Button onClick={() => setIsAdding(true)} disabled={isAdding} className="cursor-pointer">
               <Plus className="h-4 w-4 mr-2" />
               Add Contact
             </Button>
@@ -162,8 +162,8 @@ export default function SafetySettings() {
                   </div>
                 </div>
                 <div className="flex gap-2 mt-4">
-                  <Button onClick={addContact}>Save Contact</Button>
-                  <Button variant="outline" onClick={() => setIsAdding(false)}>Cancel</Button>
+                  <Button  className="cursor-pointer" onClick={addContact}>Save Contact</Button>
+                  <Button className="cursor-pointer" variant="outline" onClick={() => setIsAdding(false)}>Cancel</Button>
                 </div>
               </CardContent>
             </Card>
@@ -204,6 +204,7 @@ export default function SafetySettings() {
                           variant="outline"
                           size="sm"
                           onClick={() => callContact(contact)}
+                          className="cursor-pointer"
                         >
                           Call
                         </Button>
@@ -211,6 +212,7 @@ export default function SafetySettings() {
                           variant="destructive"
                           size="sm"
                           onClick={() => removeContact(contact.id)}
+                          className="cursor-pointer"
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>

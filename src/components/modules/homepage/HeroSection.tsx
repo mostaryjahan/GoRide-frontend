@@ -1,11 +1,11 @@
 import React from 'react';
-import { Play, Star, Shield, Zap, ArrowRight, CarIcon } from 'lucide-react';
+import { Star, Shield, Zap, ArrowRight, CarIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from "framer-motion";
 
 
-const heroImage = "/images/home/hero.avif";
-
+// const heroImage = "/images/home/hero.avif";
+const video = "/hero-video.mp4"
 
 const HeroSection: React.FC = () => {
   const features = [
@@ -84,7 +84,7 @@ const HeroSection: React.FC = () => {
             </div>
             
             {/* Main Heading */}
-            <h1 className="text-3xl md:text-6xl font-bold mb-5 leading-tight">
+            <h1 className="text-3xl md:text-5xl font-bold mb-5 leading-tight">
               Your Ride,
               <span className="block text-blue-600 dark:text-blue-400">
                 On Demand
@@ -100,16 +100,11 @@ const HeroSection: React.FC = () => {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-6 mb-8">
               <Link to="/login">
-              <button className="group bg-blue-600 hover:bg-blue-700 text-white text-lg px-6 py-2 rounded-xl transition-all duration-300 font-medium transform hover:scale-105 hover:shadow-xl flex items-center justify-center">
+              <button className="group bg-blue-600 hover:bg-blue-700 text-white text-lg px-6 py-2 rounded-xl transition-all duration-300 font-medium transform hover:scale-105 hover:shadow-xl flex items-center justify-center cursor-pointer">
                 Book Your Ride
                 <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
               </button>
               </Link>
-              
-              <button className="group border-2 border-blue-600 dark:border-gray-600 text-blue-600 dark:text-gray-300 hover:border-blue-600 dark:hover:border-blue-400 font-medium text-lg px-5 py-2 rounded-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center">
-                <Play className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
-                Watch Demo
-              </button>
             </div>
 
             {/* Features */}
@@ -117,7 +112,7 @@ const HeroSection: React.FC = () => {
               {features.map((feature, index) => (
                 <div 
                   key={index}
-                  className="flex items-center space-x-3 p-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-lg shadow-md hover:shadow-lg transition-all duration-300 border border-white/20 dark:border-gray-700/50"
+                  className="flex items-center space-x-3 p-3 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-lg shadow-md hover:shadow-lg transition-all duration-300 border border-white/20 dark:border-gray-700/50"
                 >
                   <div className="bg-blue-100 dark:bg-blue-900 p-2 rounded-lg">
                     <div className="text-blue-600 dark:text-blue-400">
@@ -138,10 +133,17 @@ const HeroSection: React.FC = () => {
           <div className="relative">
             {/* Main Image */}
             <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-              <img 
+              {/* <img 
                 src={heroImage} 
                 alt="Happy customer using GoRide app" 
                 className="w-full md:h-[480px] object-cover transform hover:scale-105 transition-transform duration-700"
+              /> */}
+              <video 
+                src={video} 
+                autoPlay
+                loop
+                muted
+                className="w-full md:h-[450px] object-cover transform hover:scale-105 transition-transform duration-700"
               />
               
               {/* Overlay Gradient */}

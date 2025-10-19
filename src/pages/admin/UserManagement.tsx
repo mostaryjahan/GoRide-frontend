@@ -155,7 +155,7 @@ export default function UserManagement() {
               <select
                 value={roleFilter}
                 onChange={(e) => setRoleFilter(e.target.value)}
-                className="dark:bg-gray-900 dark:text-white px-3 py-2 border rounded-md"
+                className="dark:bg-gray-900 dark:text-white px-3 py-2 border rounded-md cursor-pointer"
               >
                 <option value="all">All Roles</option>
                 <option value="RIDER">Riders</option>
@@ -165,7 +165,7 @@ export default function UserManagement() {
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="px-3 py-2 border rounded-md dark:bg-gray-900 dark:text-white"
+                className="px-3 py-2 border rounded-md dark:bg-gray-900 dark:text-white cursor-pointer"
               >
                 <option value="all">All Status</option>
                 <option value="BLOCKED">Blocked</option>
@@ -176,7 +176,7 @@ export default function UserManagement() {
         </CardContent>
       </Card>
 
-      <div className="space-y-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
         {paginatedUsers.map((user: any) => {
           const isBlocked = user.isBlock === "BLOCK";
           const isPending = user.role === "DRIVER" && !user.isApproved;
@@ -184,7 +184,7 @@ export default function UserManagement() {
 
           return (
             <Card key={user._id} className="hover:shadow-md transition-shadow">
-              <CardContent className="p-6">
+              <CardContent className="p-4">
                 <div className="flex flex-col lg:flex-row justify-between gap-2">
                   <div className="flex-1 space-y-2">
                     <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
@@ -193,7 +193,7 @@ export default function UserManagement() {
                     <div className="flex items-center gap-3">
                       <div>
                         <h3 className="font-semibold text-lg">{user.name}</h3>
-                        <p className="text-muted-foreground">{user.email}</p>
+                        <p className="text-muted-foreground text-sm">{user.email}</p>
                       </div>
                     </div>
 
@@ -218,7 +218,7 @@ export default function UserManagement() {
                         <Button
                           size="sm"
                           onClick={() => handleApproveDriver(user._id)}
-                          className="flex items-center gap-2"
+                          className="flex items-center gap-2 cursor-pointer"
                         >
                           <UserCheck className="h-4 w-4" />
                           Approve Driver
@@ -228,7 +228,7 @@ export default function UserManagement() {
                           size="sm"
                           variant="outline"
                           onClick={() => handleSuspendDriver(user._id)}
-                          className="flex items-center gap-2 text-orange-600 hover:text-orange-700"
+                          className="flex items-center gap-2 text-orange-600 hover:text-orange-700 cursor-pointer"
                         >
                           <UserX className="h-4 w-4" />
                           Suspend Driver
@@ -242,7 +242,7 @@ export default function UserManagement() {
                           size="sm"
                           variant="outline"
                           onClick={() => handleUnblockUser(user._id)}
-                          className="flex items-center gap-2 text-green-600 hover:text-green-700"
+                          className="flex items-center gap-2 cursor-pointer text-green-600 hover:text-green-700"
                         >
                           <UserCheck className="h-4 w-4" />
                           Unblock Rider
@@ -252,14 +252,14 @@ export default function UserManagement() {
                           size="sm"
                           variant="destructive"
                           onClick={() => handleBlockUser(user._id)}
-                          className="flex items-center gap-2"
+                          className="flex items-center gap-2 cursor-pointer dark:bg-red-700"
                         >
                           <UserX className="h-4 w-4" />
                           Block Rider
                         </Button>
                       )
                     )}
-                  </div>
+                  </div> 
                 </div>
                 <div className="flex justify-between gap-4 mt-3 text-sm text-muted-foreground">
                   <span>
@@ -300,6 +300,7 @@ export default function UserManagement() {
                   size="sm"
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 1}
+                  className="cursor-pointer"
                 >
                   <ChevronLeft className="h-4 w-4" />
                   Previous
@@ -311,6 +312,7 @@ export default function UserManagement() {
                       variant={currentPage === page ? "default" : "outline"}
                       size="sm"
                       onClick={() => handlePageChange(page)}
+                      className="cursor-pointer"
                     >
                       {page}
                     </Button>
@@ -321,6 +323,7 @@ export default function UserManagement() {
                   size="sm"
                   onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage === totalPages}
+                  className="cursor-pointer"
                 >
                   Next
                   <ChevronRight className="h-4 w-4" />

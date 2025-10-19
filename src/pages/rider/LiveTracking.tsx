@@ -142,7 +142,7 @@ export default function LiveTracking() {
           <Card>
             <CardContent className="text-center py-8">
               <p className="text-muted-foreground mb-4">No active rides to track</p>
-              <Button onClick={() => navigate('/rider/book-ride')}>Book a Ride</Button>
+              <Button onClick={() => navigate('/rider/book-ride')} className="cursor-pointer">Book a Ride</Button>
             </CardContent>
           </Card>
         )}
@@ -284,7 +284,7 @@ export default function LiveTracking() {
               </div>
               
               {ride.driver.phone && (
-                <Button className="w-full" variant="outline">
+                <Button className="w-full cursor-pointer" variant="outline">
                   <Phone className="h-4 w-4 mr-2" />
                   Call Driver
                 </Button>
@@ -301,14 +301,14 @@ export default function LiveTracking() {
             <div className="flex gap-4">
               <Button 
                 variant="destructive" 
-                className="flex-1"
+                className="flex-1 cursor-pointer"
                 onClick={handleCancelRide}
               >
                 Cancel Ride
               </Button>
               <Button 
                 variant="outline" 
-                className="flex-1"
+                className="flex-1 cursor-pointer"
                 onClick={() => navigate('/rider/dashboard')}
               >
                 Back to Dashboard
@@ -322,7 +322,7 @@ export default function LiveTracking() {
         <Card>
           <CardContent className="pt-6">
             <Button 
-              className="w-full"
+              className="w-full cursor-pointer"
               onClick={() => navigate('/rider/dashboard')}
             >
               Back to Dashboard

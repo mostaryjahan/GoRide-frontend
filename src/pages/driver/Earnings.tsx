@@ -41,6 +41,7 @@ export default function Earnings() {
             variant={viewMode === 'overview' ? 'default' : 'outline'}
             onClick={() => setViewMode('overview')}
             size="sm"
+            className="cursor-pointer"
           >
             <DollarSign className="h-4 w-4 mr-2" />
             Overview
@@ -49,6 +50,7 @@ export default function Earnings() {
             variant={viewMode === 'charts' ? 'default' : 'outline'}
             onClick={() => setViewMode('charts')}
             size="sm"
+            className="cursor-pointer"
           >
             <BarChart3 className="h-4 w-4 mr-2" />
             Charts

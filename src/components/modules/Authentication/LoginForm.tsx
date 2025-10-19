@@ -162,7 +162,7 @@ export function LoginForm() {
 
                 <Button 
                   type="submit" 
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white" 
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white cursor-pointer" 
                   disabled={isLoading}
                 >
                   {isLoading ? "Signing in..." : "Sign In"}
@@ -185,7 +185,7 @@ export function LoginForm() {
               onClick={() => window.open(`${config.baseUrl}/auth/google`)}
               type="button"
               variant="outline"
-              className="w-full text-primary border-1 border-gray-800 hover:bg-gray-50"
+              className="w-full text-primary border-1 border-gray-800 hover:bg-gray-50 cursor-pointer"
             >
              
               Continue with Google
@@ -196,7 +196,7 @@ export function LoginForm() {
               <Link
                 to="/register"
                 replace
-                className="text-blue-600 hover:text-blue-700 font-medium"
+                className="text-blue-600 hover:text-blue-700 font-medium cursor-pointer"
               >
                 Sign up
               </Link>
@@ -220,7 +220,7 @@ export function LoginForm() {
                 type="button"
                 onClick={() => handleQuickLogin("ADMIN")}
                 disabled={isLoading}
-                className="w-full h-16 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200"
+                className="w-full h-16 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 cursor-pointer"
               >
                 <div className="flex flex-col items-center">
                   <span className="font-medium">Login as Admin</span>
@@ -232,7 +232,7 @@ export function LoginForm() {
                 type="button"
                 onClick={() => handleQuickLogin("DRIVER")}
                 disabled={isLoading}
-                className="w-full h-16 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200"
+                className="w-full h-16 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 cursor-pointer"
               >
                 <div className="flex flex-col items-center">
                   <span className="font-medium">Login as Driver</span>
@@ -244,7 +244,7 @@ export function LoginForm() {
                 type="button"
                 onClick={() => handleQuickLogin("RIDER")}
                 disabled={isLoading}
-                className="w-full h-16 bg-green-50 hover:bg-green-100 text-green-700 border border-green-200"
+                className="w-full h-16 bg-green-50 hover:bg-green-100 text-green-700 border border-green-200 cursor-pointer"
               >
                 <div className="flex flex-col items-center">
                   <span className="font-medium">Login as Rider</span>

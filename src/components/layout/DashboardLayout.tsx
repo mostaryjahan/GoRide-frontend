@@ -139,19 +139,19 @@ export default function DashboardLayout({ children }: { children?: React.ReactNo
           <div className="flex items-center space-x-4">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="flex items-center space-x-2">
+                <Button variant="ghost" className="flex items-center space-x-2 cursor-pointer">
                   <User className="h-4 w-4" />
                   <span>{user?.name}</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem asChild>
-                  <Link to={`/${user?.role.toLowerCase()}/profile`} className="flex items-center">
+                  <Link to={`/${user?.role.toLowerCase()}/profile`} className="flex items-center cursor-pointer">
                     <Settings className="h-4 w-4 mr-2" /> Profile
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={handleLogout}>
-                  <LogOut className="h-4 w-4 mr-2" /> Logout
+                  <LogOut className="h-4 w-4 mr-2 cursor-pointer" /> Logout
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

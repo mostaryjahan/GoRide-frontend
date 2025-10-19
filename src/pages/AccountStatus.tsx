@@ -40,13 +40,13 @@ export default function AccountStatus() {
               </ul>
             </div>
             <div className="flex flex-col space-y-2">
-              <Button asChild className="w-full">
+              <Button asChild className="w-full cursor-pointer">
                 <a href="mailto:support@goride.com" className="flex items-center justify-center">
                   <Mail className="h-4 w-4 mr-2" />
                   Email Support
                 </a>
               </Button>
-              <Button variant="outline" asChild className="w-full">
+              <Button variant="outline" asChild className="w-full cursor-pointer">
                 <a href="tel:+1234567890" className="flex items-center justify-center">
                   <Phone className="h-4 w-4 mr-2" />
                   Call Support
@@ -54,7 +54,7 @@ export default function AccountStatus() {
               </Button>
             </div>
             <div className="pt-4 border-t">
-              <Button variant="ghost" asChild>
+              <Button variant="ghost" asChild className="cursor-pointer">
                 <Link to="/">Return to Home</Link>
               </Button>
             </div>

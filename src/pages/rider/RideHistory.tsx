@@ -83,7 +83,7 @@ export default function RideHistory() {
     <div className="space-y-6 p-4 sm:p-6 max-w-7xl mx-auto">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <h1 className="text-2xl sm:text-3xl font-bold">Ride History</h1>
-        <Button asChild size="sm">
+        <Button asChild size="sm" className="cursor-pointer">
           <Link to="/rider/book-ride">Book New Ride</Link>
         </Button>
       </div>
@@ -135,6 +135,7 @@ export default function RideHistory() {
                   variant={statusFilter === "all" ? "default" : "outline"}
                   size="sm"
                   onClick={() => setStatusFilter("all")}
+                  className="cursor-pointer"
                 >
                   All
                 </Button>
@@ -142,6 +143,7 @@ export default function RideHistory() {
                   variant={statusFilter === "completed" ? "default" : "outline"}
                   size="sm"
                   onClick={() => setStatusFilter("completed")}
+                  className="cursor-pointer"
                 >
                   Completed
                 </Button>
@@ -149,6 +151,7 @@ export default function RideHistory() {
                   variant={statusFilter === "cancelled" ? "default" : "outline"}
                   size="sm"
                   onClick={() => setStatusFilter("cancelled")}
+                  className="cursor-pointer"
                 >
                   Cancelled
                 </Button>
@@ -216,6 +219,7 @@ export default function RideHistory() {
                               variant="ghost"
                               size="sm"
                               onClick={() => setSelectedRideId(ride._id)}
+                              className="cursor-pointer"
                             >
                               View
                             </Button>
@@ -375,6 +379,7 @@ export default function RideHistory() {
                           variant="outline"
                           size="sm"
                           onClick={() => setSelectedRideId(ride._id)}
+                          className="cursor-pointer"
                         >
                           View Details
                         </Button>
@@ -479,6 +484,7 @@ export default function RideHistory() {
             size="sm"
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
+            className="cursor-pointer"
           >
             Previous
           </Button>
@@ -492,6 +498,7 @@ export default function RideHistory() {
               setCurrentPage((prev) => Math.min(prev + 1, totalPages))
             }
             disabled={currentPage === totalPages}
+            className="cursor-pointer"
           >
             Next
           </Button>
@@ -508,7 +515,7 @@ export default function RideHistory() {
                 ? "Try adjusting your search or filter criteria"
                 : "You haven't taken any rides yet"}
             </p>
-            <Button asChild size="sm">
+            <Button asChild size="sm" className="cursor-pointer">
               <Link to="/rider/book-ride">Book Your First Ride</Link>
             </Button>
           </CardContent>

@@ -266,7 +266,7 @@ export default function RideReqForm() {
               variant="outline"
               size="sm"
               onClick={getCurrentLocation}
-              className="w-full"
+              className="w-full cursor-pointer"
             >
               <MapPinIcon className="h-4 w-4 mr-2" />
               Use Current Location
@@ -367,7 +367,7 @@ export default function RideReqForm() {
 
           <Button
             type="submit"
-            className="w-full"
+            className="w-full cursor-pointer"
             disabled={
               !pickupLocation ||
               !destinationLocation ||

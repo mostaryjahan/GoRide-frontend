@@ -74,14 +74,16 @@ export default function RideManagement() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "completed":
+      case "COMPLETED":
         return "bg-green-100 text-green-800";
-      case "cancelled":
+      case "CANCELLED":
         return "bg-red-100 text-red-800";
-      case "in-progress":
+      case "IN-PROGRESS":
         return "bg-blue-100 text-blue-800";
-      case "requested":
+      case "REQUESTED":
         return "bg-yellow-100 text-yellow-800";
+        case "REJECTED":
+        return "bg-red-100 text-red-800";
       default:
         return "bg-gray-100 text-gray-800";
     }
@@ -118,7 +120,7 @@ export default function RideManagement() {
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="px-3 py-2 border rounded-md dark:bg-gray-900 dark:text-gray-200"
+                className="px-3 py-2 border  rounded-md dark:bg-gray-900 dark:text-gray-200 cursor-pointer"
               >
                 <option value="all">All Status</option>
                 <option value="completed">Completed</option>
@@ -191,6 +193,7 @@ export default function RideManagement() {
                             variant="outline"
                             size="sm"
                             onClick={() => setSelectedRide(ride)}
+                            className="cursor-pointer border-blue-600 dark:border-blue text-blue-600 hover:border-blue-600 dark:hover:border-white hover:text-blue-600 dark:hover:text-white"
                           >
                             View
                           </Button>

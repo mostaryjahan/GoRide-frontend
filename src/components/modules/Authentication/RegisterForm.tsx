@@ -230,7 +230,7 @@ const RegisterForm = ({
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full cursor-pointer">
               Submit
             </Button>
           </form>
@@ -245,7 +245,7 @@ const RegisterForm = ({
         <Button
           type="button"
           variant="outline"
-          className="w-full text-primary  border border-input"
+          className="w-full text-primary  border border-input cursor-pointer"
         >
           Login with Google
         </Button>
@@ -253,7 +253,7 @@ const RegisterForm = ({
 
       <div className="text-center text-sm text-black">
         Already have an account?{" "}
-        <Link to="/login" className="underline underline-offset-4 text-primary">
+        <Link to="/login" className="underline underline-offset-4 text-primary cursor-pointer">
           Login
         </Link>
       </div>

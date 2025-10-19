@@ -111,7 +111,7 @@ const { data: earningsData } = useGetDriverEarningsQuery(userId, { skip: !userId
           <Button
             onClick={toggleOnlineStatus}
             variant={isOnline ? "destructive" : "default"}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 cursor-pointer"
           >
             {isOnline ? (
               <>
@@ -237,7 +237,7 @@ const { data: earningsData } = useGetDriverEarningsQuery(userId, { skip: !userId
                       <div className="flex gap-2">
                         <Button 
                           size="sm" 
-                          className="flex-1"
+                          className="flex-1 cursor-pointer"
                           onClick={() => handleUpdateRideStatus(ride._id)}
                         >
                           {getNextStatusText(ride.status)}
@@ -293,7 +293,7 @@ const { data: earningsData } = useGetDriverEarningsQuery(userId, { skip: !userId
                         <div className="flex gap-2">
                           <Button 
                             size="sm" 
-                            className="flex-1"
+                            className="flex-1 cursor-pointer"
                             onClick={() => handleAcceptRide(ride._id)}
                           >
                             Accept
@@ -301,7 +301,7 @@ const { data: earningsData } = useGetDriverEarningsQuery(userId, { skip: !userId
                           <Button 
                             size="sm" 
                             variant="outline" 
-                            className="flex-1"
+                            className="flex-1 cursor-pointer"
                             onClick={() => handleRejectRide(ride._id)}
                           >
                             Decline
@@ -363,7 +363,7 @@ const { data: earningsData } = useGetDriverEarningsQuery(userId, { skip: !userId
                   </p>
                 )}
               </div>
-              <Button variant="outline" className="w-full mt-4" asChild>
+              <Button variant="outline" className="w-full mt-4 cursor-pointer" asChild>
                 <Link to="/driver/ride-history">View All Rides</Link>
               </Button>
             </CardContent>
@@ -376,7 +376,7 @@ const { data: earningsData } = useGetDriverEarningsQuery(userId, { skip: !userId
           </CardHeader>
           <CardContent className="space-y-3">
             <Button 
-              className="w-full justify-start" 
+              className="w-full justify-start cursor-pointer" 
               onClick={toggleOnlineStatus}
               variant={isOnline ? "destructive" : "default"}
             >
@@ -392,19 +392,19 @@ const { data: earningsData } = useGetDriverEarningsQuery(userId, { skip: !userId
                 </>
               )}
             </Button>
-            <Button variant="outline" className="w-full justify-start" asChild>
+            <Button variant="outline" className="w-full justify-start cursor-pointer" asChild>
               <Link to="/driver/earnings">
                 <DollarSign className="h-4 w-4 mr-2" />
                 View Earnings
               </Link>
             </Button>
-            <Button variant="outline" className="w-full justify-start" asChild>
+            <Button variant="outline" className="w-full justify-start cursor-pointer" asChild>
               <Link to="/driver/ride-history">
                 <Clock className="h-4 w-4 mr-2" />
                 Ride History
               </Link>
             </Button>
-            <Button variant="outline" className="w-full justify-start" asChild>
+            <Button variant="outline" className="w-full justify-start cursor-pointer" asChild>
               <Link to="/driver/profile">
                 <Car className="h-4 w-4 mr-2" />
                 Vehicle & Profile

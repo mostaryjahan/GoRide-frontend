@@ -136,7 +136,7 @@ const ServicesSection: React.FC = () => {
 
               {/* Book Button */}
               <Link to="/rider/book-ride">
-                <button className="w-full mt-4 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold transition-colors duration-200">
+                <button className="w-full mt-4 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold transition-colors duration-200 cursor-pointer">
                   Book Now
                 </button>
               </Link>

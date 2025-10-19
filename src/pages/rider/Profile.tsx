@@ -82,7 +82,7 @@ export default function Profile() {
         <Button
           variant={activeTab === "profile" ? "default" : "ghost"}
           onClick={() => setActiveTab("profile")}
-          className="rounded-b-none"
+          className="rounded-b-none cursor-pointer"
         >
           <User className="h-4 w-4 mr-2" />
           Profile
@@ -90,7 +90,7 @@ export default function Profile() {
         <Button
           variant={activeTab === "password" ? "default" : "ghost"}
           onClick={() => setActiveTab("password")}
-          className="rounded-b-none"
+          className="rounded-b-none cursor-pointer"
         >
           <Shield className="h-4 w-4 mr-2" />
           Password
@@ -98,7 +98,7 @@ export default function Profile() {
         <Button
           variant={activeTab === "safety" ? "default" : "ghost"}
           onClick={() => setActiveTab("safety")}
-          className="rounded-b-none"
+          className="rounded-b-none cursor-pointer"
         >
           <Phone className="h-4 w-4 mr-2" />
           Safety
@@ -174,7 +174,7 @@ export default function Profile() {
                 </div>
               </div>
 
-              <Button type="submit" className="w-full md:w-auto">
+              <Button type="submit" className="w-full md:w-auto cursor-pointer">
                 Update Profile
               </Button>
             </form>
@@ -229,7 +229,7 @@ export default function Profile() {
                 )}
               </div>
 
-              <Button type="submit" className="w-full md:w-auto">
+              <Button type="submit" className="w-full md:w-auto cursor-pointer">
                 Change Password
               </Button>
             </form>
@@ -251,9 +251,9 @@ export default function Profile() {
                     <p className="font-medium">Primary Contact</p>
                     <p className="text-sm text-muted-foreground">+880 1734483221</p>
                   </div>
-                  <Button variant="outline" size="sm">Edit</Button>
+                  <Button variant="outline" size="sm" className="cursor-pointer">Edit</Button>
                 </div>
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full cursor-pointer">
                   Add Emergency Contact
                 </Button>
               </div>

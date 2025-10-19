@@ -48,7 +48,7 @@ export default function RiderDashboard() {
     <div className="space-y-6 dark:bg-black">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">Rider Dashboard</h1>
-        <Button asChild>
+        <Button asChild className="cursor-pointer">
           <Link to="/rider/book-ride">Book a Ride</Link>
         </Button>
       </div>
@@ -143,6 +143,7 @@ export default function RiderDashboard() {
                           variant="destructive" 
                           size="sm"
                           onClick={handleCancel}
+                          className="cursor-pointer"
                         >
                           Cancel Ride
                         </Button>
@@ -199,7 +200,7 @@ export default function RiderDashboard() {
                 <p className="text-center text-muted-foreground py-4">No rides yet</p>
               )}
             </div>
-            <Button variant="outline" className="w-full mt-4" asChild>
+            <Button variant="outline" className="w-full mt-4 cursor-pointer" asChild>
               <Link to="/rider/ride-history">View All Rides</Link>
             </Button>
           </CardContent>
@@ -210,19 +211,19 @@ export default function RiderDashboard() {
             <CardTitle>Quick Actions</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
-            <Button className="w-full justify-start" asChild>
+            <Button className="w-full justify-start cursor-pointer" asChild>
               <Link to="/rider/book-ride">
                 <Car className="h-4 w-4 mr-2" />
                 Book a New Ride
               </Link>
             </Button>
-            <Button variant="outline" className="w-full justify-start" asChild>
+            <Button variant="outline" className="w-full justify-start cursor-pointer" asChild>
               <Link to="/rider/ride-history">
                 <Clock className="h-4 w-4 mr-2" />
                 View Ride History
               </Link>
             </Button>
-            <Button variant="outline" className="w-full justify-start" asChild>
+            <Button variant="outline" className="w-full justify-start cursor-pointer" asChild>
               <Link to="/rider/profile">
                 <MapPin className="h-4 w-4 mr-2" />
                 Manage Profile

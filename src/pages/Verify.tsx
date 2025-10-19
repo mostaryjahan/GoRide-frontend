@@ -181,7 +181,7 @@ export default function Verify() {
             </Form>
           </CardContent>
           <CardFooter className="flex justify-end">
-            <Button form="otp-form" type="submit">
+            <Button form="otp-form" type="submit" className="cursor-pointer">
               Submit
             </Button>
           </CardFooter>

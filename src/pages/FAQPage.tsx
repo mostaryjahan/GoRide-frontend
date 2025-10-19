@@ -245,7 +245,7 @@ export default function FAQPage() {
                   key={category.id}
                   variant={selectedCategory === category.id ? "default" : "outline"}
                   onClick={() => setSelectedCategory(category.id)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200 border-foreground text-foreground${
+                  className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200 border-foreground cursor-pointer text-foreground${
                     selectedCategory === category.id
                       ? "bg-primary hover:bg-blue-600 text-white"
                       : "border-muted-foreground text-muted-foreground hover:bg-rose-50"

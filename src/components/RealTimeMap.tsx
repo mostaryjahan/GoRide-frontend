@@ -195,7 +195,7 @@ export default function RealTimeMap({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         <button 
           onClick={openPickupInMaps}
-          className="flex items-center justify-center gap-2 p-3 bg-green-50 hover:bg-green-100 border border-green-200 rounded-lg transition-colors"
+          className="flex items-center justify-center gap-2 p-3 bg-green-50 hover:bg-green-100 border border-green-200 rounded-lg transition-colors cursor-pointer"
         >
           <MapPin className="h-4 w-4 text-green-600" />
           <span className="text-sm font-medium text-green-700">View Pickup</span>
@@ -203,7 +203,7 @@ export default function RealTimeMap({
         
         <button 
           onClick={openDirections}
-          className="flex items-center justify-center gap-2 p-3 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg transition-colors"
+          className="flex items-center justify-center gap-2 p-3 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg transition-colors cursor-pointer"
         >
           <Navigation className="h-4 w-4 text-blue-600" />
           <span className="text-sm font-medium text-blue-700">Get Directions</span>
@@ -211,7 +211,7 @@ export default function RealTimeMap({
         
         <button 
           onClick={openDestinationInMaps}
-          className="flex items-center justify-center gap-2 p-3 bg-red-50 hover:bg-red-100 border border-red-200 rounded-lg transition-colors"
+          className="flex items-center justify-center gap-2 p-3 bg-red-50 hover:bg-red-100 border border-red-200 rounded-lg transition-colors cursor-pointer"
         >
           <MapPin className="h-4 w-4 text-red-600" />
           <span className="text-sm font-medium text-red-700">View Destination</span>

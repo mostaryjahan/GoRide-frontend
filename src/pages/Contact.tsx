@@ -84,7 +84,7 @@ export default function Contact() {
           </p>
           <Button
             onClick={() => setIsSubmitted(false)}
-            className="bg-rose-500 hover:bg-rose-600 text-white px-8 py-3"
+            className="bg-rose-500 hover:bg-rose-600 text-white px-8 py-3 cursor-pointer"
           >
             Send Another Message
           </Button>
@@ -333,7 +333,7 @@ export default function Contact() {
                       <motion.div {...fadeUp(1.5)}>
                         <Button
                           type="submit"
-                          className="w-full text-white py-3 text-lg font-semibold"
+                          className="w-full text-white py-3 text-lg font-semibold cursor-pointer"
                           disabled={isSubmitting}
                         >
                           {isSubmitting

@@ -96,7 +96,7 @@ export default function DriverProfile() {
         <Button
           variant={activeTab === "profile" ? "default" : "ghost"}
           onClick={() => setActiveTab("profile")}
-          className="rounded-b-none"
+          className="rounded-b-none cursor-pointer"
         >
           <User className="h-4 w-4 mr-2" />
           Profile
@@ -104,7 +104,7 @@ export default function DriverProfile() {
         <Button
           variant={activeTab === "vehicle" ? "default" : "ghost"}
           onClick={() => setActiveTab("vehicle")}
-          className="rounded-b-none"
+          className="rounded-b-none cursor-pointer"
         >
           <Car className="h-4 w-4 mr-2" />
           Vehicle
@@ -112,7 +112,7 @@ export default function DriverProfile() {
         <Button
           variant={activeTab === "password" ? "default" : "ghost"}
           onClick={() => setActiveTab("password")}
-          className="rounded-b-none"
+          className="rounded-b-none cursor-pointer"
         >
           <Shield className="h-4 w-4 mr-2" />
           Password
@@ -197,7 +197,7 @@ export default function DriverProfile() {
                 </div>
               </div>
 
-              <Button type="submit" className="w-full md:w-auto">
+              <Button type="submit" className="w-full md:w-auto cursor-pointer">
                 Update Profile
               </Button>
             </form>
@@ -257,7 +257,7 @@ export default function DriverProfile() {
                 </div>
               </div>
 
-              <Button type="submit" className="w-full md:w-auto">
+              <Button type="submit" className="w-full md:w-auto cursor-pointer">
                 Update Vehicle Information
               </Button>
             </form>
@@ -330,7 +330,7 @@ export default function DriverProfile() {
                 )}
               </div>
 
-              <Button type="submit" className="w-full md:w-auto">
+              <Button type="submit" className="w-full md:w-auto cursor-pointer">
                 Change Password
               </Button>
             </form>

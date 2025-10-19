@@ -151,7 +151,7 @@ const DriverPartnership: React.FC = () => {
               {/* CTA Button */}
               <div className="text-center mt-10">
                 <Link to="/login">
-                  <button className="bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600 text-white py-3 px-8 rounded-lg font-bold text-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center mx-auto">
+                  <button className="bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600 text-white py-3 px-8 rounded-lg font-bold text-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center mx-auto cursor-pointer">
                     Start Your Application
                     <ArrowRight className="w-5 h-5 ml-2" />
                   </button>

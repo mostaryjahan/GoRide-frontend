@@ -249,7 +249,7 @@ export default function DriverRideHistory() {
               </SelectContent>
             </Select>
 
-            <Button variant="outline" onClick={resetFilters}>
+            <Button variant="outline" onClick={resetFilters} className="cursor-pointer">
               Clear Filters
             </Button>
           </div>
@@ -370,6 +370,7 @@ export default function DriverRideHistory() {
                   size="sm"
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 1}
+                  className="cursor-pointer"
                 >
                   <ChevronLeft className="h-4 w-4" />
                   Previous
@@ -384,7 +385,7 @@ export default function DriverRideHistory() {
                         variant={currentPage === page ? "default" : "outline"}
                         size="sm"
                         onClick={() => handlePageChange(page)}
-                        className="w-8 h-8 p-0"
+                        className="w-8 h-8 p-0 cursor-pointer"
                       >
                         {page}
                       </Button>
@@ -402,7 +403,7 @@ export default function DriverRideHistory() {
                         }
                         size="sm"
                         onClick={() => handlePageChange(totalPages)}
-                        className="w-8 h-8 p-0"
+                        className="w-8 h-8 p-0 cursor-pointer"
                       >
                         {totalPages}
                       </Button>
@@ -415,6 +416,7 @@ export default function DriverRideHistory() {
                   size="sm"
                   onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage === totalPages}
+                  className="cursor-pointer"
                 >
                   Next
                   <ChevronRight className="h-4 w-4" />

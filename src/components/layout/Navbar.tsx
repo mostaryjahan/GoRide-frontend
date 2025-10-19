@@ -19,17 +19,21 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ModeToggle } from "./ModeToggler";
 import { Link } from "react-router";
-import { useUserInfoQuery, useLogoutMutation, authApi } from "@/redux/features/auth/auth.api";
+import {
+  useUserInfoQuery,
+  useLogoutMutation,
+  authApi,
+} from "@/redux/features/auth/auth.api";
 import { User, LogOut } from "lucide-react";
 import toast from "react-hot-toast";
 import { useAppDispatch } from "@/redux/hook";
 
-// Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
   { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
-  { href: "/faq", label: "Faq" },
   { href: "/features", label: "Features" },
+
+  { href: "/faq", label: "Faq" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export default function Navbar() {
@@ -38,7 +42,7 @@ export default function Navbar() {
   const user = userInfo?.data;
   const isAuthenticated = !!user && !error && !isLoading;
 
-    const [logout] = useLogoutMutation();
+  const [logout] = useLogoutMutation();
   const dispatch = useAppDispatch();
 
   const handleLogout = async () => {
@@ -57,7 +61,7 @@ export default function Navbar() {
           <Popover>
             <PopoverTrigger asChild>
               <Button
-                className="group size-8 md:hidden"
+                className="group size-8 md:hidden cursor-pointer"
                 variant="ghost"
                 size="icon"
               >
@@ -103,41 +107,53 @@ export default function Navbar() {
             </PopoverContent>
           </Popover>
           {/* Main nav */}
-          <div className="flex items-center gap-6">
-            <a href="/" className="text-primary hover:text-primary/90">
-              <Logo />
+          <div className="md:flex items-center gap-6 hidden ">
+            <a
+              href="/"
+              className="text-blue-600 dark:text-white hover:text-primary/90 text-lg font-sans font-bold flex items-center justify-center gap-2"
+            >
+              <Logo /> GoRide
             </a>
-            {/* Navigation menu */}
-            <NavigationMenu className="max-md:hidden">
-              <NavigationMenuList className="gap-2">
-                {navigationLinks.map((link, index) => (
-                  <NavigationMenuItem key={index}>
-                    <NavigationMenuLink
-                      asChild
-                      className="text-muted-foreground hover:text-primary py-1.5 font-medium"
-                    >
-                      <Link to={link.href}>{link.label}</Link>
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
-                ))}
-              </NavigationMenuList>
-            </NavigationMenu>
           </div>
         </div>
+
+        {/* middle nav */}
+
+        <div className="flex items-center gap-2">
+          {/* Navigation menu */}
+          <NavigationMenu className="max-md:hidden">
+            <NavigationMenuList className="gap-2">
+              {navigationLinks.map((link, index) => (
+                <NavigationMenuItem key={index}>
+                  <NavigationMenuLink
+                    asChild
+                    className="text-black dark:text-gray-100 hover:text-primary py-1.5 font-medium"
+                  >
+                    <Link to={link.href}>{link.label}</Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              ))}
+            </NavigationMenuList>
+          </NavigationMenu>
+        </div>
+
         {/* Right side */}
         <div className="flex items-center gap-2">
           <ModeToggle />
           {isAuthenticated ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="flex items-center space-x-2">
+                <Button variant="ghost" className="flex items-center space-x-2 cursor-pointer">
                   <User className="h-4 w-4" />
                   <span>{user?.name}</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem asChild>
-                  <Link to={`/${user?.role.toLowerCase()}/dashboard`} className="flex items-center">
+                  <Link
+                    to={`/${user?.role.toLowerCase()}/dashboard`}
+                    className="flex items-center"
+                  >
                     Dashboard
                   </Link>
                 </DropdownMenuItem>
@@ -148,7 +164,7 @@ export default function Navbar() {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Button asChild className="text-sm">
+            <Button asChild className="text-sm cursor-pointer">
               <Link to="/login">Login</Link>
             </Button>
           )}

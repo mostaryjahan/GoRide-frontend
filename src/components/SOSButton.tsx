@@ -95,7 +95,7 @@ export default function SOSButton({ isVisible = true }: SOSButtonProps) {
       <div className="fixed bottom-6 right-6 z-50">
         <Button
           onClick={() => setShowOptions(true)}
-          className="w-16 h-16 rounded-full bg-red-600 hover:bg-red-700 shadow-lg animate-pulse"
+          className="w-16 h-16 rounded-full bg-red-600 hover:bg-red-700 cursor-pointer shadow-lg animate-pulse"
           size="lg"
         >
           <Phone className="h-8 w-8 text-white" />
@@ -116,6 +116,7 @@ export default function SOSButton({ isVisible = true }: SOSButtonProps) {
                   variant="ghost"
                   size="sm"
                   onClick={() => setShowOptions(false)}
+                  className="cursor-pointer"
                 >
                   <X className="h-4 w-4" />
                 </Button>
@@ -124,7 +125,7 @@ export default function SOSButton({ isVisible = true }: SOSButtonProps) {
             <CardContent className="space-y-4">
               <Button
                 onClick={handleEmergencyCall}
-                className="w-full bg-red-600 hover:bg-red-700 text-white"
+                className="w-full bg-red-600 hover:bg-red-700 text-white cursor-pointer"
                 size="lg"
               >
                 <Phone className="h-5 w-5 mr-2" />
@@ -136,7 +137,7 @@ export default function SOSButton({ isVisible = true }: SOSButtonProps) {
                   <Button
                     onClick={() => handleNotifyContact()}
                     variant="outline"
-                    className="w-full border-red-200 text-red-600 hover:bg-red-50"
+                    className="w-full border-red-200 text-red-600 hover:bg-red-50 cursor-pointer"
                     size="lg"
                   >
                     <MessageSquare className="h-5 w-5 mr-2" />
@@ -147,7 +148,7 @@ export default function SOSButton({ isVisible = true }: SOSButtonProps) {
                     <Button
                       onClick={notifyAllContacts}
                       variant="outline"
-                      className="w-full border-red-200 text-red-600 hover:bg-red-50"
+                      className="w-full border-red-200 text-red-600 hover:bg-red-50 cursor-pointer"
                       size="sm"
                     >
                       <User className="h-4 w-4 mr-2" />
@@ -158,7 +159,7 @@ export default function SOSButton({ isVisible = true }: SOSButtonProps) {
               ) : (
                 <Button
                   variant="outline"
-                  className="w-full border-gray-200 text-gray-500"
+                  className="w-full border-gray-200 text-gray-500 cursor-pointer"
                   size="lg"
                   disabled
                 >
@@ -170,7 +171,7 @@ export default function SOSButton({ isVisible = true }: SOSButtonProps) {
               <Button
                 onClick={handleShareLocation}
                 variant="outline"
-                className="w-full border-red-200 text-red-600 hover:bg-red-50"
+                className="w-full border-red-200 text-red-600 hover:bg-red-50 cursor-pointer"
                 size="lg"
                 disabled={isGettingLocation}
               >
