@@ -1,5 +1,5 @@
-// components/sections/cities-covered.tsx
-import React, { useState } from 'react';
+
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { MapPin, Search, ArrowRight, Car, Users } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';

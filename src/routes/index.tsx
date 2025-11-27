@@ -5,7 +5,6 @@ import App from "@/App";
 // Lazy load ALL components including layout
 const About = lazy(() => import("@/pages/AboutPage"));
 const Contact = lazy(() => import("@/pages/Contact"));
-const FAQ = lazy(() => import("@/pages/FAQPage"));
 const Features = lazy(() => import("@/pages/FeaturesPage"));
 const Home = lazy(() => import("@/pages/HomePage"));
 const Login = lazy(() => import("@/pages/Login"));
@@ -27,6 +26,7 @@ import { role } from "@/constants/role";
 import { riderSidebarItems } from "./riderSidebarItems";
 import { driverSidebarItems } from "./driverSidebarItems";
 import LazyWrapper from "@/components/LazyLoader";
+import ServicesPage from "@/pages/ServicePage";
 
 
 export const router = createBrowserRouter([
@@ -47,8 +47,8 @@ export const router = createBrowserRouter([
         path: "contact",
       },
       {
-        element: <LazyWrapper><FAQ /></LazyWrapper>,
-        path: "faq",
+        element: <LazyWrapper><ServicesPage /></LazyWrapper>,
+        path: "services",
       },
       {
         element: <LazyWrapper><Features /></LazyWrapper>,

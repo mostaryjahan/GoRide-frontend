@@ -1,5 +1,4 @@
-// components/sections/safety-features.tsx
-import React from 'react';
+
 import { Shield, UserCheck, Map, Phone } from 'lucide-react';
 
 const SafetyFeatures = () => {

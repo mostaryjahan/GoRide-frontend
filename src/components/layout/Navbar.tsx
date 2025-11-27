@@ -31,8 +31,7 @@ import { useAppDispatch } from "@/redux/hook";
 const navigationLinks = [
   { href: "/about", label: "About" },
   { href: "/features", label: "Features" },
-
-  { href: "/faq", label: "Faq" },
+  { href: "/services", label: "Services" },
   { href: "/contact", label: "Contact" },
 ];
 

@@ -1,5 +1,4 @@
-// components/sections/faq-section.tsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ChevronDown, ChevronUp, HelpCircle, Phone, Mail, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';

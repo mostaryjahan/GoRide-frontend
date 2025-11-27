@@ -1,5 +1,3 @@
-// components/sections/download-app.tsx
-import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Apple, Smartphone, Download } from 'lucide-react';
 
