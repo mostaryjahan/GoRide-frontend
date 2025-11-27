@@ -208,14 +208,14 @@ export default function RideReqForm() {
           if (paymentResponse.data?.GatewayPageURL) {
             // Successful payment initialization - redirect to gateway
             window.location.href = paymentResponse.data?.GatewayPageURL;
-            return; // Don't show any error
+            return; 
           } else {
             toast.error("Payment gateway error");
           }
         } catch (paymentError: any) {
           console.error('Payment error:', paymentError);
           toast.error("Payment initialization failed");
-          return; // Don't throw error, ride is already created
+          return; 
         }
       } else {
         // Cash payment - show success message
@@ -234,7 +234,6 @@ export default function RideReqForm() {
         }, 3000);
       }
     } catch (error: any) {
-      // This catch block only handles ride creation errors
       console.error('Ride creation error:', error);
       const errorMessage = error?.data?.message || "Failed to request ride";
       toast.error(errorMessage);

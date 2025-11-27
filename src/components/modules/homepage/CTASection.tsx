@@ -1,83 +1,79 @@
+// components/sections/download-app.tsx
+import React from 'react';
+import { Button } from '@/components/ui/button';
+import { Apple, Smartphone, Download } from 'lucide-react';
 
-
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Users, Car, ArrowRight, Download } from "lucide-react"
-import { Link } from "react-router-dom"
-import { motion } from "framer-motion"
-
-export default function CTASection() {
+const DownloadApp = () => {
   return (
-    <section className="py-20 px-4 bg-slate-900">
-      <div className="max-w-6xl mx-auto">
-        {/* Heading */}
-        <motion.div
-          initial={{ opacity: 0, y: 60 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-3xl md:text-4xl font-black text-white mb-6">
-            Ready to Get Started?
-          </h2>
-          <p className="text-lg text-slate-300 mb-8 font-[family-name:var(--font-open-sans)] max-w-2xl mx-auto">
-            Join millions of satisfied users who trust RideShare for their daily transportation needs.
-          </p>
-        </motion.div>
+    <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-700 text-white">
+      <div className="container mx-auto px-4">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
+          {/* Content */}
+          <div className="flex-1 max-w-2xl">
+            <div className="flex items-center gap-2 mb-6">
+              <Smartphone className="h-8 w-8" />
+              <span className="text-xl font-semibold">GoRide Mobile App</span>
+            </div>
+            
+            <h2 className="text-4xl lg:text-5xl font-bold mb-6">
+              Download the GoRide App
+            </h2>
+            
+            <p className="text-xl mb-8 opacity-90">
+              Get the best experience with our mobile app. Book rides faster, track your driver in real-time, and manage your payments seamlessly.
+            </p>
 
-        {/* Cards */}
-        <div className="grid md:grid-cols-2 gap-8 mb-12">
-          <motion.div
-            initial={{ opacity: 0, y: 80 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            <Card className="bg-blue-900 border-0 text-white hover:bg-blue-800 transition-colors">
-              <CardContent className="p-8 text-center">
-                <Users className="w-16 h-16 mx-auto mb-6 text-blue-100" />
-                <h3 className="text-2xl font-bold mb-4 font-[family-name:var(--font-montserrat)]">For Riders</h3>
-                <p className="text-blue-100 mb-6 font-[family-name:var(--font-open-sans)]">
-                  Download the app and book your first ride in minutes. Safe, reliable, and affordable transportation at
-                  your fingertips.
-                </p>
-                <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 w-full">
-                  <Download className="w-5 h-5 mr-2" />
-                  Download App
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
-              </CardContent>
-            </Card>
-          </motion.div>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-6 text-lg font-semibold">
+                <Apple className="h-6 w-6 mr-3" />
+                Download for iOS
+              </Button>
+              <Button className="bg-gray-900 text-white hover:bg-gray-800 px-8 py-6 text-lg font-semibold">
+                <Download className="h-6 w-6 mr-3" />
+                Download for Android
+              </Button>
+            </div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 80 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            viewport={{ once: true }}
-          >
-            <Card className="bg-green-800 border-0 text-white hover:bg-green-700 transition-colors">
-              <CardContent className="p-8 text-center">
-                <Car className="w-16 h-16 mx-auto mb-6 text-green-100" />
-                <h3 className="text-2xl font-bold mb-4 font-[family-name:var(--font-montserrat)]">For Drivers</h3>
-                <p className="text-green-100 mb-6 font-[family-name:var(--font-open-sans)]">
-                  Turn your car into an earning opportunity. Flexible schedule, competitive rates, and full support from
-                  our team.
-                </p>
-                <Link
-                  to="/login"
-                  className="btn bg-white text-green-600 rounded-md py-2 flex justify-center items-center hover:bg-green-50 w-full"
-                >
-                  <Users className="w-5 h-5 mr-2" />
-                  Start Driving
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Link>
-              </CardContent>
-            </Card>
-          </motion.div>
+          {/* App Mockup */}
+          <div className="flex-1 flex justify-center">
+            <div className="relative">
+              <div className="w-80 h-[500px] bg-gray-800 rounded-[40px] p-4 shadow-2xl relative">
+                <div className="w-full h-full bg-white rounded-[32px] overflow-hidden relative">
+                  {/* App Screen Content */}
+                  <div className="h-full bg-gradient-to-b from-blue-500 to-purple-600 p-6 text-white">
+                    <div className="flex justify-between items-center mb-8">
+                      <div className="text-xl font-bold">GoRide</div>
+                      <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                        <span className="text-sm font-bold">JS</span>
+                      </div>
+                    </div>
+                    
+                    <div className="text-center mt-12">
+                      <div className="text-2xl font-bold mb-4">Welcome to GoRide</div>
+                      <div className="text-lg opacity-90 mb-8">Your ride is just a tap away</div>
+                      
+                      <div className="bg-white/20 rounded-2xl p-6 mb-6">
+                        <div className="text-3xl font-bold mb-2">$12.50</div>
+                        <div className="text-sm opacity-90">Estimated fare</div>
+                      </div>
+                      
+                      <button className="bg-white text-blue-600 w-full py-4 rounded-xl font-bold text-lg">
+                        Book Ride Now
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Phone notch */}
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-40 h-6 bg-gray-800 rounded-b-2xl"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
+
+export default DownloadApp;

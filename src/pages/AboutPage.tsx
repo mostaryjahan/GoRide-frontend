@@ -67,7 +67,7 @@ export default function About() {
           <motion.div {...motionUp} transition={{ ...motionUp.transition, delay: 0.1 }}>
             <Badge variant="secondary" className="text-sm font-medium">About GoRide</Badge>
           </motion.div>
-          <motion.h1 {...motionUp} transition={{ ...motionUp.transition, delay: 0.3 }} className="text-4xl md:text-5xl font-black text-foreground">
+          <motion.h1 {...motionUp} transition={{ ...motionUp.transition, delay: 0.3 }} className="text-4xl md:text-5xl font-bold text-foreground">
             Revolutionizing Urban Transportation
           </motion.h1>
           <motion.p {...motionUp} transition={{ ...motionUp.transition, delay: 0.5 }} className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
@@ -80,7 +80,7 @@ export default function About() {
       <section className="py-20 px-4 bg-muted/30">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <motion.div {...motionUp} transition={{ ...motionUp.transition, delay: 0.2 }}>
-            <h2 className="text-3xl md:text-4xl font-black text-foreground mb-6">Our Story</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Our Story</h2>
             <div className="space-y-4 text-muted-foreground">
               <p className="text-lg leading-relaxed">Founded in 2020, RideShare emerged from a simple observation: urban transportation needed to be more accessible, sustainable, and community-focused. Our founders, having worked at major tech companies, saw an opportunity to create something better.</p>
               <p className="text-lg leading-relaxed">Starting in just three cities, we've grown to serve millions of riders and thousands of drivers across the region. Our platform combines cutting-edge technology with human-centered design to create experiences that work for everyone.</p>
@@ -99,7 +99,7 @@ export default function About() {
           <Card className="p-8 md:p-12 bg-card border-0 shadow-lg">
             <CardContent className="p-0">
               <MapPin className="w-12 h-12 text-primary mx-auto mb-6" />
-              <h2 className="text-3xl md:text-4xl font-black text-card-foreground mb-6 font-[family-name:var(--font-montserrat)]">Our Mission</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-card-foreground mb-6 font-[family-name:var(--font-montserrat)]">Our Mission</h2>
               <p className="text-xl text-muted-foreground leading-relaxed font-[family-name:var(--font-open-sans)]">
                 To make transportation accessible, affordable, and sustainable for everyone while creating economic opportunities for drivers and building stronger, more connected communities.
               </p>
@@ -111,7 +111,7 @@ export default function About() {
       {/* Values */}
       <section className="py-20 px-4 bg-muted/30">
         <div className="max-w-6xl mx-auto text-center mb-16">
-          <motion.h2 {...motionUp} transition={{ ...motionUp.transition, delay: 0.2 }} className="text-3xl md:text-4xl font-black text-foreground mb-4 font-[family-name:var(--font-montserrat)]">Our Values</motion.h2>
+          <motion.h2 {...motionUp} transition={{ ...motionUp.transition, delay: 0.2 }} className="text-3xl md:text-4xl font-bold text-foreground mb-4 font-[family-name:var(--font-montserrat)]">Our Values</motion.h2>
           <motion.p {...motionUp} transition={{ ...motionUp.transition, delay: 0.4 }} className="text-lg text-muted-foreground font-[family-name:var(--font-open-sans)]">The principles that guide everything we do</motion.p>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -132,7 +132,7 @@ export default function About() {
       {/* Team Profiles */}
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto text-center mb-16">
-          <motion.h2 {...motionUp} transition={{ ...motionUp.transition, delay: 0.2 }} className="text-3xl md:text-4xl font-black text-foreground mb-4 font-[family-name:var(--font-montserrat)]">Meet Our Team</motion.h2>
+          <motion.h2 {...motionUp} transition={{ ...motionUp.transition, delay: 0.2 }} className="text-3xl md:text-4xl font-bold text-foreground mb-4 font-[family-name:var(--font-montserrat)]">Meet Our Team</motion.h2>
           <motion.p {...motionUp} transition={{ ...motionUp.transition, delay: 0.4 }} className="text-lg text-muted-foreground font-[family-name:var(--font-open-sans)]">The passionate people driving our mission forward</motion.p>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
