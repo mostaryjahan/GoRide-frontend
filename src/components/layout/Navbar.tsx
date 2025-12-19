@@ -52,7 +52,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className="border-b sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-2">
+    <header className="border-b sticky top-0 z-50 bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/10 px-2">
       <div className="container mx-auto flex h-16 items-center justify-between gap-4">
         {/* Left side */}
         <div className="flex items-center gap-2">
@@ -126,7 +126,7 @@ export default function Navbar() {
                 <NavigationMenuItem key={index}>
                   <NavigationMenuLink
                     asChild
-                    className="text-black dark:text-gray-100 hover:text-primary py-1.5 font-medium"
+                    className="text-black dark:text-gray-100 text-base hover:text-primary py-1.5 font-medium"
                   >
                     <Link to={link.href}>{link.label}</Link>
                   </NavigationMenuLink>
@@ -163,7 +163,7 @@ export default function Navbar() {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Button asChild className="text-sm cursor-pointer">
+            <Button asChild className=" cursor-pointer">
               <Link to="/login">Login</Link>
             </Button>
           )}

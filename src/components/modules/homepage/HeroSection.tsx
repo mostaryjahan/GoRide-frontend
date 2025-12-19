@@ -9,7 +9,7 @@ const HeroSection: React.FC = () => {
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-950 relative overflow-hidden ">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-950 relative overflow-hidden font-primary">
      
 
       <div className="container mx-auto px-4 pt-20 relative z-10 mb-10">
@@ -18,8 +18,8 @@ const HeroSection: React.FC = () => {
           <div className="w-1/2">
           
             
-            <h1 className="text-4xl lg:text-7xl font-semibold text-gray-900 dark:text-white mb-6 leading-tight">
-              Ride with <span className="text-blue-600">confidence</span>, arrive with style
+            <h1 className="text-4xl lg:text-6xl font-medium text-gray-900 dark:text-white mb-6 leading-tight">
+              Ride with <span className="text-primary">confidence</span>, arrive with style
             </h1>
             
             <p className="text-xl text-gray-600 dark:text-gray-300 mb-10 max-w-lg">
@@ -57,7 +57,7 @@ const HeroSection: React.FC = () => {
               <div className="w-80 h-[580px] bg-gray-900 rounded-[40px] p-4 shadow-2xl relative">
                 <div className="w-full h-full bg-white rounded-[32px] overflow-hidden relative">
                   {/* App Screen Content */}
-                  <div className="h-full bg-gradient-to-b from-blue-500 to-indigo-600 p-5 text-white">
+                  <div className="h-full bg-gradient-to-b from-primary to-primary/30 p-5 text-white">
                     <div className="flex justify-between items-center mb-8">
                       <div className="text-xl font-bold">RideShare</div>
                       <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
