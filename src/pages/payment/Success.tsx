@@ -1,3 +1,4 @@
+import { MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Success() {
@@ -6,7 +7,7 @@ export default function Success() {
       <div className="relative w-full max-w-md">
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300 hover:shadow-2xl">
           {/* Decorative header strip */}
-          <div className="h-2 bg-gradient-to-r from-green-400 to-blue-500"></div>
+          <div className="h-2 bg-gradient-to-r from-primary to-blue-500"></div>
 
           <div className="px-8 py-8">
             {/* Success icon with animation */}
@@ -33,13 +34,13 @@ export default function Success() {
 
             {/* Success message */}
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-gray-800 mb-2">
+              <h2 className="text-3xl font-bold font-primary text-gray-800 mb-2">
                 Payment Successful!
               </h2>
-              <p className="text-lg text-gray-600 mb-4">
+              <p className="text-lg font-secondary text-gray-600 mb-4">
                 Thank you for your purchase. Your order has been confirmed.
               </p>
-              <p className="text-gray-500">
+              <p className="text-gray-500 font-secondary">
                 We've sent the invoice to your email address.
               </p>
             </div>
@@ -47,8 +48,15 @@ export default function Success() {
             {/* Action buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
+                to="/rider/live-tracking"
+                className="flex items-center justify-center flex-1 py-3 px-4 bg-white border-2 border-gray-300 hover:bg-gray-100 text-gray-700 rounded-md transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
+              >
+                <MapPin/>
+                See live tracking
+              </Link>
+               <Link
                 to="/"
-                className="flex items-center justify-center flex-1 py-3 px-4 bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 rounded-md transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
+                className="flex items-center justify-center flex-1 py-3 px-4 bg-white border-2 border-gray-300 hover:bg-gray-100 text-gray-700 rounded-md transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
               >
                 <svg
                   className="w-5 h-5 mr-2"
@@ -64,7 +72,7 @@ export default function Success() {
                     d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
                   ></path>
                 </svg>
-                Go Home
+                Go to Home
               </Link>
             </div>
 

@@ -8,25 +8,21 @@ export default function StatsSection() {
       icon: Users,
       number: "2M+",
       label: "Happy Riders",
-      color: "text-blue-600",
     },
     {
       icon: Car,
       number: "50K+",
       label: "Active Drivers",
-      color: "text-green-600",
     },
     {
       icon: MapPin,
       number: "100+",
       label: "Cities Served",
-      color: "text-purple-600",
     },
     {
       icon: Star,
       number: "4.9",
       label: "Average Rating",
-      color: "text-yellow-600",
     },
   ];
 
@@ -35,22 +31,22 @@ export default function StatsSection() {
       initial={{ y: 100, opacity: 0 }}
       whileInView={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      viewport={{ once: true }} 
-      className="py-16 px-4 bg-white dark:bg-gray-950"
+      viewport={{ once: true }}
+      className="py-16 px-4 bg-gray-50 dark:bg-gray-950"
     >
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto font-secondary">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
           {stats.map((stat, index) => (
             <Card
               key={index}
-              className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow"
+              className="text-center border shadow-lg hover:shadow-xl transition-shadow"
             >
-              <CardContent className="p-6">
-                <stat.icon className={`w-12 h-12 mx-auto mb-4 ${stat.color}`} />
-                <div className="text-3xl font-black text-foreground mb-2 font-[family-name:var(--font-montserrat)]">
+              <CardContent className="p-4 ">
+                <stat.icon className={`w-12 h-12 mx-auto mb-4 text-primary dark:text-blue-700`} />
+                <div className="text-3xl font-black text-foreground mb-2 ">
                   {stat.number}
                 </div>
-                <div className="text-muted-foreground font-[family-name:var(--font-open-sans)]">
+                <div className="text-muted-foreground ">
                   {stat.label}
                 </div>
               </CardContent>

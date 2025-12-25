@@ -84,7 +84,7 @@ const DriverPartnership: React.FC = () => {
             whileInView={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-black text-foreground mb-4 font-[family-name:var(--font-montserrat)]"
+            className="text-3xl md:text-4xl  text-foreground mb-4 font-primary font-medium"
           >
             Become a GoRide Partner
           </motion.h2>
@@ -93,7 +93,7 @@ const DriverPartnership: React.FC = () => {
             whileInView={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
             viewport={{ once: true }}
-            className="text-lg text-muted-foreground font-[family-name:var(--font-open-sans)] max-w-2xl mx-auto"
+            className="text-lg text-muted-foreground font-secondary max-w-2xl mx-auto"
           >
             Join thousands of drivers earning great income with flexible
             schedules and comprehensive support
@@ -109,7 +109,7 @@ const DriverPartnership: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             {/* Left Side - Registration Process */}
             <div>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-8 flex items-center">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-8 flex items-center font-primary">
                 <Users className="w-8 h-8 mr-3 text-blue-600 dark:text-blue-400" />
                 Registration Process
               </h3>
@@ -128,7 +128,7 @@ const DriverPartnership: React.FC = () => {
                     {/* Content */}
                     <div className="flex-1">
                       <div className="flex items-center justify-between mb-2">
-                        <h4 className="text-xl font-semibold text-gray-900 dark:text-white">
+                        <h4 className="text-xl font-semibold text-gray-900 dark:text-white font-secondary">
                           {step.title}
                         </h4>
                         <div className="text-blue-600 dark:text-blue-400">
@@ -136,7 +136,7 @@ const DriverPartnership: React.FC = () => {
                         </div>
                       </div>
 
-                      <p className="text-gray-600 dark:text-gray-300 mb-3">
+                      <p className="text-gray-600 dark:text-gray-300 mb-3 font-secondary">
                         {step.description}
                       </p>
 
@@ -151,7 +151,7 @@ const DriverPartnership: React.FC = () => {
               {/* CTA Button */}
               <div className="text-center mt-10">
                 <Link to="/login">
-                  <button className="bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600 text-white py-3 px-8 rounded-lg font-bold text-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center mx-auto cursor-pointer">
+                  <button className="bg-primary hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white py-3 px-8 rounded-lg text-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center mx-auto cursor-pointer">
                     Start Your Application
                     <ArrowRight className="w-5 h-5 ml-2" />
                   </button>
@@ -167,19 +167,18 @@ const DriverPartnership: React.FC = () => {
             <div className="space-y-8">
               {/* Earning Potential */}
               <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700">
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
-                  <DollarSign className="w-8 h-8 mr-3 text-green-600 dark:text-green-400" />
+                <h3 className="text-2xl font-medium text-gray-900 dark:text-white mb-4 flex items-center font-primary">
                   Earning Potential
                 </h3>
 
-                <div className="space-y-3 mb-6">
+                <div className="space-y-3 mb-6 font-secondary">
                   {earningStats.map((stat) => (
                     <div
                       key={stat.id}
                       className="flex items-center space-x-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
                     >
-                      <div className="flex-shrink-0 w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
-                        <div className="text-green-600 dark:text-green-400">
+                      <div className="flex-shrink-0 w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+                        <div className="text-blue-800 dark:text-blue-100">
                           {stat.icon}
                         </div>
                       </div>
@@ -201,7 +200,7 @@ const DriverPartnership: React.FC = () => {
                 </div>
 
                 {/* Additional Benefits */}
-                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
+                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 ">
                   <h5 className="font-semibold text-blue-900 dark:text-blue-300 mb-2">
                     Additional Benefits:
                   </h5>
@@ -216,11 +215,11 @@ const DriverPartnership: React.FC = () => {
 
               {/* Requirements */}
               <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700">
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 font-primary">
                   Requirements
                 </h3>
 
-                <div className="space-y-1">
+                <div className="space-y-1 font-secondary">
                   {requirements.map((requirement, index) => (
                     <div key={index} className="flex items-center space-x-3">
                       <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
@@ -234,36 +233,6 @@ const DriverPartnership: React.FC = () => {
             </div>
           </div>
         </motion.div>
-
-        {/* Bottom Stats */}
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
-            <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
-              10,000+
-            </div>
-            <div className="text-gray-600 dark:text-gray-300">
-              Active Driver Partners
-            </div>
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
-            <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">
-              $50Cr+
-            </div>
-            <div className="text-gray-600 dark:text-gray-300">
-              Total Earnings Paid
-            </div>
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
-            <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">
-              4.8/5
-            </div>
-            <div className="text-gray-600 dark:text-gray-300">
-              Partner Satisfaction
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );

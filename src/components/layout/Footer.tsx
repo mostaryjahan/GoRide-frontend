@@ -1,4 +1,5 @@
 import Logo from "@/assets/icons/Logo";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -8,10 +9,12 @@ const Footer = () => {
           <div>
             <div className="flex gap-2 items-center">
               <Logo />
-              <h2 className="text-xl font-semibold text-white">GoRide</h2>
+              <h2 className="text-xl font-semibold text-white font-primary">
+                GoRide
+              </h2>
             </div>
 
-            <p className="mt-4 max-w-xs text-gray-300">
+            <p className="mt-4 max-w-xs text-gray-300  font-secondary">
               A convenient and eco-friendly travel solution where passengers
               share rides to save costs and reach their destinations safely."
             </p>
@@ -135,56 +138,31 @@ const Footer = () => {
             </ul>
           </div>
 
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-4 font-secondary">
             <div>
               <p className="font-medium text-gray-200 dark:text-white">
                 Services
               </p>
 
               <ul className="mt-6 space-y-4 text-sm">
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-300 transition hover:opacity-75 dark:text-gray-200"
-                  >
-                    Route Planning
-                  </a>
+                <li className="text-gray-300 transition hover:opacity-75 dark:text-gray-200">
+                  Route Planning
                 </li>
 
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-300 transition hover:opacity-75 dark:text-gray-200"
-                  >
-                    Driver Registration
-                  </a>
+                <li className="text-gray-300 transition hover:opacity-75 dark:text-gray-200">
+                  Driver Registration
                 </li>
 
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-300 transition hover:opacity-75 dark:text-gray-200"
-                  >
-                    Book Ride
-                  </a>
+                <li className="text-gray-300 transition hover:opacity-75 dark:text-gray-200">
+                  Book Ride
                 </li>
 
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-300 transition hover:opacity-75 dark:text-gray-200"
-                  >
-                    Customer Support
-                  </a>
+                <li className="text-gray-300 transition hover:opacity-75 dark:text-gray-200">
+                  Customer Support
                 </li>
 
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-300 transition hover:opacity-75 dark:text-gray-200"
-                  >
-                    Fare Estimation
-                  </a>
+                <li className="text-gray-300 transition hover:opacity-75 dark:text-gray-200">
+                  Fare Estimation
                 </li>
               </ul>
             </div>
@@ -196,38 +174,39 @@ const Footer = () => {
 
               <ul className="mt-6 space-y-4 text-sm">
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    to="/about"
                     className="text-gray-300 transition hover:opacity-75 dark:text-gray-200"
                   >
-                    About
-                  </a>
+                    Our Story
+                  </Link>
+                </li>
+                <li></li>
+
+                <li>
+                  <Link
+                    to="/contact"
+                    className="text-gray-300 transition hover:opacity-75 dark:text-gray-200"
+                  >
+                    Contact Us
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/business"
+                    className="text-gray-300 transition hover:opacity-75 dark:text-gray-200"
+                  >
+                    Business
+                  </Link>
                 </li>
 
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    to="/features"
                     className="text-gray-300 transition hover:opacity-75 dark:text-gray-200"
                   >
-                    Careers
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-300 transition hover:opacity-75 dark:text-gray-200"
-                  >
-                    Meet The Team
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href="#"
-                    className="text-gray-300 transition hover:opacity-75 dark:text-gray-200"
-                  >
-                    Blog
-                  </a>
+                    Features
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -239,30 +218,30 @@ const Footer = () => {
 
               <ul className="mt-6 space-y-4 text-sm">
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    to="/contact"
                     className="text-gray-300 transition hover:opacity-75 dark:text-gray-200"
                   >
                     Contact
-                  </a>
+                  </Link>
                 </li>
 
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    to="/about"
                     className="text-gray-300 transition hover:opacity-75 dark:text-gray-200"
                   >
-                    FAQs
-                  </a>
+                    About Us
+                  </Link>
                 </li>
 
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    to="/contact"
                     className="text-gray-300 transition hover:opacity-75 dark:text-gray-200"
                   >
                     Live Chat
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>

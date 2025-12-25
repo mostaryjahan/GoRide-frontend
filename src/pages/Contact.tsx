@@ -1,4 +1,4 @@
-"use client";
+
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -69,7 +69,7 @@ export default function Contact() {
 
   if (isSubmitted) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center font-secondary">
         <motion.div
           {...fadeUp(0.2)}
           className="max-w-2xl mx-auto text-center bg-white rounded-2xl shadow-xl p-12"
@@ -100,13 +100,13 @@ export default function Contact() {
         <div className="container mx-auto px-4 text-center max-w-4xl">
           <motion.h1
             {...fadeUp(0.1)}
-            className="text-foreground text-3xl md:text-5xl font-bold mb-6"
+            className="text-foreground text-3xl md:text-4xl font-primary font-medium mb-4"
           >
             Get in Touch
           </motion.h1>
           <motion.p
             {...fadeUp(0.3)}
-            className="text-lg text-muted-foreground max-w-2xl mx-auto"
+            className="text-lg text-muted-foreground max-w-2xl mx-auto font-secondary"
           >
             Have questions about our ride-sharing platform? We're here to help.
             Reach out to us and we'll respond as soon as possible.
@@ -120,9 +120,9 @@ export default function Contact() {
           <div className="grid lg:grid-cols-3 gap-12 ">
             {/* Contact Information */}
             <motion.div {...fadeUp(0.2)} className="lg:col-span-1 ">
-              <Card className="border-0 shadow-lg ">
+              <Card className="border-0 shadow-lg font-secondary">
                 <CardHeader>
-                  <CardTitle className="text-2xl font-semibold text-foreground mt-4">
+                  <CardTitle className="text-2xl font-semibold font-secondary text-foreground mt-4">
                     Contact Information
                   </CardTitle>
                   <CardDescription>
@@ -131,7 +131,7 @@ export default function Contact() {
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="flex items-center space-x-4">
-                    <MapPin className="w-6 h-6 text-primary mt-1" />
+                    <MapPin className="w-6 h-6 text-primary mt-1 dark:text-blue-600" />
                     <div>
                       <h4 className="font-semibold text-foreground text-lg">Address</h4>
                       <p className="text-muted-foreground">
@@ -144,7 +144,7 @@ export default function Contact() {
                   </div>
 
                   <div className="flex items-center space-x-4">
-                    <Phone className="w-6 h-6 text-primary mt-1" />
+                    <Phone className="w-6 h-6 text-primary dark:text-blue-600 mt-1" />
                     <div>
                       <h4 className="font-semibold text-foreground text-lg">Phone</h4>
                       <p className="text-muted-foreground">+1 (555) 123-4567</p>
@@ -152,7 +152,7 @@ export default function Contact() {
                   </div>
 
                   <div className="flex items-center space-x-4">
-                    <Mail className="w-6 h-6 text-primary mt-1" />
+                    <Mail className="w-6 h-6 text-primary mt-1 dark:text-blue-600" />
                     <div>
                       <h4 className="font-semibold text-foreground text-lg">Email</h4>
                       <p className="text-muted-foreground">
@@ -162,7 +162,7 @@ export default function Contact() {
                   </div>
 
                   <div className="flex items-start space-x-4">
-                    <Clock className="w-6 h-6 text-primary mt-1" />
+                    <Clock className="w-6 h-6 text-primary mt-1 dark:text-blue-600" />
                     <div>
                       <h4 className="font-semibold text-foreground text-lg">Hours</h4>
                       <p className="text-muted-foreground">
@@ -173,9 +173,9 @@ export default function Contact() {
                     </div>
                   </div>
                   <div className="flex items-center space-x-4 mb-6">
-                    <Facebook className="w-6 h-6 text-primary mt-1" />
-                    <Linkedin className="w-6 h-6 text-primary mt-1" />
-                    <Twitter className="w-6 h-6 text-primary mt-1 font-bold" />
+                    <Facebook className="w-6 h-6 text-primary dark:text-blue-600 mt-1" />
+                    <Linkedin className="w-6 h-6 text-primary dark:text-blue-600 mt-1" />
+                    <Twitter className="w-6 h-6 text-primary dark:text-blue-600 mt-1 font-bold" />
                   </div>
                 </CardContent>
               </Card>
@@ -183,9 +183,9 @@ export default function Contact() {
 
             {/* Contact Form */}
             <motion.div {...fadeUp(0.4)} className="lg:col-span-2 lg:px-12">
-              <Card className="border-0 shadow-xl">
+              <Card className="border-0 shadow-xl font-secondary">
                 <CardHeader>
-                  <CardTitle className="font-montserrat text-2xl text-gray-900">
+                  <CardTitle className="font-montserrat text-2xl text-gray-900 dark:text-gray-200">
                     Send us a Message
                   </CardTitle>
                   <CardDescription>

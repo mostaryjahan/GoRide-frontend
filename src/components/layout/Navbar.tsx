@@ -29,10 +29,13 @@ import toast from "react-hot-toast";
 import { useAppDispatch } from "@/redux/hook";
 
 const navigationLinks = [
-  { href: "/about", label: "About" },
-  { href: "/features", label: "Features" },
   { href: "/services", label: "Services" },
+  { href: "/features", label: "Features" },
+  { href: "/driver-partnership", label: "Driver" },
+  { href: "/business", label: "Business" },
+    { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
+
 ];
 
 export default function Navbar() {
@@ -109,7 +112,7 @@ export default function Navbar() {
           <div className="md:flex items-center gap-6 hidden ">
             <a
               href="/"
-              className="text-blue-600 dark:text-white hover:text-primary/90 text-lg font-sans font-bold flex items-center justify-center gap-2"
+              className="text-blue-900 dark:text-white hover:text-primary/90 text-lg font-sans font-primary font-semibold flex items-center justify-center gap-2"
             >
               <Logo /> GoRide
             </a>
@@ -126,7 +129,7 @@ export default function Navbar() {
                 <NavigationMenuItem key={index}>
                   <NavigationMenuLink
                     asChild
-                    className="text-black dark:text-gray-100 text-base hover:text-primary py-1.5 font-medium"
+                    className="text-black font-primary dark:text-gray-100 text-base hover:text-primary hover:bg-transparent py-1.5 font-medium"
                   >
                     <Link to={link.href}>{link.label}</Link>
                   </NavigationMenuLink>
@@ -142,7 +145,10 @@ export default function Navbar() {
           {isAuthenticated ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="flex items-center space-x-2 cursor-pointer">
+                <Button
+                  variant="ghost"
+                  className="flex items-center space-x-2 cursor-pointer font-primary"
+                >
                   <User className="h-4 w-4" />
                   <span>{user?.name}</span>
                 </Button>

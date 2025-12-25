@@ -15,7 +15,6 @@ import { Toaster } from "react-hot-toast";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ReduxProvider store={store}>
@@ -25,22 +24,31 @@ createRoot(document.getElementById("root")!).render(
           position="top-right"
           toastOptions={{
             duration: 4000,
+
             style: {
-              background: "#fff",
-              color: "#000000",
+              borderRadius: "8px",
+              fontSize: "14px",
             },
+
             success: {
-              duration: 3000,
+              style: {
+                background: "#dcfce7", // green-100
+                color: "#22c55e", // green-500
+              },
               iconTheme: {
-                primary: "#4ade80",
-                secondary: "#fff",
+                primary: "#22c55e",
+                secondary: "#dcfce7",
               },
             },
+
             error: {
-              duration: 5000,
+              style: {
+                background: "#fee2e2", // red-100
+                color: "#ef4444", // red-500
+              },
               iconTheme: {
                 primary: "#ef4444",
-                secondary: "#fff",
+                secondary: "#fee2e2",
               },
             },
           }}

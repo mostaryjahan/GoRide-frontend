@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef, useState } from 'react';
-import { MapPin, Navigation, Car } from 'lucide-react';
+import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
+import {  Clock, Phone, MessageCircle } from 'lucide-react';
+import { socketService } from '../lib/socket';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 interface RealTimeMapProps {
   pickupLocation?: {
@@ -16,16 +20,118 @@ interface RealTimeMapProps {
     lng: number;
   };
   rideStatus?: string;
+  rideId?: string;
 }
+
+// Fix Leaflet default markers
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
+
+// Custom icons
+const pickupIcon = new L.Icon({
+  iconUrl: 'data:image/svg+xml;base64,' + btoa(`
+    <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="16" cy="16" r="12" fill="#10B981" stroke="white" stroke-width="3"/>
+      <path d="M16 8l-3 8h6l-3-8z" fill="white"/>
+    </svg>
+  `),
+  iconSize: [32, 32],
+  iconAnchor: [16, 32],
+});
+
+const destinationIcon = new L.Icon({
+  iconUrl: 'data:image/svg+xml;base64,' + btoa(`
+    <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="16" cy="16" r="12" fill="#EF4444" stroke="white" stroke-width="3"/>
+      <path d="M16 8l-3 8h6l-3-8z" fill="white"/>
+    </svg>
+  `),
+  iconSize: [32, 32],
+  iconAnchor: [16, 32],
+});
+
+const driverIcon = new L.Icon({
+  iconUrl: 'data:image/svg+xml;base64,' + btoa(`
+    <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="20" cy="20" r="16" fill="#3B82F6" stroke="white" stroke-width="3"/>
+      <path d="M12 18h16v8H12v-8zm2-4h12l-2-4H16l-2 4zm6 8a2 2 0 100-4 2 2 0 000 4z" fill="white"/>
+    </svg>
+  `),
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
+
+const userIcon = new L.Icon({
+  iconUrl: 'data:image/svg+xml;base64,' + btoa(`
+    <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="8" fill="#8B5CF6" stroke="white" stroke-width="2"/>
+      <circle cx="12" cy="12" r="3" fill="white"/>
+    </svg>
+  `),
+  iconSize: [24, 24],
+  iconAnchor: [12, 24],
+});
 
 export default function RealTimeMap({ 
   pickupLocation, 
   destinationLocation, 
-  driverLocation, 
-  rideStatus 
+  driverLocation: initialDriverLocation, 
+  rideStatus,
+  rideId
 }: RealTimeMapProps) {
-  const mapRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<L.Map | null>(null);
   const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null);
+  const [driverLocation, setDriverLocation] = useState(initialDriverLocation);
+  const [currentRideStatus, setCurrentRideStatus] = useState(rideStatus);
+  const [routeCoordinates, setRouteCoordinates] = useState<[number, number][]>([]);
+  const [showDriverInfo, setShowDriverInfo] = useState(false);
+  const [estimatedTime, setEstimatedTime] = useState<string>('15 mins');
+
+  const defaultCenter: [number, number] = [23.8103, 90.4125];
+
+  // Initialize Socket.IO connection
+  useEffect(() => {
+    socketService.connect();
+    
+    return () => {
+      socketService.disconnect();
+    };
+  }, []);
+
+  // Join ride room when rideId is available
+  useEffect(() => {
+    if (rideId) {
+      socketService.joinRide(rideId);
+      
+      return () => {
+        socketService.leaveRide(rideId);
+      };
+    }
+  }, [rideId]);
+
+  // Listen for real-time updates
+  useEffect(() => {
+    // Listen for driver location updates
+    socketService.onDriverLocationChanged((location) => {
+      setDriverLocation(location);
+      console.log('Driver location updated:', location);
+    });
+
+    // Listen for ride status changes
+    socketService.onRideStatusChanged((data) => {
+      setCurrentRideStatus(data.status);
+      console.log('Ride status updated:', data.status);
+    });
+
+    return () => {
+      socketService.off('driver-location-changed');
+      socketService.off('ride-status-changed');
+    };
+  }, []);
 
   // Get user's current location
   useEffect(() => {
@@ -44,190 +150,187 @@ export default function RealTimeMap({
     }
   }, []);
 
-  // Simulate driver movement (in real app, this would come from WebSocket/API)
+  // Create simple route line and calculate estimated time
   useEffect(() => {
-    if (rideStatus === 'ACCEPTED' || rideStatus === 'PICKED_UP' || rideStatus === 'IN_TRANSIT') {
+    if (pickupLocation && destinationLocation && 
+        pickupLocation.coordinates && destinationLocation.coordinates &&
+        pickupLocation.coordinates[1] && pickupLocation.coordinates[0] &&
+        destinationLocation.coordinates[1] && destinationLocation.coordinates[0]) {
+      const pickup: [number, number] = [pickupLocation.coordinates[1], pickupLocation.coordinates[0]];
+      const destination: [number, number] = [destinationLocation.coordinates[1], destinationLocation.coordinates[0]];
+      setRouteCoordinates([pickup, destination]);
+      
+      // Calculate approximate distance and time
+      const distance = Math.sqrt(
+        Math.pow(destination[0] - pickup[0], 2) + Math.pow(destination[1] - pickup[1], 2)
+      ) * 111; // Rough km conversion
+      const estimatedMinutes = Math.max(5, Math.round(distance * 2)); // 2 min per km minimum 5 min
+      setEstimatedTime(`${estimatedMinutes} mins`);
+    }
+  }, [pickupLocation, destinationLocation]);
+
+  // Simulate driver movement for demo (remove in production)
+  useEffect(() => {
+    if (currentRideStatus === 'ACCEPTED' || currentRideStatus === 'PICKED_UP' || currentRideStatus === 'IN_TRANSIT') {
       const interval = setInterval(() => {
-        // In real implementation, update driver location from backend
-        console.log('Updating driver location...');
+        if (rideId && driverLocation) {
+          const newLocation = {
+            lat: driverLocation.lat + (Math.random() - 0.5) * 0.001,
+            lng: driverLocation.lng + (Math.random() - 0.5) * 0.001
+          };
+          socketService.updateDriverLocation(rideId, newLocation);
+        }
       }, 5000);
 
       return () => clearInterval(interval);
     }
-  }, [rideStatus]);
+  }, [currentRideStatus, rideId, driverLocation]);
 
-  const openDirections = () => {
-    if (pickupLocation && destinationLocation) {
-      const pickup = `${pickupLocation.coordinates[1]},${pickupLocation.coordinates[0]}`;
-      const destination = `${destinationLocation.coordinates[1]},${destinationLocation.coordinates[0]}`;
-      const url = `https://www.google.com/maps/dir/${pickup}/${destination}`;
-      window.open(url, '_blank');
+  const getStatusColor = () => {
+    switch (currentRideStatus) {
+      case 'REQUESTED': return 'bg-yellow-500';
+      case 'ACCEPTED': return 'bg-blue-500';
+      case 'PICKED_UP': return 'bg-green-500';
+      case 'IN_TRANSIT': return 'bg-purple-500';
+      case 'COMPLETED': return 'bg-gray-500';
+      default: return 'bg-gray-400';
     }
   };
 
-  const openPickupInMaps = () => {
-    if (pickupLocation) {
-      const lat = pickupLocation.coordinates[1];
-      const lng = pickupLocation.coordinates[0];
-      const url = `https://www.google.com/maps?q=${lat},${lng}&label=Pickup`;
-      window.open(url, '_blank');
+  const getStatusText = () => {
+    switch (currentRideStatus) {
+      case 'REQUESTED': return 'Finding driver...';
+      case 'ACCEPTED': return 'Driver is coming';
+      case 'PICKED_UP': return 'On the way';
+      case 'IN_TRANSIT': return 'Heading to destination';
+      case 'COMPLETED': return 'Trip completed';
+      default: return 'Unknown status';
     }
   };
 
-  const openDestinationInMaps = () => {
-    if (destinationLocation) {
-      const lat = destinationLocation.coordinates[1];
-      const lng = destinationLocation.coordinates[0];
-      const url = `https://www.google.com/maps?q=${lat},${lng}&label=Destination`;
-      window.open(url, '_blank');
-    }
-  };
+
 
   return (
     <div className="space-y-4">
-      {/* Interactive Map */}
-      <div 
-        ref={mapRef}
-        className="relative bg-gradient-to-br from-blue-100 via-green-50 to-red-100 h-96 rounded-xl border-2 border-gray-200 overflow-hidden shadow-inner"
-      >
-        {/* Map Background Pattern */}
-        <div className="absolute inset-0 opacity-20">
-          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
-                <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#4B5563" strokeWidth="0.5"/>
-                <circle cx="15" cy="15" r="1" fill="#6B7280" opacity="0.3"/>
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#grid)" />
-          </svg>
+      {/* Status Bar */}
+      <div className="bg-white rounded-lg p-4 shadow-sm border">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className={`w-3 h-3 rounded-full ${getStatusColor()} animate-pulse`}></div>
+            <span className="font-medium text-gray-900">{getStatusText()}</span>
+          </div>
+          {estimatedTime && (
+            <div className="flex items-center space-x-1 text-sm text-gray-600">
+              <Clock className="h-4 w-4" />
+              <span>{estimatedTime}</span>
+            </div>
+          )}
         </div>
-        
-        {/* Road Lines */}
-        <div className="absolute inset-0">
-          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-            <path d="M 0 40% L 100% 60%" stroke="#E5E7EB" strokeWidth="3" opacity="0.6"/>
-            <path d="M 20% 0 L 80% 100%" stroke="#E5E7EB" strokeWidth="2" opacity="0.4"/>
-          </svg>
-        </div>
+      </div>
 
-        {/* Map Content */}
-        <div className="relative h-full flex items-center justify-center">
-          <div className="text-center space-y-4">
-            <div className="flex justify-center space-x-8">
-              {/* Pickup Location */}
-              {pickupLocation && (
-                <div className="flex flex-col items-center">
-                  <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mb-2 animate-pulse">
-                    <MapPin className="h-4 w-4 text-white" />
+      {/* Leaflet Map */}
+      <div className="relative rounded-xl overflow-hidden shadow-lg border h-96">
+        <MapContainer
+          center={userLocation ? [userLocation.lat, userLocation.lng] : defaultCenter}
+          zoom={13}
+          style={{ height: '100%', width: '100%' }}
+          ref={mapRef}
+        >
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          />
+          
+          {/* Pickup Marker */}
+          {pickupLocation && pickupLocation.coordinates && pickupLocation.coordinates[1] && pickupLocation.coordinates[0] && (
+            <Marker 
+              position={[pickupLocation.coordinates[1], pickupLocation.coordinates[0]]}
+              icon={pickupIcon}
+            >
+              <Popup>Pickup Location</Popup>
+            </Marker>
+          )}
+
+          {/* Destination Marker */}
+          {destinationLocation && destinationLocation.coordinates && destinationLocation.coordinates[1] && destinationLocation.coordinates[0] && (
+            <Marker 
+              position={[destinationLocation.coordinates[1], destinationLocation.coordinates[0]]}
+              icon={destinationIcon}
+            >
+              <Popup>Destination</Popup>
+            </Marker>
+          )}
+
+          {/* Driver Marker */}
+          {driverLocation && driverLocation.lat && driverLocation.lng && (currentRideStatus === 'ACCEPTED' || currentRideStatus === 'PICKED_UP' || currentRideStatus === 'IN_TRANSIT') && (
+            <Marker 
+              position={[driverLocation.lat, driverLocation.lng]}
+              icon={driverIcon}
+              eventHandlers={{
+                click: () => setShowDriverInfo(!showDriverInfo)
+              }}
+            >
+              <Popup>
+                <div className="p-2">
+                  <h3 className="font-semibold">Your Driver</h3>
+                  <p className="text-sm text-gray-600">Ahmed Khan</p>
+                  <p className="text-xs text-gray-500">Toyota Prius • DHK-1234</p>
+                  <div className="flex space-x-2 mt-2">
+                    <button className="flex items-center space-x-1 text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
+                      <Phone className="h-3 w-3" />
+                      <span>Call</span>
+                    </button>
+                    <button className="flex items-center space-x-1 text-xs bg-green-100 text-green-700 px-2 py-1 rounded">
+                      <MessageCircle className="h-3 w-3" />
+                      <span>Message</span>
+                    </button>
                   </div>
-                  <span className="text-xs font-medium text-green-700">Pickup</span>
                 </div>
-              )}
+              </Popup>
+            </Marker>
+          )}
 
-              {/* Driver Location */}
-              {driverLocation && (rideStatus === 'ACCEPTED' || rideStatus === 'PICKED_UP' || rideStatus === 'IN_TRANSIT') && (
-                <div className="flex flex-col items-center">
-                  <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mb-2 animate-bounce">
-                    <Car className="h-4 w-4 text-white" />
-                  </div>
-                  <span className="text-xs font-medium text-blue-700">Driver</span>
-                </div>
-              )}
+          {/* User Location Marker */}
+          {userLocation && userLocation.lat && userLocation.lng && (
+            <Marker 
+              position={[userLocation.lat, userLocation.lng]}
+              icon={userIcon}
+            >
+              <Popup>Your Location</Popup>
+            </Marker>
+          )}
 
-              {/* User Location */}
-              {userLocation && (
-                <div className="flex flex-col items-center">
-                  <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mb-2">
-                    <div className="w-3 h-3 bg-white rounded-full"></div>
-                  </div>
-                  <span className="text-xs font-medium text-purple-700">You</span>
-                </div>
-              )}
+          {/* Route Line */}
+          {routeCoordinates.length > 0 && (
+            <Polyline 
+              positions={routeCoordinates}
+              color="#3B82F6"
+              weight={4}
+              opacity={0.8}
+            />
+          )}
+        </MapContainer>
+      </div>
 
-              {/* Destination Location */}
-              {destinationLocation && (
-                <div className="flex flex-col items-center">
-                  <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center mb-2">
-                    <MapPin className="h-4 w-4 text-white" />
-                  </div>
-                  <span className="text-xs font-medium text-red-700">Destination</span>
-                </div>
-              )}
-            </div>
-
-            {/* Route Line Simulation */}
-            <div className="flex justify-center">
-              <div className="h-1 w-64 bg-gradient-to-r from-green-500 via-blue-500 to-red-500 rounded-full opacity-60"></div>
-            </div>
-
-            <div className="space-y-2 bg-white/80 backdrop-blur-sm rounded-lg p-4 border border-white/50">
-              <p className="text-lg font-bold text-gray-800">🗺️ Live Route Map</p>
-              <p className="text-sm text-gray-600">
-                {rideStatus === 'REQUESTED' && '🔍 Searching for nearby drivers...'}
-                {rideStatus === 'ACCEPTED' && '🚗 Driver is heading to pickup location'}
-                {rideStatus === 'PICKED_UP' && '📍 You have been picked up'}
-                {rideStatus === 'IN_TRANSIT' && '🛣️ En route to your destination'}
-                {rideStatus === 'COMPLETED' && '✅ Journey completed successfully'}
-              </p>
-              <div className="flex items-center gap-2 text-xs text-gray-500">
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                <span>Updates every 5 seconds</span>
-              </div>
-            </div>
+      {/* Trip Info */}
+      <div className="bg-white rounded-lg p-4 shadow-sm border">
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <p className="text-sm font-medium text-gray-900">Pickup</p>
+            <p className="text-xs text-gray-600 truncate">
+              {pickupLocation?.address || 'Setting pickup location...'}
+            </p>
+          </div>
+          <div>
+            <p className="text-sm font-medium text-gray-900">Destination</p>
+            <p className="text-xs text-gray-600 truncate">
+              {destinationLocation?.address || 'Setting destination...'}
+            </p>
           </div>
         </div>
-
-        {/* Status Indicator */}
-        <div className="absolute top-4 right-4">
-          <div className="flex items-center space-x-2 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1">
-            <div className={`w-2 h-2 rounded-full ${
-              rideStatus === 'IN_TRANSIT' ? 'bg-green-500 animate-pulse' : 
-              rideStatus === 'ACCEPTED' || rideStatus === 'PICKED_UP' ? 'bg-blue-500 animate-pulse' : 
-              'bg-gray-400'
-            }`}></div>
-            <span className="text-xs font-medium">Live</span>
-          </div>
-        </div>
       </div>
 
-      {/* Map Action Buttons */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <button 
-          onClick={openPickupInMaps}
-          className="flex items-center justify-center gap-2 p-3 bg-green-50 hover:bg-green-100 border border-green-200 rounded-lg transition-colors cursor-pointer"
-        >
-          <MapPin className="h-4 w-4 text-green-600" />
-          <span className="text-sm font-medium text-green-700">View Pickup</span>
-        </button>
-        
-        <button 
-          onClick={openDirections}
-          className="flex items-center justify-center gap-2 p-3 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg transition-colors cursor-pointer"
-        >
-          <Navigation className="h-4 w-4 text-blue-600" />
-          <span className="text-sm font-medium text-blue-700">Get Directions</span>
-        </button>
-        
-        <button 
-          onClick={openDestinationInMaps}
-          className="flex items-center justify-center gap-2 p-3 bg-red-50 hover:bg-red-100 border border-red-200 rounded-lg transition-colors cursor-pointer"
-        >
-          <MapPin className="h-4 w-4 text-red-600" />
-          <span className="text-sm font-medium text-red-700">View Destination</span>
-        </button>
-      </div>
-
-      {/* Real-time Updates Info */}
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-        <div className="flex items-center gap-2 mb-2">
-          <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-          <span className="text-sm font-medium text-blue-800">Real-time Updates</span>
-        </div>
-        <p className="text-xs text-blue-600">
-          Location updates every 5 seconds • Driver position tracked live • Route optimized automatically
-        </p>
-      </div>
+     
     </div>
   );
 }

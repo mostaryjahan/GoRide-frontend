@@ -4,13 +4,8 @@ import { useState } from "react"
 import { Outlet, Link, useNavigate, useLocation, Navigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { useUserInfoQuery, useLogoutMutation } from "@/redux/features/auth/auth.api"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { User, LogOut, Settings, Menu } from "lucide-react"
+
+import { Menu } from "lucide-react"
 import Logo from "@/assets/icons/Logo"
 import toast from "react-hot-toast"
 import { cn } from "@/lib/utils"
@@ -129,7 +124,8 @@ export default function DashboardLayout({ children }: { children?: React.ReactNo
 
       {/* Main content */}
       <div className="flex-1 flex flex-col">
-        <header className="bg-white dark:bg-black shadow-sm border-b px-4 py-3 flex items-center justify-between md:justify-end">
+        <header className="bg-white dark:bg-black shadow-sm border-b px-4 py-3 flex items-center justify-between md:justify-between">
+           <h3 className="text-lg font-primary font-semibold">Welcome, {user?.name}</h3>
           <div className="flex items-center space-x-4 md:hidden">
             <Button variant="ghost" onClick={() => setSidebarOpen(true)}>
               <Menu className="h-5 w-5" />
@@ -137,25 +133,10 @@ export default function DashboardLayout({ children }: { children?: React.ReactNo
             {currentItem && <span className="text-foreground font-semibold">{currentItem.label}</span>}
           </div>
           <div className="flex items-center space-x-4">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="flex items-center space-x-2 cursor-pointer">
-                  <User className="h-4 w-4" />
-                  <span>{user?.name}</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem asChild>
-                  <Link to={`/${user?.role.toLowerCase()}/profile`} className="flex items-center cursor-pointer">
-                    <Settings className="h-4 w-4 mr-2" /> Profile
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleLogout}>
-                  <LogOut className="h-4 w-4 mr-2 cursor-pointer" /> Logout
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <ModeToggle />
+             <ModeToggle />
+           <Button onClick={handleLogout} variant="destructive" className="cursor-pointer">Logout</Button>
+            
+           
           </div>
         </header>
 

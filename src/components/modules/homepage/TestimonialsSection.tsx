@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-"use client"
+
 
 import { Card, CardContent } from "@/components/ui/card"
 import { Star, Quote } from "lucide-react"
@@ -82,7 +82,7 @@ export default function TestimonialsSection() {
   }
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-br from-blue-50 to-indigo-50 dark:bg-gradient-to-tl dark:from-gray-900 dark:to-gray-950">
+    <section className="py-20 px-4 bg-gradient-to-br from-gray-50 to-indigo-50 dark:bg-gradient-to-tl dark:from-gray-900 dark:to-gray-950">
       <div className="max-w-7xl mx-auto">
         {/* Heading */}
         <motion.div
@@ -92,10 +92,10 @@ export default function TestimonialsSection() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+          <h2 className="text-3xl md:text-4xl font-primary font-medium text-foreground mb-4">
             What Our Riders Say
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-2xl font-secondary mx-auto">
             Don't just take our word for it. Here's what our community has to say about their RideShare experience.
           </p>
         </motion.div>
@@ -104,7 +104,7 @@ export default function TestimonialsSection() {
         <Slider {...settings}>
           {testimonials.map((testimonial, index) => (
             <div key={index} className="px-2">
-              <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-gray-100 dark:bg-gray-800 h-full">
+              <Card className="border bg-primary/5 dark:bg-gray-800 h-full">
                 <CardContent className="p-8 relative flex flex-col justify-between h-full">
                   <Quote className="w-8 h-8 text-blue-600 mb-4 absolute right-10 -mt-10" />
                   <p className="text-foreground mb-6 font-[family-name:var(--font-open-sans)] leading-relaxed italic">

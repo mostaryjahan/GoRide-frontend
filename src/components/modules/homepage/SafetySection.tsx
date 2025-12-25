@@ -1,5 +1,5 @@
-
 import { Shield, UserCheck, Map, Phone } from 'lucide-react';
+import img from "/images/img2.jpg";
 
 const SafetyFeatures = () => {
   const features = [
@@ -28,29 +28,48 @@ const SafetyFeatures = () => {
   return (
     <section id="safety" className="py-20 bg-white dark:bg-gray-950">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-            Your Safety is Our Priority
-          </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto dark:text-gray-300">
-            We've implemented multiple safety features to ensure you have a secure journey
-          </p>
-        </div>
+        <div className="flex flex-col lg:flex-row items-center gap-12">
+          {/* Left side - Image */}
+          <div className="lg:w-1/2">
+            <div className="relative">
+              <img 
+                src={img} 
+                alt="Safety features" 
+                className="rounded-2xl shadow-2xl w-full h-[400px] object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl"></div>
+            </div>
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {features.map((feature, index) => (
-            <div key={index} className="text-center group">
-              <div className="bg-blue-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-blue-200 transition-colors">
-                <feature.icon className="h-10 w-10 text-blue-600" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-gray-200 mb-4">
-                {feature.title}
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                {feature.description}
+          {/* Right side - Content */}
+          <div className="lg:w-1/2">
+            <div className="mb-12">
+              <h2 className="text-3xl md:text-4xl font-medium font-primary text-gray-900 dark:text-gray-100 mb-3">
+                Your Safety is Our Priority
+              </h2>
+              <p className="text-lg text-gray-600 dark:text-gray-300 font-secondary">
+                We've implemented multiple safety features to ensure you have a secure journey and a hassle-free experience.
               </p>
             </div>
-          ))}
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {features.map((feature, index) => (
+                <div key={index} className="flex items-start gap-4 group border p-4 rounded-md bg-gray-100 dark:bg-gray-900">
+                  <div className=" w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0  transition-colors">
+                    <feature.icon className="h-6 w-6 text-primary dark:text-blue-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-primary dark:text-gray-300  mb-1 font-secondary">
+                      {feature.title}
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm font-secondary">
+                      {feature.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

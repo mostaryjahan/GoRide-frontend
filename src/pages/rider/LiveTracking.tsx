@@ -106,7 +106,7 @@ export default function LiveTracking() {
           </div>
         ) : activeRides.length > 0 ? (
           <div className="space-y-4">
-            <p className="text-muted-foreground">Select a ride to track:</p>
+            <p className="text-accent">Select a ride to track:</p>
             {activeRides.map((ride: any) => {
               const pickupAddress = typeof ride.pickupLocation === 'object' 
                 ? ride.pickupLocation?.address 
@@ -117,7 +117,7 @@ export default function LiveTracking() {
               
               return (
                 <Card key={ride._id} className="cursor-pointer hover:shadow-md transition-shadow" 
-                      onClick={() => navigate(`/rider/live-tracking/${ride._id}`)}>
+                 onClick={() => navigate(`/rider/live-tracking/${ride._id}`)}>
                   <CardContent className="p-4">
                     <div className="flex justify-between items-start">
                       <div>
@@ -219,6 +219,7 @@ export default function LiveTracking() {
             destinationLocation={ride.destinationLocation}
             driverLocation={currentLocation || undefined}
             rideStatus={ride.status}
+            rideId={ride._id}
           />
         </CardContent>
       </Card>

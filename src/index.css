@@ -1,6 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&family=Vend+Sans:ital,wght@0,300..700;1,300..700&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+
 
 @custom-variant dark (&:is(.dark *));
 
@@ -43,21 +44,22 @@
 }
 
 :root {
-  --font-primary: 'Manrope', sans-serif;
+  --font-primary: 'Vend Sans', sans-serif;
+  --font-secondary: 'Source Sans 3',sans-serif;
   --radius: 0.65rem;
   --background: oklch(0.985 0 0);
-  --foreground: oklch(0.141 0.005 285.823);
+  --foreground: #1E293B;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.141 0.005 285.823);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.141 0.005 285.823);
-  --primary: #1fbad6;
+  --primary: #12366d;
   --primary-foreground: oklch(0.97 0.014 254.604);
   --secondary: oklch(0.967 0.001 286.375);
   --secondary-foreground: oklch(0.21 0.006 285.885);
   --muted: oklch(0.967 0.001 286.375);
   --muted-foreground: oklch(31.751% 0.00179 286.003);
-  --accent: oklch(0.967 0.001 286.375);
+  --accent: #3B82F6;
   --accent-foreground: oklch(0.21 0.006 285.885);
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.92 0.004 286.32);
@@ -85,7 +87,7 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.21 0.006 285.885);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(38.216% 0.15073 259.88);
+  --primary: #0F2C59;
   --primary-foreground: oklch(0.379 0.146 265.522);
   --secondary: oklch(0.274 0.006 286.033);
   --secondary-foreground: oklch(0.985 0 0);
@@ -93,7 +95,7 @@
   --muted-foreground: oklch(0.705 0.015 286.067);
   --accent: oklch(0.274 0.006 286.033);
   --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
+  --destructive: oklch(58.425% 0.23478 28.508);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.488 0.243 264.376);
@@ -115,6 +117,9 @@
 @layer utilities {
   .font-primary {
     font-family: var(--font-primary);
+  }
+  .font-secondary {
+    font-family: var(--font-secondary);
   }
 }
 

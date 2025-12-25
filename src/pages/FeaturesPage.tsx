@@ -19,21 +19,17 @@ import {
   Star,
   Users,
   BarChart3,
-  Settings,
-  MessageSquare,
   Navigation,
   Smartphone,
   DollarSign,
   FileText,
   UserCheck,
-  AlertTriangle,
   TrendingUp,
-  Database,
   Bell,
-  Lock,
   Headphones,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 export default function FeaturesPage() {
   const [activeTab, setActiveTab] = useState("rider");
@@ -156,64 +152,7 @@ export default function FeaturesPage() {
     },
   ];
 
-  const adminFeatures = [
-    {
-      icon: <Database className="h-6 w-6" />,
-      title: "Comprehensive Dashboard",
-      description:
-        "Real-time overview of all platform activities, rides, drivers, and revenue metrics.",
-      category: "Management",
-    },
-    {
-      icon: <Users className="h-6 w-6" />,
-      title: "User Management",
-      description:
-        "Manage rider and driver accounts, handle verification, and resolve account issues.",
-      category: "Users",
-    },
-    {
-      icon: <BarChart3 className="h-6 w-6" />,
-      title: "Advanced Analytics",
-      description:
-        "Deep insights into platform performance, user behavior, and business intelligence.",
-      category: "Analytics",
-    },
-    {
-      icon: <DollarSign className="h-6 w-6" />,
-      title: "Revenue Management",
-      description:
-        "Track earnings, manage commission rates, and handle payment processing and disputes.",
-      category: "Finance",
-    },
-    {
-      icon: <AlertTriangle className="h-6 w-6" />,
-      title: "Safety Monitoring",
-      description:
-        "Monitor safety incidents, manage emergency responses, and maintain safety protocols.",
-      category: "Safety",
-    },
-    {
-      icon: <Settings className="h-6 w-6" />,
-      title: "Platform Configuration",
-      description:
-        "Configure pricing, service areas, vehicle types, and platform-wide settings.",
-      category: "Configuration",
-    },
-    {
-      icon: <MessageSquare className="h-6 w-6" />,
-      title: "Support Management",
-      description:
-        "Handle customer support tickets, manage support team, and track resolution times.",
-      category: "Support",
-    },
-    {
-      icon: <Lock className="h-6 w-6" />,
-      title: "Security Controls",
-      description:
-        "Advanced security features, fraud detection, and compliance management tools.",
-      category: "Security",
-    },
-  ];
+ 
 
   const getFeatures = () => {
     switch (activeTab) {
@@ -221,8 +160,6 @@ export default function FeaturesPage() {
         return riderFeatures;
       case "driver":
         return driverFeatures;
-      case "admin":
-        return adminFeatures;
       default:
         return riderFeatures;
     }
@@ -246,10 +183,10 @@ export default function FeaturesPage() {
         className="relative py-20 px-4 sm:px-6 lg:px-8"
       >
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-3xl lg:text-5xl font-bold text-foreground mb-4">
+          <h1 className="text-3xl md:text-4xl font-medium text-foreground mb-3 font-primary">
             Features for Everyone
           </h1>
-          <p className="text-lg text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg text-muted-foreground mb-8 max-w-3xl mx-auto font-secondary leading-relaxed">
             Discover comprehensive capabilities designed for riders, drivers,
             and administrators. Our platform delivers seamless experiences
             across all user types.
@@ -277,16 +214,7 @@ export default function FeaturesPage() {
               <Car className="h-5 w-5 mr-2" />
               Driver Features
             </Button>
-            <Button
-              onClick={() => setActiveTab("admin")}
-              className={`px-8 py-3 rounded-full font-semibold cursor-pointer transition-all duration-300 ${getTabColor(
-                "admin"
-              )}`}
-              variant="outline"
-            >
-              <Settings className="h-5 w-5 mr-2" />
-              Admin Features
-            </Button>
+            
           </div>
         </div>
       </motion.section>
@@ -304,7 +232,6 @@ export default function FeaturesPage() {
             <h2 className="text-3xl font-bold text-foreground mb-4">
               {activeTab === "rider" && "Rider Capabilities"}
               {activeTab === "driver" && "Driver Capabilities"}
-              {activeTab === "admin" && "Admin Capabilities"}
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               {activeTab === "rider" &&
@@ -334,12 +261,12 @@ export default function FeaturesPage() {
                       {feature.category}
                     </Badge>
                   </div>
-                  <CardTitle className="text-lg font-semibold text-foreground group-hover:text-blue-600 transition-colors duration-300">
+                  <CardTitle className="text-lg font-semibold text-foreground group-hover:text-blue-600 transition-colors duration-300 font-primary">
                     {feature.title}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription className="text-muted-foreground leading-relaxed">
+                  <CardDescription className="text-muted-foreground leading-relaxed font-secondary -mt-6">
                     {feature.description}
                   </CardDescription>
                 </CardContent>
@@ -358,20 +285,23 @@ export default function FeaturesPage() {
         className="py-20 px-4 sm:px-6 lg:px-8 bg-primary dark:bg-gray-900/40 mt-12"
       >
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-semibold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-medium text-white mb-3 font-primary">
             Ready to Experience the Future of Transportation?
           </h2>
-          <p className="text-lg text-blue-100 mb-8 leading-relaxed">
+          <p className="text-lg text-blue-100 mb-8 leading-relaxed font-secondary">
             Join thousands of satisfied users who trust our platform for their
             daily transportation needs.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
+            <Link to="/login">
+             <Button
               size="lg"
-              className="bg-white text-blue-600 cursor-pointer hover:bg-blue-50 px-8 py-3 font-semibold"
+              className="bg-white text-blue-600 dark:text-white cursor-pointer hover:bg-gray-100 hover:text-primary px-8 py-3 font-semibold"
             >
               Get Started as Rider
             </Button>
+            </Link>
+            <Link to="/login">
             <Button
               size="lg"
               variant="outline"
@@ -379,6 +309,7 @@ export default function FeaturesPage() {
             >
               Become a Driver
             </Button>
+            </Link>
           </div>
         </div>
       </motion.section>

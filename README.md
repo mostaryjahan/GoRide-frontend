@@ -1,17 +1,17 @@
-# 🚖 GoRide – Ride Management System
+# GoRide – Ride Management System
 
 A **full-stack ride booking platform** similar to Uber or Pathao, built with **TypeScript, React, Redux Toolkit, RTK Query, Node.js, and MongoDB**. GoRide provides role-based dashboards for **Riders, Drivers, and Admins**, along with a responsive, production-grade frontend experience.
 
 ---
 
-## 🌐 Live Demo
+## Live Demo
 
 - **Frontend:** [https://l2-a5-frontend.vercel.app](https://l2-a5-frontend.vercel.app) 
 - **Backend:** [https://a-5-gamma.vercel.app/api](https://a-5-gamma.vercel.app/api) 
 
 ---
 
-## 🛠 Technology Stack
+## Technology Stack
 
 - **Frontend:** TypeScript, React.js, Redux Toolkit, RTK Query, React Router, Tailwind CSS, Shadcn UI, Origin UI  
 - **Backend:** TypeScript, Node.js, Express.js, MongoDB, Mongoose, JWT Authentication, bcrypt, Cloudinary, Zod, Redis
@@ -22,7 +22,7 @@ A **full-stack ride booking platform** similar to Uber or Pathao, built with **T
 
 ---
 
-## 📌 Features
+## Features
 
 ### **1. Public Landing Pages**
 - Home with Hero Banner, How-it-works, Services, Testimonials, and Call-to-Actions  
@@ -67,7 +67,7 @@ A **full-stack ride booking platform** similar to Uber or Pathao, built with **T
 
 ---
 
-## 🚀 Setup Instructions
+## Setup Instructions
 
 ### **Frontend**
 ```bash

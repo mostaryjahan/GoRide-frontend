@@ -89,8 +89,8 @@ export default function DriverProfile() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
-      <h1 className="text-3xl font-bold">Driver Profile</h1>
+    <div className="max-w-4xl mx-auto space- font-secondary">
+      <h1 className="text-xl md:text-3xl font-primary mb-6">Your Profile</h1>
 
       <div className="flex space-x-1 border-b">
         <Button
@@ -120,7 +120,7 @@ export default function DriverProfile() {
       </div>
 
       {activeTab === "profile" && (
-        <Card>
+        <Card className="rounded-t-none">
           <CardHeader>
             <CardTitle>Personal Information</CardTitle>
           </CardHeader>
@@ -206,7 +206,7 @@ export default function DriverProfile() {
       )}
 
       {activeTab === "vehicle" && (
-        <Card>
+        <Card className="rounded-t-none">
           <CardHeader>
             <CardTitle>Vehicle Information</CardTitle>
           </CardHeader>
@@ -266,7 +266,7 @@ export default function DriverProfile() {
       )}
 
       {activeTab === "password" && (
-        <Card>
+        <Card className="rounded-t-none">
           <CardHeader>
             <CardTitle>Change Password</CardTitle>
           </CardHeader>

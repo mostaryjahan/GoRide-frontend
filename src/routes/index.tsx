@@ -27,6 +27,8 @@ import { riderSidebarItems } from "./riderSidebarItems";
 import { driverSidebarItems } from "./driverSidebarItems";
 import LazyWrapper from "@/components/LazyLoader";
 import ServicesPage from "@/pages/ServicePage";
+import DriverPartnership from "@/pages/DriverPartnership";
+import BusinessPage from "@/pages/BusinessPage";
 
 
 export const router = createBrowserRouter([
@@ -54,6 +56,14 @@ export const router = createBrowserRouter([
         element: <LazyWrapper><Features /></LazyWrapper>,
         path: "features",
       },
+      {
+        element: <LazyWrapper><DriverPartnership /></LazyWrapper>,
+        path: "driver-partnership", 
+      },
+       {
+        element: <LazyWrapper><BusinessPage /></LazyWrapper>,
+        path: "business", 
+      }
     ],
   },
   {

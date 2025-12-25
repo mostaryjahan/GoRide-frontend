@@ -1,9 +1,7 @@
-
-
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Shield, Zap, Award, Heart } from "lucide-react";
+import { Shield, Zap, Award, Heart } from "lucide-react";
 
 export default function About() {
   const teamMembers = [
@@ -70,26 +68,22 @@ export default function About() {
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-primary/10 via-background to-accent/5 py-20 px-4">
-        <div className="max-w-6xl mx-auto text-center space-y-6">
+        <div className="max-w-6xl mx-auto text-center space-y-3">
           <motion.div
             {...motionUp}
             transition={{ ...motionUp.transition, delay: 0.1 }}
-          >
-            <Badge variant="secondary" className="text-sm font-medium">
-              About GoRide
-            </Badge>
-          </motion.div>
+          ></motion.div>
           <motion.h1
             {...motionUp}
             transition={{ ...motionUp.transition, delay: 0.3 }}
-            className="text-4xl md:text-5xl font-bold text-foreground"
+            className="text-4xl md:text-4xl font-medium font-primary text-foreground"
           >
             Revolutionizing Urban Transportation
           </motion.h1>
           <motion.p
             {...motionUp}
             transition={{ ...motionUp.transition, delay: 0.5 }}
-            className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed"
+            className="text-lg font-secondary text-muted-foreground max-w-3xl mx-auto leading-relaxed"
           >
             We're building the future of mobility with safe, reliable, and
             sustainable ride-sharing solutions that connect communities and
@@ -100,12 +94,12 @@ export default function About() {
 
       {/* Company Story */}
       <section className="py-20 px-4 bg-muted/30">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center font-secondary">
           <motion.div
             {...motionUp}
             transition={{ ...motionUp.transition, delay: 0.2 }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+            <h2 className="text-3xl  font-semibold text-foreground mb-6 ">
               Our Story
             </h2>
             <div className="space-y-4 text-muted-foreground">
@@ -141,48 +135,25 @@ export default function About() {
         </div>
       </section>
 
-      {/* Mission Statement */}
-      <section className="py-20 px-4">
-        <motion.div
-          {...motionUp}
-          transition={{ ...motionUp.transition, delay: 0.2 }}
-          className="max-w-4xl mx-auto text-center"
-        >
-          <Card className="p-8 md:p-12 bg-card border-0 shadow-lg">
-            <CardContent className="p-0">
-              <MapPin className="w-12 h-12 text-primary mx-auto mb-6" />
-              <h2 className="text-3xl md:text-4xl font-bold text-card-foreground mb-6 font-[family-name:var(--font-montserrat)]">
-                Our Mission
-              </h2>
-              <p className="text-xl text-muted-foreground leading-relaxed font-[family-name:var(--font-open-sans)]">
-                To make transportation accessible, affordable, and sustainable
-                for everyone while creating economic opportunities for drivers
-                and building stronger, more connected communities.
-              </p>
-            </CardContent>
-          </Card>
-        </motion.div>
-      </section>
-
       {/* Values */}
       <section className="py-20 px-4 bg-muted/30">
         <div className="max-w-6xl mx-auto text-center mb-16">
           <motion.h2
             {...motionUp}
             transition={{ ...motionUp.transition, delay: 0.2 }}
-            className="text-3xl md:text-4xl font-bold text-foreground mb-4 font-[family-name:var(--font-montserrat)]"
+            className="text-3xl md:text-4xl font-primary font-medium text-foreground mb-3"
           >
             Our Values
           </motion.h2>
           <motion.p
             {...motionUp}
             transition={{ ...motionUp.transition, delay: 0.4 }}
-            className="text-lg text-muted-foreground font-[family-name:var(--font-open-sans)]"
+            className="text-lg text-muted-foreground  font-secondary"
           >
             The principles that guide everything we do
           </motion.p>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 font-secondary max-w-6xl mx-auto">
           {values.map((value, index) => (
             <motion.div
               key={index}
@@ -191,7 +162,7 @@ export default function About() {
             >
               <Card className="p-6 text-center hover:shadow-lg transition-shadow bg-card border-0">
                 <CardContent className="p-0">
-                  <value.icon className="w-12 h-12 text-primary mx-auto mb-4" />
+                  <value.icon className="w-8 h-8 text-primary mx-auto mb-4" />
                   <h3 className="text-xl font-bold text-card-foreground mb-3 font-[family-name:var(--font-montserrat)]">
                     {value.title}
                   </h3>
@@ -211,14 +182,14 @@ export default function About() {
           <motion.h2
             {...motionUp}
             transition={{ ...motionUp.transition, delay: 0.2 }}
-            className="text-3xl md:text-4xl font-bold text-foreground mb-4 font-[family-name:var(--font-montserrat)]"
+            className="text-3xl md:text-4xl font-medium text-foreground mb-3 font-primary"
           >
             Meet Our Team
           </motion.h2>
           <motion.p
             {...motionUp}
             transition={{ ...motionUp.transition, delay: 0.4 }}
-            className="text-lg text-muted-foreground font-[family-name:var(--font-open-sans)]"
+            className="text-lg text-muted-foreground font-secondary"
           >
             The passionate people driving our mission forward
           </motion.p>
@@ -239,13 +210,13 @@ export default function About() {
                       className="w-32 h-32 rounded-full mx-auto object-cover border-4 border-accent/20 group-hover:border-accent/40 transition-colors"
                     />
                   </div>
-                  <h3 className="text-xl font-bold text-card-foreground mb-2 font-[family-name:var(--font-montserrat)]">
+                  <h3 className="text-xl font-bold text-card-foreground mb-2 font-primary">
                     {member.name}
                   </h3>
                   <Badge variant="secondary" className="mb-4">
                     {member.role}
                   </Badge>
-                  <p className="text-sm text-muted-foreground leading-relaxed font-[family-name:var(--font-open-sans)]">
+                  <p className="text-sm text-muted-foreground leading-relaxed font-secondary">
                     {member.bio}
                   </p>
                 </CardContent>

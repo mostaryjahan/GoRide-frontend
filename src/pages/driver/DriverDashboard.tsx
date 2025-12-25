@@ -1,30 +1,32 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Car, DollarSign, Clock, ToggleLeft, ToggleRight, Star, TrendingUp } from "lucide-react";
+import { Car, DollarSign, Clock, ToggleLeft, ToggleRight, Star, TrendingUp, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useUserInfoQuery, useUpdateDriverStatusMutation } from "@/redux/features/auth/auth.api";
 import { useGetDriverStatsQuery, useGetAvailableRidesQuery, useAcceptRideMutation, useRejectRideMutation, useGetActiveRidesQuery, useUpdateRideStatusMutation, useGetDriverEarningsQuery } from "@/redux/features/driver/driver.api";
 import toast from "react-hot-toast";
 import SOSButton from "@/components/SOSButton";
+import { socketService } from "@/lib/socket";
 
 export default function DriverDashboard() {
-  // const { data: userInfo, refetch } = useUserInfoQuery({});
-  // const { data: statsData } = useGetDriverStatsQuery({});
-  // const { data: earningsData } = useGetDriverEarningsQuery({});
   const [updateDriverStatus] = useUpdateDriverStatusMutation();
   const [acceptRide] = useAcceptRideMutation();
   const [rejectRide] = useRejectRideMutation();
   const { data: activeRidesData, refetch: refetchActiveRides } = useGetActiveRidesQuery({});
   const [updateRideStatus] = useUpdateRideStatusMutation();
+  const [currentLocation, setCurrentLocation] = useState<{lat: number, lng: number} | null>(null);
+  const [locationWatchId, setLocationWatchId] = useState<number | null>(null);
+  const locationErrorShownRef = useRef(false);
 
-  // In your dashboard component, make sure you're using the user ID
+  
 const { data: userInfo } = useUserInfoQuery();
 const userId = userInfo?.data?._id;
 
-// Then use this userId in your queries
+
+
 const { data: statsData } = useGetDriverStatsQuery(userId, { skip: !userId });
 const { data: earningsData } = useGetDriverEarningsQuery(userId, { skip: !userId });
   
@@ -35,6 +37,83 @@ const { data: earningsData } = useGetDriverEarningsQuery(userId, { skip: !userId
   
   const { data: availableRidesData, refetch: refetchRides } = useGetAvailableRidesQuery({}, { skip: !isOnline });
 
+  // Initialize Socket.IO connection
+  useEffect(() => {
+    socketService.connect();
+    
+    return () => {
+      socketService.disconnect();
+    };
+  }, []);
+
+  // Track driver location when online
+  useEffect(() => {
+    if (isOnline && navigator.geolocation) {
+      locationErrorShownRef.current = false;
+      
+      // Get initial location
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const location = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          setCurrentLocation(location);
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+          if (!locationErrorShownRef.current) {
+            toast.error("Unable to get your location. Please enable location services.");
+            locationErrorShownRef.current = true;
+          }
+        }
+      );
+
+      // Watch location changes
+      const watchId = navigator.geolocation.watchPosition(
+        (position) => {
+          const location = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          setCurrentLocation(location);
+          
+          // Update location for all active rides
+          if (activeRidesData?.data?.length > 0) {
+            activeRidesData.data.forEach((ride: any) => {
+              socketService.updateDriverLocation(ride._id, location);
+            });
+          }
+        },
+        (error) => {
+          console.error("Error watching location:", error);
+          if (!locationErrorShownRef.current) {
+            toast.error("Unable to get your location. Please enable location services.");
+            locationErrorShownRef.current = true;
+          }
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 30000
+        }
+      );
+      
+      setLocationWatchId(watchId);
+    } else if (!isOnline && locationWatchId) {
+      // Stop watching location when offline
+      navigator.geolocation.clearWatch(locationWatchId);
+      setLocationWatchId(null);
+      setCurrentLocation(null);
+      locationErrorShownRef.current = false;
+    }
+
+    return () => {
+      if (locationWatchId) {
+        navigator.geolocation.clearWatch(locationWatchId);
+      }
+    };
+  }, [isOnline]);
 
   useEffect(() => {
     if (user?.isOnline !== undefined) {
@@ -47,13 +126,16 @@ const { data: earningsData } = useGetDriverEarningsQuery(userId, { skip: !userId
       const newStatus = !isOnline;
       await updateDriverStatus({ isOnline: newStatus }).unwrap();
       setIsOnline(newStatus);
-      // refetch(); 
+      
       if (newStatus) {
         refetchRides(); 
+        toast.success("You are now online and ready to receive rides!");
+      } else {
+        toast.success("You are now offline");
       }
     } catch (error) {
-
       console.error(error);
+      toast.error("Failed to update status");
     }
   };
 
@@ -61,6 +143,20 @@ const { data: earningsData } = useGetDriverEarningsQuery(userId, { skip: !userId
     try {
       await acceptRide(rideId).unwrap();
       toast.success("Ride accepted successfully!");
+      
+      socketService.joinRide(rideId);
+      
+      // Emit ride status update
+      socketService.updateRideStatus(rideId, 'ACCEPTED', {
+        driverLocation: currentLocation,
+        driverInfo: {
+          name: user?.name,
+          phone: user?.phone,
+          vehicleType: user?.vehicleInfo?.type,
+          vehicleNumber: user?.vehicleInfo?.licensePlate
+        }
+      });
+      
       refetchRides();
       refetchActiveRides();
     } catch (error: any) {
@@ -82,6 +178,24 @@ const { data: earningsData } = useGetDriverEarningsQuery(userId, { skip: !userId
     try {
       await updateRideStatus(rideId).unwrap();
       toast.success("Ride status updated successfully!");
+      
+      // Emit status update via socket
+      const ride = activeRidesData?.data?.find((r: any) => r._id === rideId);
+      if (ride) {
+        let newStatus = '';
+        switch (ride.status) {
+          case 'ACCEPTED': newStatus = 'PICKED_UP'; break;
+          case 'PICKED_UP': newStatus = 'IN_TRANSIT'; break;
+          case 'IN_TRANSIT': newStatus = 'COMPLETED'; break;
+        }
+        
+        if (newStatus) {
+          socketService.updateRideStatus(rideId, newStatus, {
+            driverLocation: currentLocation
+          });
+        }
+      }
+      
       refetchActiveRides();
     } catch (error: any) {
       toast.error(error?.data?.message || "Failed to update ride status");
@@ -100,7 +214,7 @@ const { data: earningsData } = useGetDriverEarningsQuery(userId, { skip: !userId
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold">Driver Dashboard</h1>
+        <h1 className="text-xl md:text-3xl font-primary">Driver Dashboard</h1>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium">Status:</span>
@@ -108,6 +222,12 @@ const { data: earningsData } = useGetDriverEarningsQuery(userId, { skip: !userId
               {isOnline ? "Online" : "Offline"}
             </Badge>
           </div>
+          {currentLocation && isOnline && (
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <MapPin className="h-4 w-4" />
+              <span>Location: {currentLocation.lat.toFixed(4)}, {currentLocation.lng.toFixed(4)}</span>
+            </div>
+          )}
           <Button
             onClick={toggleOnlineStatus}
             variant={isOnline ? "destructive" : "default"}
@@ -129,11 +249,23 @@ const { data: earningsData } = useGetDriverEarningsQuery(userId, { skip: !userId
       </div>
 
       {!isOnline && (
-        <Card className="border-orange-200 bg-orange-50">
-          <CardContent className="pt-4">
-            <p className="text-orange-800 text-sm">
+        <Card className="border-red-200 bg-red-50">
+          <CardContent className="">
+            <p className="text-red-800 text-sm">
               You're currently offline. Go online to start receiving ride requests from passengers.
             </p>
+            
+          </CardContent>
+        </Card>
+      )}
+
+      {isOnline && !currentLocation && (
+        <Card className="border-red-200 bg-red-50">
+          <CardContent className="">
+            <p className="text-red-800 text-sm">
+               Getting your location... Please ensure location services are enabled for real-time tracking.
+            </p>
+          
           </CardContent>
         </Card>
       )}

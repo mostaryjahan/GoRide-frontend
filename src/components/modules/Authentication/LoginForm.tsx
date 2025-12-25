@@ -107,7 +107,7 @@ export function LoginForm() {
   };
 
   return (
-    <div className="container mx-auto max-w-7xl p-6">
+    <div className="container mx-auto max-w-7xl p-6 font-primary">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white rounded-2xl overflow-hidden">
         {/* Left Section - Main Login Form */}
         <div className="p-8">
@@ -220,7 +220,7 @@ export function LoginForm() {
                 type="button"
                 onClick={() => handleQuickLogin("ADMIN")}
                 disabled={isLoading}
-                className="w-full h-16 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 cursor-pointer"
+                className="w-full h-16 bg-red-50 hover:bg-red-100 text-red-600 dark:text-white border border-red-200 cursor-pointer hover:text-primary"
               >
                 <div className="flex flex-col items-center">
                   <span className="font-medium">Login as Admin</span>
@@ -232,7 +232,7 @@ export function LoginForm() {
                 type="button"
                 onClick={() => handleQuickLogin("DRIVER")}
                 disabled={isLoading}
-                className="w-full h-16 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 cursor-pointer"
+                className="w-full h-16 bg-blue-100  text-blue-600 hover:text-primary dark:text-white border border-blue-200 cursor-pointer"
               >
                 <div className="flex flex-col items-center">
                   <span className="font-medium">Login as Driver</span>
@@ -244,7 +244,7 @@ export function LoginForm() {
                 type="button"
                 onClick={() => handleQuickLogin("RIDER")}
                 disabled={isLoading}
-                className="w-full h-16 bg-green-50 hover:bg-green-100 text-green-700 border border-green-200 cursor-pointer"
+                className="w-full h-16 bg-green-100 hover:bg-green-100 hover:text-primary text-green-700 border border-green-200 cursor-pointer dark:text-white"
               >
                 <div className="flex flex-col items-center">
                   <span className="font-medium">Login as Rider</span>

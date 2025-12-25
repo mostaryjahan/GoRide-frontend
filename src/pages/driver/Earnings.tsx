@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DollarSign, TrendingUp, Calendar, Clock, BarChart3, PieChart } from "lucide-react";
 import { useGetDriverEarningsQuery } from "@/redux/features/driver/driver.api";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart as RechartsPieChart, Cell, Pie } from 'recharts';
@@ -10,6 +11,9 @@ export default function Earnings() {
   const { data: earningsData } = useGetDriverEarningsQuery({});
   const earnings = earningsData?.data || {};
   const [viewMode, setViewMode] = useState<'overview' | 'charts'>('overview');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  const totalPages = Math.ceil((earnings.recentEarnings?.length || 0) / itemsPerPage);
   
   // Dynamic daily earnings based on actual data
   const today = new Date().getDay(); 
@@ -25,9 +29,9 @@ export default function Earnings() {
     { day: 'Sun', amount: today === 0 ? todayEarnings : 0 }
   ];
   
-  // Add some mock data for previous days if no real data
+  
   if (todayEarnings === 0) {
-    dailyEarnings[today].amount = 500; // Show today's mock data
+    dailyEarnings[today].amount = 500; 
   }
   
   
@@ -35,7 +39,7 @@ export default function Earnings() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold">Earnings Dashboard</h1>
+        <h1 className="text-xl md:text-3xl font-primary">Earnings Dashboard</h1>
         <div className="flex gap-2">
           <Button 
             variant={viewMode === 'overview' ? 'default' : 'outline'}
@@ -43,7 +47,7 @@ export default function Earnings() {
             size="sm"
             className="cursor-pointer"
           >
-            <DollarSign className="h-4 w-4 mr-2" />
+            <DollarSign className="h-4 w-4" />
             Overview
           </Button>
           <Button 
@@ -110,34 +114,76 @@ export default function Earnings() {
             <CardTitle>Recent Earnings</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              {earnings.recentEarnings?.length > 0 ? (
-                earnings.recentEarnings.map((ride: any) => (
-                  <div key={ride._id} className="flex items-center justify-between p-3 border rounded-lg">
-                    <div>
-                      <p className="font-medium">
-                        {typeof ride.pickupLocation === 'object' 
-                          ? ride.pickupLocation?.address 
-                          : ride.pickupLocation} → {typeof ride.destinationLocation === 'object' 
-                          ? ride.destinationLocation?.address 
-                          : ride.destinationLocation}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        {new Date(ride.completedAt || ride.createdAt).toLocaleDateString()}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <p className="font-bold text-green-600">+৳{ride.fare}</p>
-                      <p className="text-xs text-muted-foreground">Completed</p>
-                    </div>
+            {earnings.recentEarnings?.length > 0 ? (
+              <>
+                <div className="border rounded-xl overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="min-w-[200px]">Route</TableHead>
+                        <TableHead className="min-w-[100px]">Date</TableHead>
+                        <TableHead className="min-w-[80px] hidden sm:table-cell">Status</TableHead>
+                        <TableHead className="text-right min-w-[100px]">Earnings</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {earnings.recentEarnings.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((ride: any) => (
+                        <TableRow key={ride._id}>
+                          <TableCell className="font-medium">
+                            <div className="truncate max-w-[200px]">
+                              {typeof ride.pickupLocation === 'object' 
+                                ? ride.pickupLocation?.address 
+                                : ride.pickupLocation} → {typeof ride.destinationLocation === 'object' 
+                                ? ride.destinationLocation?.address 
+                                : ride.destinationLocation}
+                            </div>
+                          </TableCell>
+                          <TableCell className="text-sm">
+                            {new Date(ride.completedAt || ride.createdAt).toLocaleDateString()}
+                          </TableCell>
+                          <TableCell className="hidden sm:table-cell">
+                            <span className="text-xs text-muted-foreground">Completed</span>
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <span className="font-bold text-green-600">+৳{ride.fare}</span>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between space-y-2 sm:space-y-0 sm:space-x-2 py-4">
+                  <div className="text-sm text-muted-foreground">
+                    Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, earnings.recentEarnings.length)} of {earnings.recentEarnings.length} entries
                   </div>
-                ))
-              ) : (
-                <p className="text-center text-muted-foreground py-8">
-                  No earnings yet. Complete rides to start earning!
-                </p>
-              )}
-            </div>
+                  <div className="flex items-center space-x-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                      disabled={currentPage === 1}
+                    >
+                      Previous
+                    </Button>
+                    <div className="text-sm">
+                      Page {currentPage} of {totalPages}
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                      disabled={currentPage === totalPages}
+                    >
+                      Next
+                    </Button>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <p className="text-center text-muted-foreground py-8">
+                No earnings yet. Complete rides to start earning!
+              </p>
+            )}
           </CardContent>
         </Card>
       ) : (
@@ -150,7 +196,7 @@ export default function Earnings() {
                 Daily Earnings (This Week)
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent >
               <div className="h-80">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={dailyEarnings}>

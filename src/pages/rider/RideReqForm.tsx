@@ -18,8 +18,9 @@ import LocationInput from "../../pages/rider/LocationInput";
 import { useCreateRideMutation } from "@/redux/features/rides/rides.api";
 import { useInitRidePaymentMutation } from "@/redux/features/payment/payment.api";
 import toast from "react-hot-toast";
+import RideMap from "./RideMap";
 
-interface Location {
+interface LocationData {
   id: number;
   name: string;
   address: string;
@@ -41,9 +42,8 @@ interface RideFormData {
 export default function RideReqForm() {
   const [pickupInput, setPickupInput] = useState("");
   const [destinationInput, setDestinationInput] = useState("");
-  const [pickupLocation, setPickupLocation] = useState<Location | null>(null);
-  const [destinationLocation, setDestinationLocation] =
-    useState<Location | null>(null);
+  const [pickupLocation, setPickupLocation] = useState<LocationData | null>(null);
+  const [destinationLocation, setDestinationLocation] = useState<LocationData | null>(null);
   const [estimatedFare, setEstimatedFare] = useState<number>(0);
   const [paymentMethod, setPaymentMethod] = useState<string>("cash");
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
@@ -53,10 +53,8 @@ export default function RideReqForm() {
 
   const [createRide, { isLoading }] = useCreateRideMutation();
   const [initRidePayment] = useInitRidePaymentMutation();
-
   const { handleSubmit } = useForm<RideFormData>();
 
-  // Cleanup on unmount
   useEffect(() => {
     return () => {
       setPickupInput("");
@@ -69,48 +67,36 @@ export default function RideReqForm() {
     };
   }, []);
 
-  // Calculate fare based on distance
-  const calculateFare = (pickup: Location, destination: Location) => {
+  const calculateFare = (pickup: LocationData, destination: LocationData) => {
     const distance = getDistance(pickup.coords, destination.coords);
-    const baseFare = 50; // Base fare in BDT
-    const perKmRate = 15; // Rate per km
+    const baseFare = 50;
+    const perKmRate = 15;
     return Math.round(baseFare + distance * perKmRate);
   };
 
-  // Calculate distance between two coordinates
-  const getDistance = (
-    coord1: { lat: number; lng: number },
-    coord2: { lat: number; lng: number }
-  ) => {
-    const R = 6371; // Earth's radius in km
+  const getDistance = (coord1: { lat: number; lng: number }, coord2: { lat: number; lng: number }) => {
+    const R = 6371;
     const dLat = ((coord2.lat - coord1.lat) * Math.PI) / 180;
     const dLon = ((coord2.lng - coord1.lng) * Math.PI) / 180;
     const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.sin(dLat / 2) ** 2 +
       Math.cos((coord1.lat * Math.PI) / 180) *
-        Math.cos((coord2.lat * Math.PI) / 180) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
+      Math.cos((coord2.lat * Math.PI) / 180) *
+      Math.sin(dLon / 2) ** 2;
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c;
   };
 
-  const handlePickupSelect = (location: Location) => {
+  const handlePickupSelect = (location: LocationData) => {
     setPickupLocation(location);
     setPickupInput(location.name);
-    if (destinationLocation) {
-      const fare = calculateFare(location, destinationLocation);
-      setEstimatedFare(fare);
-    }
+    if (destinationLocation) setEstimatedFare(calculateFare(location, destinationLocation));
   };
 
-  const handleDestinationSelect = (location: Location) => {
+  const handleDestinationSelect = (location: LocationData) => {
     setDestinationLocation(location);
     setDestinationInput(location.name);
-    if (pickupLocation) {
-      const fare = calculateFare(pickupLocation, location);
-      setEstimatedFare(fare);
-    }
+    if (pickupLocation) setEstimatedFare(calculateFare(pickupLocation, location));
   };
 
   const getCurrentLocation = () => {
@@ -121,57 +107,31 @@ export default function RideReqForm() {
             id: 999,
             name: "Current Location",
             address: "Your current location",
-            coords: {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude,
-            },
+            coords: { lat: position.coords.latitude, lng: position.coords.longitude },
           };
           handlePickupSelect(currentLoc);
         },
-        () => {
-          toast.error("Unable to get current location");
-        }
+        () => toast.error("Unable to get current location")
       );
-    } else {
-      toast.error("Geolocation is not supported");
-    }
+    } else toast.error("Geolocation is not supported");
   };
 
   const validateForm = () => {
     const errors = [];
-    
-    if (!pickupLocation) {
-      errors.push("Please select a pickup location");
-    }
-    
-    if (!destinationLocation) {
-      errors.push("Please select a destination location");
-    }
-    
+    if (!pickupLocation) errors.push("Please select a pickup location");
+    if (!destinationLocation) errors.push("Please select a destination location");
     if (pickupLocation && destinationLocation) {
       const distance = getDistance(pickupLocation.coords, destinationLocation.coords);
-      if (distance < 0.5) {
-        errors.push("Pickup and destination must be at least 500 meters apart");
-      }
-      if (distance > 100) {
-        errors.push("Maximum ride distance is 100 km");
-      }
+      if (distance < 0.5) errors.push("Pickup and destination must be at least 500 meters apart");
+      if (distance > 100) errors.push("Maximum ride distance is 100 km");
     }
-    
-    if (estimatedFare < 50) {
-      errors.push("Minimum fare is ৳50");
-    }
-    
-    if (estimatedFare > 5000) {
-      errors.push("Maximum fare is ৳5000");
-    }
-    
+    if (estimatedFare < 50) errors.push("Minimum fare is ৳50");
+    if (estimatedFare > 5000) errors.push("Maximum fare is ৳5000");
     return errors;
   };
 
   const onSubmit = async () => {
     const validationErrors = validateForm();
-    
     if (validationErrors.length > 0) {
       validationErrors.forEach(error => toast.error(error));
       return;
@@ -179,50 +139,26 @@ export default function RideReqForm() {
 
     try {
       const rideData = {
-        pickupLocation: {
-          address: pickupLocation?.name,
-          coordinates: {
-            lat: pickupLocation?.coords.lat,
-            lng: pickupLocation?.coords.lng,
-          },
-        },
-        destinationLocation: {
-          address: destinationLocation?.name,
-          coordinates: {
-            lat: destinationLocation?.coords.lat,
-            lng: destinationLocation?.coords.lng,
-          },
-        },
+        pickupLocation: { address: pickupLocation!.name, coordinates: pickupLocation!.coords },
+        destinationLocation: { address: destinationLocation!.name, coordinates: destinationLocation!.coords },
         fare: estimatedFare,
-        paymentMethod: paymentMethod,
+        paymentMethod,
       };
 
-
-      
       const rideResponse = await createRide(rideData).unwrap();
-      
+
       if (paymentMethod === "card") {
-        // Redirect to SSLCommerz for card payment
         try {
           const paymentResponse = await initRidePayment(rideResponse.data._id).unwrap();
-          if (paymentResponse.data?.GatewayPageURL) {
-            // Successful payment initialization - redirect to gateway
-            window.location.href = paymentResponse.data?.GatewayPageURL;
-            return; 
-          } else {
-            toast.error("Payment gateway error");
-          }
-        } catch (paymentError: any) {
-          console.error('Payment error:', paymentError);
+          if (paymentResponse.data?.GatewayPageURL) window.location.href = paymentResponse.data?.GatewayPageURL;
+          else toast.error("Payment gateway error");
+        } catch {
           toast.error("Payment initialization failed");
-          return; 
+          return;
         }
       } else {
-        // Cash payment - show success message
         toast.success("Ride requested successfully!");
         setIsSubmitted(true);
-
-        // Reset form after showing confirmation
         setTimeout(() => {
           setPickupInput("");
           setDestinationInput("");
@@ -234,9 +170,7 @@ export default function RideReqForm() {
         }, 3000);
       }
     } catch (error: any) {
-      console.error('Ride creation error:', error);
-      const errorMessage = error?.data?.message || "Failed to request ride";
-      toast.error(errorMessage);
+      toast.error(error?.data?.message || "Failed to request ride");
     }
   };
 
@@ -244,33 +178,23 @@ export default function RideReqForm() {
     <Card className="w-full max-w-md mx-auto">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Car className="h-5 w-5" />
-          Request a Ride
+          <Car className="h-5 w-5" /> Request a Ride
         </CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div className="space-y-2">
-            <LocationInput
-              id="pickup"
-              label="Pickup Location"
-              value={pickupInput}
-              onChange={setPickupInput}
-              onLocationSelect={handlePickupSelect}
-              icon={<MapPin className="h-4 w-4" />}
-              inputRef={pickupRef}
-            />
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={getCurrentLocation}
-              className="w-full cursor-pointer"
-            >
-              <MapPinIcon className="h-4 w-4 mr-2" />
-              Use Current Location
-            </Button>
-          </div>
+          <LocationInput
+            id="pickup"
+            label="Pickup Location"
+            value={pickupInput}
+            onChange={setPickupInput}
+            onLocationSelect={handlePickupSelect}
+            icon={<MapPin className="h-4 w-4" />}
+            inputRef={pickupRef}
+          />
+          <Button type="button" variant="outline" size="sm" onClick={getCurrentLocation} className="w-full">
+            <MapPinIcon className="h-4 w-4 mr-2" /> Use Current Location
+          </Button>
 
           <LocationInput
             id="destination"
@@ -282,15 +206,16 @@ export default function RideReqForm() {
             inputRef={destinationRef}
           />
 
+          {pickupLocation && destinationLocation && <RideMap pickup={pickupLocation} drop={destinationLocation} />}
+
           {estimatedFare > 0 && (
             <div className="bg-gray-50 p-3 rounded-lg">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Estimated Fare:</span>
+              <div className="flex justify-between text-gray-600">
+                <span>Estimated Fare:</span>
                 <span className="font-semibold text-lg">৳{estimatedFare}</span>
               </div>
               <div className="flex items-center gap-1 text-xs text-gray-500 mt-1">
-                <Clock className="h-3 w-3" />
-                Est. 10-15 mins
+                <Clock className="h-3 w-3" /> Est. 10-15 mins
               </div>
             </div>
           )}
@@ -298,82 +223,20 @@ export default function RideReqForm() {
           {estimatedFare > 0 && (
             <div className="space-y-3">
               <Label className="text-sm font-medium">Payment Method</Label>
-              <RadioGroup
-                value={paymentMethod}
-                onValueChange={setPaymentMethod}
-              >
-                <div className="flex items-center space-x-2">
+              <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod}>
+                <div className="flex items-center gap-2">
                   <RadioGroupItem value="cash" id="cash" />
-                  <Label
-                    htmlFor="cash"
-                    className="flex items-center gap-2 cursor-pointer"
-                  >
-                    <Wallet className="h-4 w-4" />
-                    Cash
-                  </Label>
+                  <Label htmlFor="cash" className="flex items-center gap-2 cursor-pointer"><Wallet className="h-4 w-4" />Cash</Label>
                 </div>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2">
                   <RadioGroupItem value="card" id="card" />
-                  <Label
-                    htmlFor="card"
-                    className="flex items-center gap-2 cursor-pointer"
-                  >
-                    <CreditCard className="h-4 w-4" />
-                    Card
-                  </Label>
+                  <Label htmlFor="card" className="flex items-center gap-2 cursor-pointer"><CreditCard className="h-4 w-4" />Card</Label>
                 </div>
               </RadioGroup>
             </div>
           )}
 
-          {isSubmitted && pickupLocation && destinationLocation && (
-            <div className="bg-green-50 border border-green-200 p-4 rounded-lg">
-              <h3 className="font-semibold text-green-800 mb-2">
-                Ride Requested Successfully!
-              </h3>
-              <div className="space-y-2 text-sm text-green-700">
-                <div className="flex items-start gap-2">
-                  <MapPin className="h-4 w-4 mt-0.5 text-green-600" />
-                  <div>
-                    <span className="font-medium">From:</span>{" "}
-                    {pickupLocation.name}
-                    <br />
-                    <span className="text-xs text-green-600">
-                      {pickupLocation.address}
-                    </span>
-                  </div>
-                </div>
-                <div className="flex items-start gap-2">
-                  <Navigation className="h-4 w-4 mt-0.5 text-green-600" />
-                  <div>
-                    <span className="font-medium">To:</span>{" "}
-                    {destinationLocation.name}
-                    <br />
-                    <span className="text-xs text-green-600">
-                      {destinationLocation.address}
-                    </span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between pt-2 border-t border-green-200">
-                  <span>Fare: ৳{estimatedFare}</span>
-                  <span>
-                    Payment: {paymentMethod === "cash" ? "Cash" : "Card"}
-                  </span>
-                </div>
-              </div>
-            </div>
-          )}
-
-          <Button
-            type="submit"
-            className="w-full cursor-pointer"
-            disabled={
-              !pickupLocation ||
-              !destinationLocation ||
-              isLoading ||
-              isSubmitted
-            }
-          >
+          <Button type="submit" className="w-full" disabled={!pickupLocation || !destinationLocation || isLoading || isSubmitted}>
             {isLoading ? "Requesting..." : "Request Ride"}
           </Button>
         </form>
