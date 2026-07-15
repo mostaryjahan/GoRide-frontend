@@ -14,7 +14,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import toast from "react-hot-toast";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, useSearchParams } from "react-router";
 
 const loginSchema = z.object({
   email: z
@@ -46,6 +46,8 @@ const QUICK_LOGIN_CREDENTIALS = {
 
 export function LoginForm() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get("redirect");
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -73,7 +75,7 @@ export function LoginForm() {
         } else if (userRole === "DRIVER") {
           navigate("/driver/dashboard");
         } else if (userRole === "RIDER") {
-          navigate("/rider/dashboard");
+          navigate(redirectTo || "/rider/dashboard");
         } else {
           navigate("/");
         }
