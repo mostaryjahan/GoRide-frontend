@@ -61,7 +61,7 @@ export default function ServiceHighlights() {
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-black text-foreground mb-4 font-[family-name:var(--font-montserrat)]"
           >
-            Why Choose RideShare?
+            Why Choose GoRide?
           </motion.h2>
 
           <motion.p

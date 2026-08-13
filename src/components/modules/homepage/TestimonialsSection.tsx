@@ -15,7 +15,7 @@ export default function TestimonialsSection() {
       name: "Sarah Johnson",
       role: "Business Executive",
       content:
-        "RideShare has transformed my daily commute. The drivers are professional, cars are clean, and the app is incredibly user-friendly. I can't imagine using any other service!",
+        "GoRide has transformed my daily commute. The drivers are professional, cars are clean, and the app is incredibly user-friendly. I can't imagine using any other service!",
       rating: 5,
       image: "/images/home/review-4.jpg",
     },
@@ -23,31 +23,7 @@ export default function TestimonialsSection() {
       name: "Michael Chen",
       role: "College Student",
       content:
-        "As a student, I need affordable and reliable transportation. RideShare delivers on both fronts. The pricing is fair and I always feel safe during my rides.",
-      rating: 5,
-      image: "/images/home/review-1.jpg",
-    },
-    {
-      name: "Emily Rodriguez",
-      role: "Working Mom",
-      content:
-        "The safety features give me peace of mind, especially when traveling with my kids. Real-time tracking and driver verification are game-changers for busy parents like me.",
-      rating: 5,
-      image: "/images/home/review-2.jpg",
-    },
-     {
-      name: "Sarah Johnson",
-      role: "Business Executive",
-      content:
-        "RideShare has transformed my daily commute. The drivers are professional, cars are clean, and the app is incredibly user-friendly. I can't imagine using any other service!",
-      rating: 5,
-      image: "/images/home/review-4.jpg",
-    },
-    {
-      name: "Michael Chen",
-      role: "College Student",
-      content:
-        "As a student, I need affordable and reliable transportation. RideShare delivers on both fronts. The pricing is fair and I always feel safe during my rides.",
+        "As a student, I need affordable and reliable transportation. GoRide delivers on both fronts. The pricing is fair and I always feel safe during my rides.",
       rating: 5,
       image: "/images/home/review-1.jpg",
     },
@@ -96,7 +72,7 @@ export default function TestimonialsSection() {
             What Our Riders Say
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl font-secondary mx-auto">
-            Don't just take our word for it. Here's what our community has to say about their RideShare experience.
+            Don't just take our word for it. Here's what our community has to say about their GoRide experience.
           </p>
         </motion.div>
 
