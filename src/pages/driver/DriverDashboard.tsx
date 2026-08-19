@@ -37,14 +37,21 @@ const { data: earningsData } = useGetDriverEarningsQuery(userId, { skip: !userId
   
   const { data: availableRidesData, refetch: refetchRides } = useGetAvailableRidesQuery({}, { skip: !isOnline });
 
-  // Initialize Socket.IO connection
+  // Initialize Socket.IO connection + listen for new ride requests
   useEffect(() => {
     socketService.connect();
-    
+
+    socketService.onRideCreated(() => {
+      if (isOnline) {
+        refetchRides();
+      }
+    });
+
     return () => {
+      socketService.off('ride-created');
       socketService.disconnect();
     };
-  }, []);
+  }, [isOnline]);
 
   // Track driver location when online
   useEffect(() => {
